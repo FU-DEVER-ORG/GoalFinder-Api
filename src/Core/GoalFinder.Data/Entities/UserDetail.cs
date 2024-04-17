@@ -9,8 +9,6 @@ namespace GoalFinder.Data.Entities;
 /// </summary>
 public class UserDetail : IBaseEntity
 {
-    internal UserDetail() { }
-
     // Primary keys.
     public Guid UserId { get; set; }
 

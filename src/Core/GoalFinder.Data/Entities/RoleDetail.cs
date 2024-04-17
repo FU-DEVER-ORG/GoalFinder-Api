@@ -13,8 +13,6 @@ public class RoleDetail :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal RoleDetail() { }
-
     // Primary keys.
     // Foreign keys.
     public Guid RoleId { get; set; }

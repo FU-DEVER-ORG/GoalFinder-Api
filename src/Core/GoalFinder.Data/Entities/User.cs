@@ -12,8 +12,6 @@ public class User :
     IdentityUser<Guid>,
     IBaseEntity
 {
-    internal User() { }
-
     // Navigation properties.
     public UserDetail UserDetail { get; set; }
 

@@ -13,8 +13,6 @@ public class Position :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal Position() { }
-
     // Primary keys.
     public Guid Id { get; set; }
 

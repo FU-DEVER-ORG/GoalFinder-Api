@@ -13,8 +13,6 @@ public class District :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal District() { }
-
     // Primary keys.
     public Guid Id { get; set; }
 

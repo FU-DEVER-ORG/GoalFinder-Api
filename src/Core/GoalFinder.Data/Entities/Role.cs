@@ -12,8 +12,6 @@ public class Role :
     IdentityRole<Guid>,
     IBaseEntity
 {
-    internal Role() { }
-
     // Navigation properties.
     public RoleDetail RoleDetail { get; set; }
 

@@ -13,8 +13,6 @@ public class CompetitionLevel :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal CompetitionLevel() { }
-
     // Primary keys.
     public Guid Id { get; set; }
 

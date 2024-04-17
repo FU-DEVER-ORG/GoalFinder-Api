@@ -8,8 +8,6 @@ namespace GoalFinder.Data.Entities;
 /// </summary>
 public class RefreshToken : IBaseEntity
 {
-    internal RefreshToken() { }
-
     // Primary keys.
     public Guid AccessTokenId { get; set; }
 

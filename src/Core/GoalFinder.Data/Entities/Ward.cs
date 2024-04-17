@@ -13,8 +13,6 @@ public class Ward :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal Ward() { }
-
     // Primary keys.
     public Guid Id { get; set; }
 

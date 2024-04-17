@@ -13,8 +13,6 @@ public class Province :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal Province() { }
-
     // Primary keys.
     public Guid Id { get; set; }
 

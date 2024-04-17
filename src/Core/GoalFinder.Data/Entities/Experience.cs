@@ -13,8 +13,6 @@ public class Experience :
     IUpdatedEntity,
     ITemporarilyRemovedEntity
 {
-    internal Experience() { }
-
     // Primary keys.
     public Guid Id { get; set; }
 

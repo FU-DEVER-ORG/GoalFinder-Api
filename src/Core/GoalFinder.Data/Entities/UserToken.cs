@@ -11,8 +11,6 @@ public class UserToken :
     IdentityUserToken<Guid>,
     IBaseEntity
 {
-    internal UserToken() { }
-
     // Navigation properties.
     public User User { get; set; }
 }
