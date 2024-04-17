@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{430B8349-810B-4C73-B416-0A33BE5118FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{AF062A1B-E03C-48B9-B415-A93D60661CF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoalFinder.Data", "Core\GoalFinder.Data\GoalFinder.Data.csproj", "{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA} = {430B8349-810B-4C73-B416-0A33BE5118FF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {607ADD17-0B84-49D0-94C0-813E5C93D7D5}
+	EndGlobalSection
+EndGlobal
