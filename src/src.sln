@@ -7,7 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{430B8349-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{AF062A1B-E03C-48B9-B415-A93D60661CF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoalFinder.Data", "Core\GoalFinder.Data\GoalFinder.Data.csproj", "{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoalFinder.Data", "Core\GoalFinder.Data\GoalFinder.Data.csproj", "{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{9B48F674-2738-4AED-BB6B-2F837DB2FE0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Relational", "Relational", "{DFC7BA24-D02F-476A-9F41-AE812482CC7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoalFinder.MySqlRelationalDb", "External\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj", "{BB20B6C5-8A8E-4122-B858-E90585133180}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +25,19 @@ Global
 		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB20B6C5-8A8E-4122-B858-E90585133180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB20B6C5-8A8E-4122-B858-E90585133180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB20B6C5-8A8E-4122-B858-E90585133180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB20B6C5-8A8E-4122-B858-E90585133180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C9B3FCD0-A9AE-4371-9D0E-21E14CB004BA} = {430B8349-810B-4C73-B416-0A33BE5118FF}
+		{9B48F674-2738-4AED-BB6B-2F837DB2FE0A} = {AF062A1B-E03C-48B9-B415-A93D60661CF3}
+		{DFC7BA24-D02F-476A-9F41-AE812482CC7D} = {9B48F674-2738-4AED-BB6B-2F837DB2FE0A}
+		{BB20B6C5-8A8E-4122-B858-E90585133180} = {DFC7BA24-D02F-476A-9F41-AE812482CC7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607ADD17-0B84-49D0-94C0-813E5C93D7D5}
