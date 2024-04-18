@@ -1,6 +1,5 @@
 ﻿using GoalFinder.Data.Entities.Base;
 using System;
-using System.Collections.Generic;
 
 namespace GoalFinder.Data.Entities;
 
@@ -32,7 +31,4 @@ public class RoleDetail :
 
     // Navigation properties.
     public Role Role { get; set; }
-
-    // Navigation collections.
-    public IEnumerable<UserPosition> UserPositions { get; set; }
 }
