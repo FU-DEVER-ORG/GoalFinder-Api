@@ -1,5 +1,6 @@
 ﻿using GoalFinder.Data.Entities.Base;
 using System;
+using System.Collections.Generic;
 
 namespace GoalFinder.Data.Entities;
 
@@ -55,6 +56,9 @@ public class FootballMatch :
     public Ward Ward { get; set; }
 
     public CompetitionLevel CompetitionLevel { get; set; }
+
+    // Navigation collections.
+    public IEnumerable<MatchPlayer> MatchPlayers { get; set; }
 
     // Additional information of this table.
     public static class MetaData

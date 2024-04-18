@@ -40,6 +40,8 @@ public class UserDetail : IBaseEntity
     // Navigation collections.
     public IEnumerable<UserPosition> UserPositions { get; set; }
 
+    public IEnumerable<MatchPlayer> MatchPlayers { get; set; }
+
     // Additional information of this table.
     public static class MetaData
     {
