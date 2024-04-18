@@ -19,7 +19,7 @@ public class RefreshToken : IBaseEntity
     public DateTime CreatedAt { get; set; }
 
     // Additional information of this table.
-    public static class Metadata
+    public static class MetaData
     {
         public static class RefreshTokenValue
         {
