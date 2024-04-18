@@ -55,5 +55,10 @@ internal static class CommonConstant
                 }
             }
         }
+
+        public static class Collation
+        {
+            public const string UTF8MB4_BIN = "utf8mb4_bin";
+        }
     }
 }
