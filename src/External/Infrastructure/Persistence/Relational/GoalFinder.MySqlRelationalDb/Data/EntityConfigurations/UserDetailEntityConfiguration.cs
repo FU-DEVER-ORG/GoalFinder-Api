@@ -35,6 +35,13 @@ internal sealed class UserDetailEntityConfiguration :
                 length: UserDetail.MetaData.FirstName.MaxLength))
             .IsRequired();
 
+        // Address property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.Address)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                length: UserDetail.MetaData.Address.MaxLength))
+            .IsRequired();
+
         // Description property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.Description)
@@ -46,12 +53,6 @@ internal sealed class UserDetailEntityConfiguration :
             .Property(propertyExpression: roleDetail => roleDetail.PrestigeScore)
             .IsRequired();
 
-        // Foreign key configuration.
-        // WardId property configuration.
-        builder
-            .Property(propertyExpression: userDetail => userDetail.WardId)
-            .IsRequired();
-
         // ExperienceId property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.ExperienceId)
@@ -60,6 +61,39 @@ internal sealed class UserDetailEntityConfiguration :
         // CompetitionLevelId property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.CompetitionLevelId)
+            .IsRequired();
+
+        // CreatedAt property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.CreatedAt)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.DATETIME)
+            .IsRequired();
+
+        // CreatedBy property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.CreatedBy)
+            .IsRequired();
+
+        // UpdatedAt property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.UpdatedAt)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.DATETIME)
+            .IsRequired();
+
+        // UpdatedBy property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.UpdatedBy)
+            .IsRequired();
+
+        // RemovedAt property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.RemovedAt)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.DATETIME)
+            .IsRequired();
+
+        // RemovedBy property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.RemovedBy)
             .IsRequired();
 
         // Relationship configurations.

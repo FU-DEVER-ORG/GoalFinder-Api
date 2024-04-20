@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.Threading.Tasks;
 using System.Threading;
 using GoalFinder.MySqlRelationalDb.Data;
+using GoalFinder.Data.Repositories.RefreshToken;
+using GoalFinder.MySqlRelationalDb.Repositories.RefreshToken;
+using GoalFinder.Data.Repositories.UserDetail;
+using GoalFinder.MySqlRelationalDb.Repositories.UserDetail;
 
 namespace GoalFinder.MySqlRelationalDb.MySqlUnitOfWork;
 
@@ -13,10 +17,32 @@ internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly GoalFinderContext _context;
     private IDbContextTransaction _dbTransaction;
+    private IRefreshTokenRepository _refreshTokenRepository;
+    private IUserDetailRepository _userDetailRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
         _context = context;
+    }
+
+    public IRefreshTokenRepository RefreshTokenRepository
+    {
+        get
+        {
+            _refreshTokenRepository ??= new RefreshTokenRepository(context: _context);
+
+            return _refreshTokenRepository;
+        }
+    }
+
+    public IUserDetailRepository UserDetailRepository
+    {
+        get
+        {
+            _userDetailRepository ??= new UserDetailRepository(context: _context);
+
+            return _userDetailRepository;
+        }
     }
 
     public async Task CreateTransactionAsync(CancellationToken cancellationToken)

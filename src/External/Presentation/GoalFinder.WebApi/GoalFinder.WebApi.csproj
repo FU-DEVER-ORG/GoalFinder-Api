@@ -16,6 +16,10 @@
 
   <ItemGroup>
     <PackageReference Include="FastEndpoints.Swagger" Version="5.24.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Others\HttpResponseMapper\Auth\" />
+    <Folder Include="Endpoints\Auth\Login\HttpResponseMapper\" />
   </ItemGroup>
 
 </Project>

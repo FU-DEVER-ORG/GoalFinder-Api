@@ -49,6 +49,13 @@ internal sealed class FootballMatchEntityConfiguration :
             .Property(propertyExpression: footballMatch => footballMatch.MinPrestigeScore)
             .IsRequired();
 
+        // Address property configuration.
+        builder
+            .Property(propertyExpression: footballMatch => footballMatch.Address)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                length: FootballMatch.MetaData.Address.MaxLength))
+            .IsRequired();
+
         // StartTime property configuration.
         builder
             .Property(propertyExpression: footballMatch => footballMatch.StartTime)
@@ -98,11 +105,6 @@ internal sealed class FootballMatchEntityConfiguration :
         // HostId property configuration.
         builder
             .Property(propertyExpression: footballMatch => footballMatch.HostId)
-            .IsRequired();
-
-        // WardId property configuration.
-        builder
-            .Property(propertyExpression: footballMatch => footballMatch.WardId)
             .IsRequired();
 
         // CompetitionLevelId property configuration.

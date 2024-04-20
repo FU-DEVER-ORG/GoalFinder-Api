@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using System.Threading.Tasks;
 using System.Threading;
+using GoalFinder.Data.Repositories.RefreshToken;
+using GoalFinder.Data.Repositories.UserDetail;
 
 namespace GoalFinder.Data.UnitOfWork;
 
@@ -9,6 +11,16 @@ namespace GoalFinder.Data.UnitOfWork;
 /// </summary>
 public interface IUnitOfWork
 {
+    /// <summary>
+    ///     Repository for managing the refresh token.
+    /// </summary>
+    IRefreshTokenRepository RefreshTokenRepository { get; }
+
+    /// <summary>
+    ///     Repository for managing the user.
+    /// </summary>
+    IUserDetailRepository UserDetailRepository { get; }
+
     /// <summary>
     ///     Create an execution strategy for managing the
     ///     db transaction which is initialized inside.
