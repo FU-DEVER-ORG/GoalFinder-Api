@@ -48,6 +48,12 @@ internal sealed class UserDetailEntityConfiguration :
             .HasColumnType(typeName: CommonConstant.Database.DataType.TEXT)
             .IsRequired();
 
+        // AvatarUrl property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.AvatarUrl)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.TEXT)
+            .IsRequired();
+
         // PrestigeScore property configuration.
         builder
             .Property(propertyExpression: roleDetail => roleDetail.PrestigeScore)

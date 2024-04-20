@@ -3,15 +3,18 @@ using System;
 using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace GoalFinder.MySqlRelationalDb.Migrations
 {
     [DbContext(typeof(GoalFinderContext))]
-    partial class GoalFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20240420132411_M1_Init_Db")]
+    partial class M1_Init_Db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

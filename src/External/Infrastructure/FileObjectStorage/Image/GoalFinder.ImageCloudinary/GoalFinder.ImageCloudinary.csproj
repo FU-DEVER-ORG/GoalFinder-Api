@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Core\GoalFinder.Application\GoalFinder.Application.csproj" />
+  </ItemGroup>
+
 </Project>

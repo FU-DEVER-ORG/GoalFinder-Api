@@ -27,6 +27,8 @@ public class UserDetail :
 
     public string Address { get; set; }
 
+    public string AvatarUrl { get; set; }
+
     public DateTime UpdatedAt { get; set; }
 
     public Guid UpdatedBy { get; set; }
@@ -90,6 +92,11 @@ public class UserDetail :
             public const int MinLength = 1;
 
             public const int MaxLength = 200;
+        }
+
+        public static class AvatarUrl
+        {
+            public const int MinLength = 1;
         }
     }
 }

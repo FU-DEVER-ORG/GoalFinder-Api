@@ -23,11 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\FileObjectStorage\Image\GoalFinder.ImageCloudinary\GoalFinder.ImageCloudinary.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\IdentityService\JsonWebToken\GoalFinder.AppJsonWebToken\GoalFinder.AppJsonWebToken.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endpoints\Auth\Login\HttpResponseMapper\" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,13 @@
 ﻿using GoalFinder.Application.Shared.Features;
+using GoalFinder.Application.Shared.Tokens.AccessToken;
+using GoalFinder.Application.Shared.Tokens.RefreshToken;
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,21 +22,21 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
     private readonly IUnitOfWork _unitOfWork;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    //private readonly IRefreshTokenHandler _refreshTokenHandler;
-    //private readonly IAccessTokenHandler _accessTokenHandler;
+    private readonly IRefreshTokenHandler _refreshTokenHandler;
+    private readonly IAccessTokenHandler _accessTokenHandler;
 
     public LoginHandler(
         IUnitOfWork unitOfWork,
         UserManager<User> userManager,
-        SignInManager<User> signInManager)
-        //IRefreshTokenHandler refreshTokenHandler,
-        //IAccessTokenHandler accessTokenHandler)
+        SignInManager<User> signInManager,
+        IRefreshTokenHandler refreshTokenHandler,
+        IAccessTokenHandler accessTokenHandler)
     {
         _unitOfWork = unitOfWork;
         _userManager = userManager;
         _signInManager = signInManager;
-        //_refreshTokenHandler = refreshTokenHandler;
-        //_accessTokenHandler = accessTokenHandler;
+        _refreshTokenHandler = refreshTokenHandler;
+        _accessTokenHandler = accessTokenHandler;
     }
 
     /// <summary>
@@ -109,12 +111,13 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
         }
 
         // Is user not temporarily removed.
-        var isUserNotTemporarilyRemoved = await _unitOfWork.UserDetailRepository.IsUserTemporarilyRemovedQueryAsync(
-            userId: foundUser.Id,
-            cancellationToken: ct);
+        var isUserTemporarilyRemoved = await _unitOfWork.LoginRepository
+            .IsUserTemporarilyRemovedQueryAsync(
+                userId: foundUser.Id,
+                cancellationToken: ct);
 
         // User is temporarily removed.
-        if (!isUserNotTemporarilyRemoved)
+        if (isUserTemporarilyRemoved)
         {
             return new()
             {
@@ -136,142 +139,56 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
                 value: foundUserRoles[default])
         ];
 
-        return new()
+        // Create new refresh token.
+        RefreshToken newRefreshToken = new()
         {
-            StatusCode = LoginResponseStatusCode.OPERATION_SUCCESS
+            AccessTokenId = Guid.Parse(input: userClaims
+                .First(predicate: claim => claim.Type.Equals(
+                    value: JwtRegisteredClaimNames.Jti))
+                .Value),
+            ExpiredDate = command.IsRemember ?
+                DateTime.UtcNow.AddDays(value: 7) :
+                DateTime.UtcNow.AddDays(value: 3),
+            CreatedAt = DateTime.UtcNow,
+            RefreshTokenValue = _refreshTokenHandler.Generate(length: 15)
         };
 
-        //// Create new refresh token.
-        //RefreshTokenForNewRecordBuilder builder = new();
+        // Add new refresh token to the database.
+        var dbResult = await _unitOfWork.LoginRepository
+            .CreateRefreshTokenCommandAsync(
+                refreshToken: newRefreshToken,
+                cancellationToken: ct);
 
-        //var newRefreshToken = builder
-        //    .WithAccessTokenId(accessTokenId: Guid.Parse(input: userClaims
-        //        .First(predicate: claim => claim.Type.Equals(
-        //            value: JwtRegisteredClaimNames.Jti))
-        //        .Value))
-        //    .WithExpiredDate(refreshTokenExpiredDate: request.RememberMe ?
-        //        DateTime.UtcNow.AddDays(value: 7) :
-        //        DateTime.UtcNow.AddDays(value: 3))
-        //    .WithCreatedAt(refreshTokenCreatedAt: DateTime.UtcNow)
-        //    .WithRefreshTokenValue(refreshTokenValue: _refreshTokenHandler.Generate(length: 15))
-        //    .Complete();
-
-        //// Add new refresh token to the database.
-        //var dbResult = await CreateReFreshTokenCommandAsync(
-        //    newRefreshToken: newRefreshToken,
-        //    cancellationToken: ct);
-
-        //// Cannot add new refresh token to the database.
-        //if (!dbResult)
-        //{
-        //    return new()
-        //    {
-        //        StatusCode = LoginResponseStatusCode.DATABASE_OPERATION_FAIL
-        //    };
-        //}
-
-        //// Generate access token.
-        //var newAccessToken = _accessTokenHandler.GenerateSigningToken(claims: userClaims);
-
-        //var userAvatarUrl = await GetUserAvatarUrlQueryAsync(
-        //    userId: foundUser.Id,
-        //    cancellationToken: ct);
-
-        //return new()
-        //{
-        //    StatusCode = LoginResponseStatusCode.OPERATION_SUCCESS,
-        //    ResponseBody = new()
-        //    {
-        //        AccessToken = newAccessToken,
-        //        RefreshToken = newRefreshToken.RefreshTokenValue,
-        //        User = new()
-        //        {
-        //            Email = foundUser.Email,
-        //            AvatarUrl = userAvatarUrl
-        //        }
-        //    }
-        //};
-    }
-
-    #region Queries
-    /// <summary>
-    ///     Get user avatar url query.
-    /// </summary>
-    /// <param name="userId">
-    ///     User id.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     Token to cancel the operation.
-    /// </param>
-    /// <returns>
-    ///     User avatar url if found. Otherwise, empty.
-    /// </returns>
-    //private async Task<string> GetUserAvatarUrlQueryAsync(
-    //    Guid userId,
-    //    CancellationToken cancellationToken)
-    //{
-    //    var foundUserDetail = await _unitOfWork.UserDetailRepository.FindBySpecificationsAsync(
-    //        specifications:
-    //        [
-    //            _superSpecificationManager.UserDetail.UserDetailByIdSpecification(
-    //                userId: userId),
-    //            _superSpecificationManager.UserDetail.SelectFieldsFromUserDetailSpecification.Ver1()
-    //        ],
-    //        cancellationToken: cancellationToken);
-
-    //    return foundUserDetail.AvatarUrl ?? string.Empty;
-    //}
-    #endregion
-
-    #region Commands
-    /// <summary>
-    ///     Creates a new refresh token in the database.
-    /// </summary>
-    /// <param name="newRefreshToken">
-    ///     The new refresh token.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     A token that is used for notifying system.
-    /// </param>
-    /// <returns>
-    ///     True if the new refresh token is
-    ///     created successfully. False otherwise.
-    /// </returns>
-    private async Task<bool> CreateReFreshTokenCommandAsync(
-        RefreshToken newRefreshToken,
-        CancellationToken cancellationToken)
-    {
-        var executedTransactionResult = false;
-
-        await _unitOfWork
-            .CreateExecutionStrategy()
-            .ExecuteAsync(operation: async () =>
+        // Cannot add new refresh token to the database.
+        if (!dbResult)
+        {
+            return new()
             {
-                try
+                StatusCode = LoginResponseStatusCode.DATABASE_OPERATION_FAIL
+            };
+        }
+
+        // Generate access token.
+        var newAccessToken = _accessTokenHandler.GenerateSigningToken(claims: userClaims);
+
+        var userAvatarUrl = await _unitOfWork.LoginRepository
+            .GetUserAvatarUrlQueryAsync(
+                userId: foundUser.Id,
+                cancellationToken: ct);
+
+        return new()
+        {
+            StatusCode = LoginResponseStatusCode.OPERATION_SUCCESS,
+            ResponseBody = new()
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken.RefreshTokenValue,
+                User = new()
                 {
-                    await _unitOfWork.CreateTransactionAsync(cancellationToken: cancellationToken);
-
-                    await _unitOfWork.RefreshTokenRepository.AddAsync(
-                        newEntity: newRefreshToken,
-                        cancellationToken: cancellationToken);
-
-                    await _unitOfWork.SaveToDatabaseAsync(cancellationToken: cancellationToken);
-
-                    await _unitOfWork.CommitTransactionAsync(cancellationToken: cancellationToken);
-
-                    executedTransactionResult = true;
+                    Email = foundUser.Email,
+                    AvatarUrl = userAvatarUrl
                 }
-                catch
-                {
-                    await _unitOfWork.RollBackTransactionAsync(cancellationToken: cancellationToken);
-                }
-                finally
-                {
-                    await _unitOfWork.DisposeTransactionAsync();
-                }
-            });
-
-        return executedTransactionResult;
+            }
+        };
     }
-    #endregion
 }

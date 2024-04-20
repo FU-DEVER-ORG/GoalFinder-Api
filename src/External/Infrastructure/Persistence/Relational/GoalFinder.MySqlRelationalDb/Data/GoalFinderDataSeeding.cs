@@ -69,59 +69,71 @@ public static class GoalFinderDataSeeding
         // Init list of role.
         var newRoles = InitNewRoles();
 
+        // Init list of position.
+        var newPositions = InitNewPositions();
+
         //// Init admin.
-        //var admin = InitAdmin(
-        //    userJoiningStatus: newUserJoiningStatuses.First(
-        //        predicate: newUserJoiningStatus =>
-        //            newUserJoiningStatus.Type.Equals(value: "Approved")),
-        //    defaultUserAvatarAsUrlHandler: defaultUserAvatarAsUrlHandler);
+        var admin = InitAdmin(
+            competitionLevelId: newCompetitionLevels.Find(match: competitionLevel =>
+                competitionLevel.FullName.Equals(value: "Vui vẻ")).Id,
+            experienceId: newExperiences.Find(match: experience =>
+                experience.FullName.Equals(value: "Chuyên nghiệp")).Id,
+            defaultUserAvatarAsUrlHandler: defaultUserAvatarAsUrlHandler);
 
         #region Transaction
         var executedTransactionResult = false;
 
-        //await context.Database
-        //    .CreateExecutionStrategy()
-        //    .ExecuteAsync(operation: async () =>
-        //    {
-        //        await using var dbTransaction = await context.Database.BeginTransactionAsync(
-        //            cancellationToken: cancellationToken);
+        await context.Database
+            .CreateExecutionStrategy()
+            .ExecuteAsync(operation: async () =>
+            {
+                await using var dbTransaction = await context.Database.BeginTransactionAsync(
+                    cancellationToken: cancellationToken);
 
-        //        try
-        //        {
-        //            await experiences.AddRangeAsync(
-        //                entities: newExperiences,
-        //                cancellationToken: cancellationToken);
+                try
+                {
+                    await experiences.AddRangeAsync(
+                        entities: newExperiences,
+                        cancellationToken: cancellationToken);
 
-        //            foreach (var newRole in newRoles)
-        //            {
-        //                await roleManager.CreateAsync(role: newRole);
-        //            }
+                    await competitionLevels.AddRangeAsync(
+                        entities: newCompetitionLevels,
+                        cancellationToken: cancellationToken);
 
-        //            await userManager.CreateAsync(
-        //                user: admin,
-        //                password: "Admin123@");
+                    await positions.AddRangeAsync(
+                        entities: newPositions,
+                        cancellationToken: cancellationToken);
 
-        //            await userManager.AddToRoleAsync(
-        //                user: admin,
-        //                role: "admin");
+                    foreach (var newRole in newRoles)
+                    {
+                        await roleManager.CreateAsync(role: newRole);
+                    }
 
-        //            var emailConfirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user: admin);
+                    await userManager.CreateAsync(
+                        user: admin,
+                        password: "Admin123@");
 
-        //            await userManager.ConfirmEmailAsync(
-        //                user: admin,
-        //                token: emailConfirmationToken);
+                    await userManager.AddToRoleAsync(
+                        user: admin,
+                        role: "admin");
 
-        //            await context.SaveChangesAsync(cancellationToken: cancellationToken);
+                    var emailConfirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user: admin);
 
-        //            await dbTransaction.CommitAsync(cancellationToken: cancellationToken);
+                    await userManager.ConfirmEmailAsync(
+                        user: admin,
+                        token: emailConfirmationToken);
 
-        //            executedTransactionResult = true;
-        //        }
-        //        catch
-        //        {
-        //            await dbTransaction.RollbackAsync(cancellationToken: cancellationToken);
-        //        }
-        //    });
+                    await context.SaveChangesAsync(cancellationToken: cancellationToken);
+
+                    await dbTransaction.CommitAsync(cancellationToken: cancellationToken);
+
+                    executedTransactionResult = true;
+                }
+                catch
+                {
+                    await dbTransaction.RollbackAsync(cancellationToken: cancellationToken);
+                }
+            });
         #endregion
 
         return executedTransactionResult;
@@ -215,9 +227,9 @@ public static class GoalFinderDataSeeding
                 FullName = newExperienceName,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
-                UpdatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.MinValue,
                 UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                RemovedAt = DateTime.UtcNow,
+                RemovedAt = DateTime.MinValue,
                 RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
             });
         }
@@ -255,15 +267,15 @@ public static class GoalFinderDataSeeding
                 FullName = newCompetitionLevelName,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
-                UpdatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.MinValue,
                 UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                RemovedAt = DateTime.UtcNow,
+                RemovedAt = DateTime.MinValue,
                 RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
             });
         }
 
         newCompetitionLevels
-            .Find(match: newHobby => newHobby.FullName.Equals(value: newCompetitionLevelNames[0]))
+            .Find(match: newCompetitionLevel => newCompetitionLevel.FullName.Equals(value: newCompetitionLevelNames[0]))
             .Id = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
 
         return newCompetitionLevels;
@@ -283,32 +295,73 @@ public static class GoalFinderDataSeeding
             "user"
         ];
 
-        List<RoleDetail> newRoleDetails = [];
         List<Role> newRoles = [];
 
         foreach (var newRoleName in newRoleNames)
         {
+            var newRoleId = Guid.NewGuid();
+
             Role newRole = new()
             {
-                Id = Guid.NewGuid(),
-                Name = newRoleName
+                Id = newRoleId,
+                Name = newRoleName,
+                RoleDetail = new()
+                {
+                    RoleId = newRoleId,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = AdminId,
+                    UpdatedAt = DateTime.MinValue,
+                    UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    RemovedAt = DateTime.MinValue,
+                    RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                }
             };
 
             newRoles.Add(item: newRole);
+        }
 
-            newRoleDetails.Add(new()
+        return newRoles;
+    }
+
+    /// <summary>
+    ///     Init a list of positions.
+    /// </summary>
+    /// <returns>
+    ///     List of positions.
+    /// </returns>
+    private static List<Position> InitNewPositions()
+    {
+        List<string> newPositionNames =
+        [
+            string.Empty,
+            "Thủ môn",
+            "Hậu vệ",
+            "Tiền vệ",
+            "TIền đạo"
+        ];
+
+        List<Position> newPositions = [];
+
+        foreach (var newPositionName in newPositionNames)
+        {
+            newPositions.Add(new()
             {
-                RoleId = newRole.Id,
+                Id = Guid.NewGuid(),
+                FullName = newPositionName,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
-                UpdatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.MinValue,
                 UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                RemovedAt = DateTime.UtcNow,
+                RemovedAt = DateTime.MinValue,
                 RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
             });
         }
 
-        return newRoles;
+        newPositions
+            .Find(match: newPosition => newPosition.FullName.Equals(value: newPositionNames[0]))
+            .Id = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
+
+        return newPositions;
     }
 
     /// <summary>
@@ -320,45 +373,36 @@ public static class GoalFinderDataSeeding
     /// <returns>
     ///     List of role.
     /// </returns>
-    //private static User InitAdmin(
-    //    UserJoiningStatus userJoiningStatus,
-    //    IDefaultUserAvatarAsUrlHandler defaultUserAvatarAsUrlHandler)
-    //{
-    //    UserForDatabaseSeedingBuilder userBuilder = new();
-    //    UserDetailForDatabaseSeedingBuilder userDetailBuilder = new();
+    private static User InitAdmin(
+        Guid competitionLevelId,
+        Guid experienceId,
+        IDefaultUserAvatarAsUrlHandler defaultUserAvatarAsUrlHandler)
+    {
+        User admin = new()
+        {
+            Id = AdminId,
+            UserName = "ledinhdangkhoa10a9@gmail.com",
+            Email = "ledinhdangkhoa10a9@gmail.com",
+            UserDetail = new()
+            {
+                UserId = AdminId,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = AdminId,
+                RemovedAt = DateTime.MinValue,
+                RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                UpdatedAt = DateTime.MinValue,
+                UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                Address = "Thanh pho da nang - Quan son tra",
+                CompetitionLevelId = competitionLevelId,
+                FirstName = "Khoa",
+                LastName = "Le",
+                Description = "Hi my name is khoa, admin of this website.",
+                ExperienceId = experienceId,
+                PrestigeScore = 100,
+                AvatarUrl = defaultUserAvatarAsUrlHandler.Get()
+            }
+        };
 
-    //    var admin = userBuilder
-    //        .WithId(userId: Guid.NewGuid())
-    //        .WithUserName(username: "ledinhdangkhoa10a9@gmail.com")
-    //        .WithEmail(userEmail: "ledinhdangkhoa10a9@gmail.com")
-    //        .Complete();
-
-    //    admin.UserDetail = userDetailBuilder
-    //        .WithUserJoiningStatusId(userJoiningStatusId: userJoiningStatus.Id)
-    //        .WithPositionId(userPositionId: Application.Shared.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID)
-    //        .WithMajorId(userMajorId: Application.Shared.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID)
-    //        .WithDepartmentId(userDepartmentId: Application.Shared.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID)
-    //        .WithFirstName(userFirstName: string.Empty)
-    //        .WithLastName(userLastName: string.Empty)
-    //        .WithCareer(userCareer: string.Empty)
-    //        .WithWorkplaces(userWorkplaces: string.Empty)
-    //        .WithEducationPlaces(userEducationPlaces: string.Empty)
-    //        .WithUserHobbies(userHobbies: string.Empty)
-    //        .WithUserSkills(userSkills: string.Empty)
-    //        .WithUserPlatforms(userPlatforms: string.Empty)
-    //        .WithBirthDay(userBirthDay: Commons.CommonConstant.DbDefaultValue.MIN_DATE_TIME)
-    //        .WithHomeAddress(userHomeAddress: string.Empty)
-    //        .WithSelfDescription(userSelfDescription: string.Empty)
-    //        .WithJoinDate(userJoinDate: DateTime.UtcNow)
-    //        .WithAvatarUrl(userAvatarUrl: defaultUserAvatarAsUrlHandler.Get())
-    //        .WithRemovedAt(userRemovedAt: Commons.CommonConstant.DbDefaultValue.MIN_DATE_TIME)
-    //        .WithRemovedBy(userRemovedBy: Application.Shared.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID)
-    //        .WithUpdatedAt(userUpdatedAt: Commons.CommonConstant.DbDefaultValue.MIN_DATE_TIME)
-    //        .WithUpdatedBy(userUpdatedBy: Application.Shared.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID)
-    //        .WithCreatedAt(userCreatedAt: DateTime.UtcNow)
-    //        .WithCreatedBy(userCreatedBy: Application.Shared.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID)
-    //        .Complete();
-
-    //    return admin;
-    //}
+        return admin;
+    }
 }
