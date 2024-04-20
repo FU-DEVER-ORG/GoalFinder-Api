@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using GoalFinder.MySqlRelationalDb.Data;
 
-namespace GoalFinder.MySqlRelationalDb.UnitOfWork;
+namespace GoalFinder.MySqlRelationalDb.MySqlUnitOfWork;
 
 /// <summary>
 ///     Implementation of unit of work interface.
