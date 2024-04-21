@@ -45,7 +45,7 @@ var app = builder.Build();
 // Data seeding.
 await using (var scope = app.Services.CreateAsyncScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<GoalFinderContext>();
+    var context = scope.Resolve<GoalFinderContext>();
 
     // Can database be connected.
     var canConnect = await context.Database.CanConnectAsync();
@@ -59,9 +59,9 @@ await using (var scope = app.Services.CreateAsyncScope())
     // Try seed data.
     var seedResult = await GoalFinderDataSeeding.SeedAsync(
         context: context,
-        userManager: scope.ServiceProvider.GetRequiredService<UserManager<User>>(),
-        roleManager: scope.ServiceProvider.GetRequiredService<RoleManager<Role>>(),
-        defaultUserAvatarAsUrlHandler: scope.ServiceProvider.GetRequiredService<IDefaultUserAvatarAsUrlHandler>(),
+        userManager: scope.Resolve<UserManager<User>>(),
+        roleManager: scope.Resolve<RoleManager<Role>>(),
+        defaultUserAvatarAsUrlHandler: scope.Resolve<IDefaultUserAvatarAsUrlHandler>(),
         cancellationToken: CancellationToken.None);
 
     // Data cannot be seed.
@@ -74,6 +74,8 @@ await using (var scope = app.Services.CreateAsyncScope())
 // Configure the HTTP request pipeline.
 app
     .UseExceptionHandler()
+    .UseAuthentication()
+    .UseAuthorization()
     .UseResponseCaching()
     .UseFastEndpoints()
     .UseSwaggerGen()

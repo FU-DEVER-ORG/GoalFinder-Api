@@ -4,12 +4,12 @@ using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
+namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares;
 
 /// <summary>
 ///     Preprocessor for login validation.
 /// </summary>
-public sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, LoginResponse>
+internal sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, LoginResponse>
 {
     public override Task PreProcessAsync(
         IPreProcessorContext<LoginRequest> context,
