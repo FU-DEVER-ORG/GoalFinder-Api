@@ -38,8 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\Auth\ForgotPassword\HttpResponseMapper\" />
-    <Folder Include="Endpoints\Auth\ForgotPassword\Middleware\Validation\" />
     <Folder Include="Endpoints\Auth\ResetPassword\" />
   </ItemGroup>
 

@@ -1,18 +1,25 @@
 ﻿using GoalFinder.Application.Shared.Features;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoalFinder.Application.Features.Auth.ForgotPassword
+namespace GoalFinder.Application.Features.Auth.ForgotPassword;
+
+internal sealed class ForgotPasswordHandler : 
+    IFeatureHandler<ForgotPasswordRequest, ForgotPasswordResponse>
 {
-    internal class ForgotPasswordHandler : IFeatureHandler<ForgotPasswordRequest, ForgotPasswordResponse>
+    public ForgotPasswordHandler()
     {
-        public Task<ForgotPasswordResponse> ExecuteAsync(ForgotPasswordRequest command, CancellationToken ct)
+    }
+
+    public async Task<ForgotPasswordResponse> ExecuteAsync(
+        ForgotPasswordRequest command, 
+        CancellationToken ct)
+    {
+        Console.WriteLine("Forgot oke");
+        return new()
         {
-            throw new NotImplementedException();
-        }
+                StatusCode = ForgotPasswordReponseStatusCode.OPERATION_SUCCESS
+        };
     }
 }

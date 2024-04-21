@@ -75,6 +75,8 @@ await using (var scope = app.Services.CreateAsyncScope())
 app
     .UseExceptionHandler()
     .UseResponseCaching()
+    .UseAuthentication()
+    .UseAuthorization()
     .UseFastEndpoints()
     .UseSwaggerGen()
     .UseSwaggerUi(configure: options =>
