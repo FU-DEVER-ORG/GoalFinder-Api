@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.WebApi.Others.ServiceConfigs;
+namespace GoalFinder.WebApi.Shared.ServiceConfigs;
 
 /// <summary>
 ///     Cors service config.

@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
-using GoalFinder.Data.UnitOfWork;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
@@ -14,19 +13,16 @@ namespace GoalFinder.WebApi.Endpoints.Auth.Login;
 /// </summary>
 public sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
 {
-    public IUnitOfWork UnitOfWork { get; set; }
-
     public override void Configure()
     {
         Post(routePatterns: "auth/signin");
         AllowAnonymous();
-        PreProcessor<LoginValidationPreProcessor>();
         DontThrowIfValidationFails();
-        Description(builder: builder => builder.ClearDefaultProduces(
-            StatusCodes.Status200OK,
-            StatusCodes.Status400BadRequest,
-            StatusCodes.Status401Unauthorized,
-            StatusCodes.Status403Forbidden));
+        PreProcessor<LoginValidationPreProcessor>();
+        Description(builder: builder =>
+        {
+            builder.ClearDefaultProduces(statusCodes: StatusCodes.Status400BadRequest);
+        });
         Summary(endpointSummary: summary =>
         {
             summary.Summary = "Endpoint for login/signin feature";
@@ -37,8 +33,23 @@ public sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
                 Password = "string",
                 IsRemember = true
             };
+            summary.Response<LoginHttpResponse>(
+                description: "Represent successful operation response.",
+                example: new()
+                {
+                    AppCode = LoginResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
+                    Body = new LoginResponse.Body()
+                    {
+                        AccessToken = "string",
+                        RefreshToken = "string",
+                        User = new()
+                        {
+                            Email = "string",
+                            AvatarUrl = "string"
+                        }
+                    }
+                });
         });
-
     }
 
     public override async Task<LoginHttpResponse> ExecuteAsync(

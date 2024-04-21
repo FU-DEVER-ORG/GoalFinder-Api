@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System;
 using GoalFinder.Application.Shared.FIleObjectStorage;
+using GoalFinder.Application.Shared.Commons;
 
 namespace GoalFinder.MySqlRelationalDb.Data;
 
@@ -228,15 +229,15 @@ public static class GoalFinderDataSeeding
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
                 UpdatedAt = DateTime.MinValue,
-                UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
                 RemovedAt = DateTime.MinValue,
-                RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
             });
         }
 
         newExperiences
             .Find(match: newExperience => newExperience.FullName.Equals(value: newExperienceNames[0]))
-            .Id = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
+            .Id = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
 
         return newExperiences;
     }
@@ -268,15 +269,15 @@ public static class GoalFinderDataSeeding
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
                 UpdatedAt = DateTime.MinValue,
-                UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
                 RemovedAt = DateTime.MinValue,
-                RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
             });
         }
 
         newCompetitionLevels
             .Find(match: newCompetitionLevel => newCompetitionLevel.FullName.Equals(value: newCompetitionLevelNames[0]))
-            .Id = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
+            .Id = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
 
         return newCompetitionLevels;
     }
@@ -311,9 +312,9 @@ public static class GoalFinderDataSeeding
                     CreatedAt = DateTime.UtcNow,
                     CreatedBy = AdminId,
                     UpdatedAt = DateTime.MinValue,
-                    UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
                     RemovedAt = DateTime.MinValue,
-                    RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
                 }
             };
 
@@ -351,15 +352,15 @@ public static class GoalFinderDataSeeding
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
                 UpdatedAt = DateTime.MinValue,
-                UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
                 RemovedAt = DateTime.MinValue,
-                RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
             });
         }
 
         newPositions
             .Find(match: newPosition => newPosition.FullName.Equals(value: newPositionNames[0]))
-            .Id = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
+            .Id = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID;
 
         return newPositions;
     }
@@ -389,9 +390,9 @@ public static class GoalFinderDataSeeding
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = AdminId,
                 RemovedAt = DateTime.MinValue,
-                RemovedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
                 UpdatedAt = DateTime.MinValue,
-                UpdatedBy = Application.Others.Commons.CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
                 Address = "Thanh pho da nang - Quan son tra",
                 CompetitionLevelId = competitionLevelId,
                 FirstName = "Khoa",

@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.Application.Others.ServiceConfigs;
+namespace GoalFinder.Application.Shared.ServiceConfigs;
 
 /// <summary>
 ///     Fast endpoint service config.

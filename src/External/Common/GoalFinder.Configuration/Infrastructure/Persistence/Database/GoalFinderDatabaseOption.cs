@@ -1,6 +1,6 @@
 namespace GoalFinder.Configuration.Infrastructure.Persistence.Database;
 
-public sealed class MySqlDatabaseOption
+public sealed class GoalFinderDatabaseOption
 {
     public string ConnectionString { get; set; }
 

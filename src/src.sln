@@ -31,13 +31,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileObjectStorage", "FileOb
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Image", "Image", "{F2505ADF-762C-4758-B2DE-4CF1F64B69D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoalFinder.ImageCloudinary", "External\Infrastructure\FileObjectStorage\Image\GoalFinder.ImageCloudinary\GoalFinder.ImageCloudinary.csproj", "{9300DE6B-1059-42E3-8D74-A25F468FCB05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoalFinder.ImageCloudinary", "External\Infrastructure\FileObjectStorage\Image\GoalFinder.ImageCloudinary\GoalFinder.ImageCloudinary.csproj", "{9300DE6B-1059-42E3-8D74-A25F468FCB05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{EFAA32BF-78EF-4049-9427-D7BF68A540B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsonWebToken", "JsonWebToken", "{68C44829-E714-45AE-8BA8-083FEA86E189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoalFinder.AppJsonWebToken", "External\Infrastructure\IdentityService\JsonWebToken\GoalFinder.AppJsonWebToken\GoalFinder.AppJsonWebToken.csproj", "{4DAE00C0-ABB2-468B-ACFB-FF32174F7B5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoalFinder.AppJsonWebToken", "External\Infrastructure\IdentityService\JsonWebToken\GoalFinder.AppJsonWebToken\GoalFinder.AppJsonWebToken.csproj", "{4DAE00C0-ABB2-468B-ACFB-FF32174F7B5D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{5BDE92BF-9124-478D-9383-DE5F777367A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoalFinder.RedisCachingDb", "External\Infrastructure\Persistence\Caching\GoalFinder.RedisCachingDb\GoalFinder.RedisCachingDb.csproj", "{07BA687F-0079-44E8-8DC6-222F23F703E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +77,10 @@ Global
 		{4DAE00C0-ABB2-468B-ACFB-FF32174F7B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DAE00C0-ABB2-468B-ACFB-FF32174F7B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DAE00C0-ABB2-468B-ACFB-FF32174F7B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07BA687F-0079-44E8-8DC6-222F23F703E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07BA687F-0079-44E8-8DC6-222F23F703E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07BA687F-0079-44E8-8DC6-222F23F703E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07BA687F-0079-44E8-8DC6-222F23F703E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +102,8 @@ Global
 		{EFAA32BF-78EF-4049-9427-D7BF68A540B0} = {3B7CFBDA-21AF-469A-824C-C47166FDF863}
 		{68C44829-E714-45AE-8BA8-083FEA86E189} = {EFAA32BF-78EF-4049-9427-D7BF68A540B0}
 		{4DAE00C0-ABB2-468B-ACFB-FF32174F7B5D} = {68C44829-E714-45AE-8BA8-083FEA86E189}
+		{5BDE92BF-9124-478D-9383-DE5F777367A0} = {9B48F674-2738-4AED-BB6B-2F837DB2FE0A}
+		{07BA687F-0079-44E8-8DC6-222F23F703E1} = {5BDE92BF-9124-478D-9383-DE5F777367A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {607ADD17-0B84-49D0-94C0-813E5C93D7D5}

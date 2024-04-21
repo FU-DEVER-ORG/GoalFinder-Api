@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GoalFinder.AppJsonWebToken.ServiceConfigs;
+namespace GoalFinder.WebApi.Shared.ServiceConfigs;
 
 /// <summary>
 ///     Authentication service config.
@@ -19,7 +19,7 @@ internal static class AuthenticationServiceConfig
     {
         var option = configuration
             .GetRequiredSection(key: "Authentication")
-            .GetRequiredSection(key: "Type")
+            .GetRequiredSection(key: "Jwt")
             .Get<JwtAuthenticationOption>();
 
         services.AddAuthenticationJwtBearer(

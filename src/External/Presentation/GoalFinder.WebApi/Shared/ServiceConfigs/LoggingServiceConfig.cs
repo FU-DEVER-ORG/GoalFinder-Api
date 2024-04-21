@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace GoalFinder.WebApi.Others.ServiceConfigs;
+namespace GoalFinder.WebApi.Shared.ServiceConfigs;
 
 /// <summary>
 ///     Logging service config.

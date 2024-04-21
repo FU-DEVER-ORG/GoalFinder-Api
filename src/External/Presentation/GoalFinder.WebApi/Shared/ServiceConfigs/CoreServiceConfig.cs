@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.WebApi.Others.ServiceConfigs;
+namespace GoalFinder.WebApi.Shared.ServiceConfigs;
 
 /// <summary>
 ///     Core service config.
@@ -15,7 +15,7 @@ internal static class CoreServiceConfig
     {
         services.AddSingleton(configuration
             .GetRequiredSection(key: "Authentication")
-            .GetRequiredSection(key: "Type")
+            .GetRequiredSection(key: "Jwt")
             .Get<JwtAuthenticationOption>());
     }
 }

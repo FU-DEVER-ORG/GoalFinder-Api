@@ -1,6 +1,6 @@
 using System;
 
-namespace GoalFinder.Application.Others.Commons;
+namespace GoalFinder.Application.Shared.Commons;
 
 /// <summary>
 ///     Represent set of constant.

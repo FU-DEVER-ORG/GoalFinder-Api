@@ -28,7 +28,6 @@ public sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, Log
             return context.HttpContext.Response.SendAsync(
                 response: httpResponse,
                 statusCode: httpResponse.HttpCode,
-                jsonSerializerContext: default,
                 cancellation: ct);
         }
 

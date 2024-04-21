@@ -1,4 +1,4 @@
-namespace FuDever.WebApi.AppCodes;
+namespace GoalFinder.WebApi.Shared.AppCodes;
 
 /// <summary>
 ///     App code serve for other purposes.

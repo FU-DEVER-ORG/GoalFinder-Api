@@ -4,6 +4,8 @@ public sealed class NSwagOption
 {
     public DocOption Doc { get; set; } = new();
 
+    public bool EnableJWTBearerAuth { get; set; }
+
     public sealed class DocOption
     {
         public string Name { get; set; }

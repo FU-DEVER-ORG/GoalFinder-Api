@@ -1,8 +1,8 @@
-using FuDever.WebApi.AppCodes;
+using GoalFinder.WebApi.Shared.AppCodes;
 using System;
 using System.Collections.Generic;
 
-namespace GoalFinder.WebApi.Others.Commons;
+namespace GoalFinder.WebApi.Shared.Commons;
 
 /// <summary>
 ///     Contain common response for all api.

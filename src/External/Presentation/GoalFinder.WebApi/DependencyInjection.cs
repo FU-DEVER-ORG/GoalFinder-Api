@@ -1,5 +1,5 @@
 ﻿using GoalFinder.AppJsonWebToken.ServiceConfigs;
-using GoalFinder.WebApi.Others.ServiceConfigs;
+using GoalFinder.WebApi.Shared.ServiceConfigs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,5 +27,6 @@ internal static class DependencyInjection
         services.ConfigAuthorization();
         services.ConfigCore(configuration: configuration);
         services.ConfigSwagger(configuration: configuration);
+        services.ConfigResponseCaching();
     }
 }

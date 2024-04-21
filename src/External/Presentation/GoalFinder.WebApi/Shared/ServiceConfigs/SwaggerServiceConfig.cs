@@ -3,7 +3,7 @@ using FuDever.Configuration.Presentation.WebApi.Swagger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.WebApi.Others.ServiceConfigs;
+namespace GoalFinder.WebApi.Shared.ServiceConfigs;
 
 /// <summary>
 ///     Swagger service config.
@@ -44,7 +44,7 @@ internal static class SwaggerServiceConfig
                 };
             };
 
-            documentOption.EnableJWTBearerAuth = true;
+            documentOption.EnableJWTBearerAuth = option.EnableJWTBearerAuth;
         });
     }
 }

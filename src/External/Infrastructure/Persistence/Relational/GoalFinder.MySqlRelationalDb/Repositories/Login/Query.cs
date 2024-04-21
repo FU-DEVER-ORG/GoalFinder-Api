@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using GoalFinder.Application.Others.Commons;
 using Microsoft.EntityFrameworkCore;
 using GoalFinder.Data.Entities;
+using GoalFinder.Application.Shared.Commons;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.Login;
 
