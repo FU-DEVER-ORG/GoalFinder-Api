@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\FileObjectStorage\Image\GoalFinder.ImageCloudinary\GoalFinder.ImageCloudinary.csproj" />
     <ProjectReference Include="..\..\Infrastructure\IdentityService\JsonWebToken\GoalFinder.AppJsonWebToken\GoalFinder.AppJsonWebToken.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Notification\Mail\GoalFinder.GoogleSmtpServerForMail\GoalFinder.GoogleSmtpServerForMail.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Caching\GoalFinder.RedisCachingDb\GoalFinder.RedisCachingDb.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj" />
   </ItemGroup>

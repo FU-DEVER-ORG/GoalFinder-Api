@@ -56,6 +56,8 @@ public sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
         LoginRequest req,
         CancellationToken ct)
     {
+        throw new System.Exception();
+
         var appResponse = await req.ExecuteAsync(ct: ct);
 
         var httpResponse = LazyLoginHttResponseMapper
