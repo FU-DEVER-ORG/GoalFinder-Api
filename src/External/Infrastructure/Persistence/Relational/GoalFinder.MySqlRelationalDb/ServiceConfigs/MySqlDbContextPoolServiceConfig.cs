@@ -20,8 +20,8 @@ internal static class MySqlDbContextPoolServiceConfig
         {
             var option = configuration
                 .GetRequiredSection(key: "Database")
-                .GetRequiredSection(key: "FuDever")
-                .Get<MySqlDatabaseOption>();
+                .GetRequiredSection(key: "GoalFinder")
+                .Get<GoalFinderDatabaseOption>();
 
             config.UseMySQL(
                 connectionString: option.ConnectionString,

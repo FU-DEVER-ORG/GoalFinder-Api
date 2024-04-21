@@ -1,4 +1,6 @@
-﻿using GoalFinder.WebApi.Others.ServiceConfigs;
+﻿using GoalFinder.AppJsonWebToken.ServiceConfigs;
+using GoalFinder.WebApi.Shared.ServiceConfigs;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.WebApi;
@@ -15,9 +17,16 @@ internal static class DependencyInjection
     /// <param name="services">
     ///     Service container.
     /// </param>
-    internal static void ConfigWebApi(this IServiceCollection services)
+    internal static void ConfigWebApi(
+        this IServiceCollection services,
+        IConfigurationManager configuration)
     {
         services.ConfigLogging();
         services.ConfigCors();
+        services.ConfigAuthentication(configuration: configuration);
+        services.ConfigAuthorization();
+        services.ConfigCore(configuration: configuration);
+        services.ConfigSwagger(configuration: configuration);
+        services.ConfigResponseCaching();
     }
 }

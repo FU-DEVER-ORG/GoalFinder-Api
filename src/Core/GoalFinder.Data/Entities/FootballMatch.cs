@@ -43,17 +43,15 @@ public class FootballMatch :
 
     public Guid RemovedBy { get; set; }
 
+    public string Address { get; set; }
+
     // Foreign keys.
     public Guid HostId { get; set; }
-
-    public Guid WardId { get; set; }
 
     public Guid CompetitionLevelId { get; set; }
 
     // Navigation properties.
     public UserDetail UserDetail { get; set; }
-
-    public Ward Ward { get; set; }
 
     public CompetitionLevel CompetitionLevel { get; set; }
 
@@ -90,6 +88,13 @@ public class FootballMatch :
             public const int MinValue = 1;
 
             public const int MaxValue = 100;
+        }
+
+        public static class Address
+        {
+            public const int MinLength = 1;
+
+            public const int MaxLength = 200;
         }
     }
 }

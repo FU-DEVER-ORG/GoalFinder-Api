@@ -7,5 +7,23 @@ namespace GoalFinder.Application.Features.Auth.Login;
 /// </summary>
 public sealed class LoginResponse : IFeatureResponse
 {
-    public string Message { get; set; }
+    public LoginResponseStatusCode StatusCode { get; init; }
+
+    public Body ResponseBody { get; init; }
+
+    public sealed class Body
+    {
+        public string AccessToken { get; init; }
+
+        public string RefreshToken { get; init; }
+
+        public UserCredential User { get; init; }
+
+        public sealed class UserCredential
+        {
+            public string Email { get; init; }
+
+            public string AvatarUrl { get; init; }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿using GoalFinder.Application.Others.ServiceConfigs;
+﻿using GoalFinder.Application.Shared.ServiceConfigs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.Application;
