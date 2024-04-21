@@ -15,15 +15,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Others\HttpResponseMapper\**" />
+    <Content Remove="Others\HttpResponseMapper\**" />
+    <EmbeddedResource Remove="Others\HttpResponseMapper\**" />
+    <None Remove="Others\HttpResponseMapper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FastEndpoints.Swagger" Version="5.24.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Others\HttpResponseMapper\Auth\" />
   </ItemGroup>
 
 </Project>
