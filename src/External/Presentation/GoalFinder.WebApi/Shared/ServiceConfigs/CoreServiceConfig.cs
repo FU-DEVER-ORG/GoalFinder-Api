@@ -15,7 +15,7 @@ internal static class CoreServiceConfig
     {
         services.AddSingleton(configuration
             .GetRequiredSection(key: "Authentication")
-            .GetRequiredSection(key: "Jwt")
+            /*.GetRequiredSection(key: "Jwt"  )   */  
             .Get<JwtAuthenticationOption>());
     }
 }
