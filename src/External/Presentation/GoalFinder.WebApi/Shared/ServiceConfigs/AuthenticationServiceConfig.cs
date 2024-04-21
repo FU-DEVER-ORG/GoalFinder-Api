@@ -19,7 +19,6 @@ internal static class AuthenticationServiceConfig
     {
         var option = configuration
             .GetRequiredSection(key: "Authentication")
-           /* .GetRequiredSection(key: "Jwt")        */         
             .Get<JwtAuthenticationOption>();    
 
         services.AddAuthenticationJwtBearer(

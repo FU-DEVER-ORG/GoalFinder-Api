@@ -28,5 +28,6 @@ internal static class DependencyInjection
         services.ConfigCore(configuration: configuration);
         services.ConfigSwagger(configuration: configuration);
         services.ConfigResponseCaching();
+        services.ConfigExceptionHandler();
     }
 }

@@ -17,6 +17,7 @@ using GoalFinder.ImageCloudinary;
 using GoalFinder.AppJsonWebToken;
 using FastEndpoints.Swagger;
 using GoalFinder.RedisCachingDb;
+using GoalFinder.GoogleSmtpServerForMail;
 
 // Default setting.
 AppContext.SetSwitch(
@@ -37,6 +38,7 @@ services.ConfigMySqlRelationalDatabase(configuration: config);
 services.ConfigCloudinaryImageStorage();
 services.ConfigAppJwtIdentityService();
 services.AddRedisCachingDatabase(configuration: config);
+services.ConfigGoogleSmtpMailNotification(configuration: config);
 
 var app = builder.Build();
 
@@ -71,6 +73,7 @@ await using (var scope = app.Services.CreateAsyncScope())
 
 // Configure the HTTP request pipeline.
 app
+    .UseExceptionHandler()
     .UseResponseCaching()
     .UseFastEndpoints()
     .UseSwaggerGen()
