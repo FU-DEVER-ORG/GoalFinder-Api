@@ -34,7 +34,7 @@ internal sealed class AccessTokenHandler : IAccessTokenHandler
         return JwtBearer.CreateToken(options: option =>
         {
             option.SigningKey = _jwtAuthenticationOption.Jwt.IssuerSigningKey;
-            option.ExpireAt = DateTime.UtcNow.AddMinutes(value: 3);
+            option.ExpireAt = DateTime.UtcNow.AddMinutes(value: 15);
             option.User.Claims.AddRange(collection: claims);
             option.Audience = _jwtAuthenticationOption.Jwt.ValidAudience;
             option.Issuer = _jwtAuthenticationOption.Jwt.ValidIssuer;
