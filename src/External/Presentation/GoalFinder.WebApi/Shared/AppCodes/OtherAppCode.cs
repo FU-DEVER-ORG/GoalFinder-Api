@@ -8,5 +8,6 @@ public enum OtherPurposeAppCode
     SUCCESS,
     SERVER_ERROR,
     INVALID_INPUTS,
-    UN_AUTHORIZED
+    UN_AUTHORIZED,
+    FORBIDDEN
 }

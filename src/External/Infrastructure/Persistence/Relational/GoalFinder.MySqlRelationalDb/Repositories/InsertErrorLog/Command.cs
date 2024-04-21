@@ -2,13 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Threading;
+using System;
+using System.Text.Json;
 
-namespace GoalFinder.MySqlRelationalDb.Repositories.Login;
+namespace GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 
-internal partial class LoginRepository
+internal partial class InsertErrorLogRepository
 {
-    public async Task<bool> CreateRefreshTokenCommandAsync(
-        RefreshToken refreshToken,
+    public async Task<bool> InsertErrorLogCommandAsync(
+        Exception exception,
         CancellationToken cancellationToken)
     {
         var executedTransactionResult = false;
@@ -22,10 +24,19 @@ internal partial class LoginRepository
 
                 try
                 {
+                    ErrorLogging errorLogging = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        CreatedAt = DateTime.UtcNow,
+                        ErrorMessage = exception.Message,
+                        ErrorStackTrace = exception.StackTrace,
+                        Data = JsonSerializer.Serialize(exception.Data)
+                    };
+
                     await _context
-                        .Set<RefreshToken>()
+                        .Set<ErrorLogging>()
                         .AddAsync(
-                            entity: refreshToken,
+                            entity: errorLogging,
                             cancellationToken: cancellationToken);
 
                     await _context.SaveChangesAsync(cancellationToken: cancellationToken);

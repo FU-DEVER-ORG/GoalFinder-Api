@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
-using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
+using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ namespace GoalFinder.WebApi.Endpoints.Auth.Login;
 /// <summary>
 ///     Login endpoint.
 /// </summary>
-public sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
+internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
 {
     public override void Configure()
     {
@@ -56,8 +56,6 @@ public sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
         LoginRequest req,
         CancellationToken ct)
     {
-        throw new System.Exception();
-
         var appResponse = await req.ExecuteAsync(ct: ct);
 
         var httpResponse = LazyLoginHttResponseMapper
