@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System;
-using System.Text.Json.Serialization;
 using GoalFinder.Application.Features.Auth.Login;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
@@ -10,7 +9,6 @@ namespace GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
 /// </summary>
 public class LoginHttpResponse
 {
-    [JsonIgnore]
     public int HttpCode { get; init; }
 
     public string AppCode { get; init; } = LoginResponseStatusCode.OPERATION_SUCCESS.ToAppCode();
