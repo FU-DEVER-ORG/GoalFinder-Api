@@ -28,20 +28,18 @@ internal sealed class GoogleSendingMailHandler : ISendingMailHandler
         string to,
         string subject,
         string mainVerifyLink,
-        string alternativeVerifyLink,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(value: to) ||
             string.IsNullOrWhiteSpace(value: subject) ||
-            string.IsNullOrWhiteSpace(value: mainVerifyLink) ||
-            string.IsNullOrWhiteSpace(value: alternativeVerifyLink))
+            string.IsNullOrWhiteSpace(value: mainVerifyLink))
         {
             return default;
         }
 
         var mailTemplatePath = Path.Combine(
             path1: "CreateUserAccount",
-            path2: "AskUserToConfirmedAccountMailTemplate.html");
+            path2: "ConfirmUserAccountByEmail.html");
 
         var htmlTemplate = await ReadTemplateAsync(
             templatePath: mailTemplatePath,
@@ -49,11 +47,8 @@ internal sealed class GoogleSendingMailHandler : ISendingMailHandler
 
         var mailBody = new StringBuilder(value: htmlTemplate)
             .Replace(
-                oldValue: "{verify-link1}",
+                oldValue: "{verify-link}",
                 newValue: _googleGmailSendingOption.WebUrl + mainVerifyLink)
-            .Replace(
-                oldValue: "{verify-link2}",
-                newValue: _googleGmailSendingOption.WebUrl + alternativeVerifyLink)
             .ToString();
 
         return new()

@@ -34,12 +34,6 @@ internal sealed class LoginHttpResponseManager
             value: (_, response) => new OperationSuccessHttpResponse(response: response));
 
         _dictionary.Add(
-            key: LoginResponseStatusCode.USER_EMAIL_IS_NOT_CONFIRMED,
-            value: (request, response) => new UserEmailIsNotConfirmedHttpResponse(
-                request: request,
-                response: response));
-
-        _dictionary.Add(
             key: LoginResponseStatusCode.USER_IS_LOCKED_OUT,
             value: (request, response) => new UserIsLockedOutHttpResponse(
                 request: request,
