@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
-using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
@@ -70,13 +69,21 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
             .Resolve(statusCode: appResponse.StatusCode)
             .Invoke(arg1: req, arg2: appResponse);
 
+        /*
+         * Store the real http code of http response into a temporary variable.
+         * Set the http code of http response to default for not serializing.
+         */
+        var httpResponseStatusCode = httpResponse.HttpCode;
+        httpResponse.HttpCode = default;
+
         // Send http response to client.
         await SendAsync(
             response: httpResponse,
-            statusCode: httpResponse.HttpCode,
+            statusCode: httpResponseStatusCode,
             cancellation: ct);
 
-        ProcessorState<LoginStateBag>().HttpCode = httpResponse.HttpCode;
+        // Set the http code of http response back to real one.
+        httpResponse.HttpCode = httpResponseStatusCode;
 
         return httpResponse;
     }
