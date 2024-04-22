@@ -1,19 +1,20 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
+using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares;
+namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
 
 /// <summary>
 ///     Preprocessor for login validation.
 /// </summary>
-internal sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, LoginResponse>
+internal sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, LoginStateBag>
 {
-    public override Task PreProcessAsync(
+    public override async Task PreProcessAsync(
         IPreProcessorContext<LoginRequest> context,
-        LoginResponse state,
+        LoginStateBag state,
         CancellationToken ct)
     {
         if (context.HasValidationFailures)
@@ -21,16 +22,19 @@ internal sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, L
             var httpResponse = LazyLoginHttResponseMapper
                 .Get()
                 .Resolve(statusCode: LoginResponseStatusCode.INPUT_VALIDATION_FAIL)
-                .Invoke(arg1: context.Request, arg2: state);
+                .Invoke(
+                    arg1: context.Request,
+                    arg2: new()
+                    {
+                        StatusCode = LoginResponseStatusCode.INPUT_VALIDATION_FAIL
+                    });
 
-            context.HttpContext.Response.StatusCode = httpResponse.HttpCode;
-
-            return context.HttpContext.Response.SendAsync(
+            await context.HttpContext.Response.SendAsync(
                 response: httpResponse,
                 statusCode: httpResponse.HttpCode,
                 cancellation: ct);
-        }
 
-        return Task.CompletedTask;
+            context.HttpContext.MarkResponseStart();
+        }
     }
 }
