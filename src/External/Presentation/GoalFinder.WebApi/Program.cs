@@ -77,8 +77,6 @@ app
     .UseAuthentication()
     .UseAuthorization()
     .UseResponseCaching()
-    .UseAuthentication()
-    .UseAuthorization()
     .UseFastEndpoints()
     .UseSwaggerGen()
     .UseSwaggerUi(configure: options =>
