@@ -1,7 +1,9 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
+using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
-using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares;
+using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
+using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +21,8 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
         AllowAnonymous();
         DontThrowIfValidationFails();
         PreProcessor<LoginValidationPreProcessor>();
+        PreProcessor<LoginCachingPreProcessor>();
+        PostProcessor<LoginCachingPostProcessor>();
         Description(builder: builder =>
         {
             builder.ClearDefaultProduces(statusCodes: StatusCodes.Status400BadRequest);
@@ -37,6 +41,7 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
                 description: "Represent successful operation response.",
                 example: new()
                 {
+                    HttpCode = StatusCodes.Status200OK,
                     AppCode = LoginResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
                     Body = new LoginResponse.Body()
                     {
@@ -56,18 +61,23 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
         LoginRequest req,
         CancellationToken ct)
     {
+        // Get app feature response.
         var appResponse = await req.ExecuteAsync(ct: ct);
 
+        // Convert to http response.
         var httpResponse = LazyLoginHttResponseMapper
             .Get()
             .Resolve(statusCode: appResponse.StatusCode)
             .Invoke(arg1: req, arg2: appResponse);
 
+        // Send http response to client.
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponse.HttpCode,
             cancellation: ct);
 
-        return default;
+        ProcessorState<LoginStateBag>().HttpCode = httpResponse.HttpCode;
+
+        return httpResponse;
     }
 }
