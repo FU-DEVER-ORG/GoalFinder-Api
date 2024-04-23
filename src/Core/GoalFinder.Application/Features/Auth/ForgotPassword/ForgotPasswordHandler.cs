@@ -21,7 +21,13 @@ internal sealed class ForgotPasswordHandler :
     private readonly ISendingMailHandler _sendingMailHandler;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IOtpHandler _otpHandler;
-
+    /// <summary>
+    /// Forgot Password Handler
+    /// </summary>
+    /// <param name="userManager"></param>
+    /// <param name="sendingMailHandler"></param>
+    /// <param name="otpHandler"></param>
+    /// <param name="unitOfWork"></param>
     public ForgotPasswordHandler(
         UserManager<User> userManager, 
         ISendingMailHandler sendingMailHandler,

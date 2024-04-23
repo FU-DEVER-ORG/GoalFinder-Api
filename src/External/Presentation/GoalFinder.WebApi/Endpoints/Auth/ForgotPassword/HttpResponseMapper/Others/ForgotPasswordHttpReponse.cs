@@ -5,7 +5,9 @@ using GoalFinder.Application.Features.Auth.ForgotPassword;
 using System.Text.Json.Serialization;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
-
+/// <summary>
+/// Forgot password http response
+/// </summary>
 public class ForgotPasswordHttpReponse
 {
     [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingDefault)]

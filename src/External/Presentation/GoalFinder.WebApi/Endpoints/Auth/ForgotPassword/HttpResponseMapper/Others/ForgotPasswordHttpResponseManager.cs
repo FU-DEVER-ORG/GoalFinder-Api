@@ -6,8 +6,14 @@ using GoalFinder.Application.Features.Auth.Login;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
 
+/// <summary>
+/// Mapper for forgot password 
+/// </summary>
 internal sealed class ForgotPasswordHttpResponseManager
 {
+    /// <summary>
+    /// Dictionary
+    /// </summary>
     private readonly Dictionary<
         ForgotPasswordReponseStatusCode,
         Func<
@@ -15,6 +21,9 @@ internal sealed class ForgotPasswordHttpResponseManager
             ForgotPasswordResponse,
             ForgotPasswordHttpReponse>>
                 _dictionary;
+    /// <summary>
+    /// Constructor
+    /// </summary>
     internal ForgotPasswordHttpResponseManager()
     {
         _dictionary = [];
@@ -37,7 +46,11 @@ internal sealed class ForgotPasswordHttpResponseManager
             key: ForgotPasswordReponseStatusCode.DATABASE_OPERATION_FAIL,
             value: (_, response) => new DatabaseOperationFailHttpResponse(response: response));
     }
-
+    /// <summary>
+    /// Resolve
+    /// </summary>
+    /// <param name="statusCode"></param>
+    /// <returns></returns>
     internal Func<
        ForgotPasswordRequest,
        ForgotPasswordResponse,
