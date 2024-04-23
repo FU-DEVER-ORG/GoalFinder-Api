@@ -30,7 +30,7 @@ internal sealed class AccessTokenHandler : IAccessTokenHandler
         {
             return string.Empty;
         }
-
+        
         return JwtBearer.CreateToken(options: option =>
         {
             option.SigningKey = _jwtAuthenticationOption.Jwt.IssuerSigningKey;
