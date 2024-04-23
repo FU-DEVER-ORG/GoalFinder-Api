@@ -17,7 +17,7 @@ internal sealed class RegisterAsUserEndpoint : Endpoint<RegisterAsUserRequest, R
 {
     public override void Configure()
     {
-        Post(routePatterns: "auth/signup");
+        Post(routePatterns: "auth/sign-up");
         AllowAnonymous();
         DontThrowIfValidationFails();
         PreProcessor<RegisterAsUserValidationPreProcessor>();

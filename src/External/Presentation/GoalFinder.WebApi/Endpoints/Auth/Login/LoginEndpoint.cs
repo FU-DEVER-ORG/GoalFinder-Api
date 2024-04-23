@@ -16,7 +16,7 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
 {
     public override void Configure()
     {
-        Post(routePatterns: "auth/signin");
+        Post(routePatterns: "auth/sign-in");
         AllowAnonymous();
         DontThrowIfValidationFails();
         PreProcessor<LoginValidationPreProcessor>();
