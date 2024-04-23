@@ -1,69 +1,68 @@
 ﻿using GoalFinder.Application.Shared.Features;
-using GoalFinder.Application.Shared.Mail;
 using GoalFinder.Application.Shared.Tokens.OTP;
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoalFinder.Application.Features.Auth.ForgotPassword;
 
 /// <summary>
-/// Forgot Password Handler
+///     Forgot Password Handler
 /// </summary>
-/// 
-internal sealed class ForgotPasswordHandler : 
-    IFeatureHandler<ForgotPasswordRequest, ForgotPasswordResponse>
+internal sealed class ForgotPasswordHandler : IFeatureHandler<
+    ForgotPasswordRequest,
+    ForgotPasswordResponse>
 {
-    private readonly UserManager<Data.Entities.User> _userManager;
-    private readonly ISendingMailHandler _sendingMailHandler;
+    private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IOtpHandler _otpHandler;
-    /// <summary>
-    /// Forgot Password Handler
-    /// </summary>
-    /// <param name="userManager"></param>
-    /// <param name="sendingMailHandler"></param>
-    /// <param name="otpHandler"></param>
-    /// <param name="unitOfWork"></param>
+
     public ForgotPasswordHandler(
-        UserManager<User> userManager, 
-        ISendingMailHandler sendingMailHandler,
+        UserManager<User> userManager,
         IOtpHandler otpHandler,
-        IUnitOfWork unitOfWork
-        )
+        IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
-        _sendingMailHandler = sendingMailHandler;
         _otpHandler = otpHandler;
         _unitOfWork = unitOfWork;
     }
+
     /// <summary>
-    ///  Execute forgot password handler
+    ///     Entry of new request handler.
     /// </summary>
-    /// <param name="command"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
+    /// <param name="command">
+    ///     Request model.
+    /// </param>
+    /// <param name="ct">
+    ///     A token that is used for notifying system
+    ///     to cancel the current operation when user stop
+    ///     the request.
+    /// </param>
+    /// <returns>
+    ///     A task containing the response.
+    /// </returns>
     public async Task<ForgotPasswordResponse> ExecuteAsync(
-        ForgotPasswordRequest command, 
+        ForgotPasswordRequest command,
         CancellationToken ct)
     {
-        //Find User By UserName
+        //Find User By username
         var foundUser = await _userManager.FindByNameAsync(userName: command.UserName);
-        
+
         //Validate User
-        if (Equals(objA: foundUser, objB: default(User)))
+        if (Equals(objA: foundUser, objB: default))
         {
             return new()
             {
                 StatusCode = ForgotPasswordReponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND
             };
         }
-        var isUserTemporarilyRemoved = await
-           _unitOfWork.ForgotPasswordRepository
-           .IsUserTemporarilyRemovedQueryAsync(userId: foundUser.Id, cancellationToken: ct);
+
+        var isUserTemporarilyRemoved = await _unitOfWork.ForgotPasswordRepository
+            .IsUserTemporarilyRemovedQueryAsync(
+                userId: foundUser.Id,
+                cancellationToken: ct);
 
         // User is temporarily removed.
         if (isUserTemporarilyRemoved)
@@ -75,15 +74,16 @@ internal sealed class ForgotPasswordHandler :
         }
 
         //Generate password reset OTP code
-        var resetPasswordOTPCode = _otpHandler.Generate(4);
+        var resetPasswordOTPCode = _otpHandler.Generate(length: 4);
 
         //Sending Feature are currently skipping
 
         //Add reset password OTP Code to database
-        var dbResultAfterAddingOtp = await 
-            _unitOfWork.ForgotPasswordRepository
+        var dbResultAfterAddingOtp = await _unitOfWork.ForgotPasswordRepository
             .AddResetPasswordTokenToDatabaseAsync(
-                foundUser.Id, resetPasswordOTPCode, ct);
+                userId: foundUser.Id,
+                passwordResetOtpCode: resetPasswordOTPCode,
+                cancellationToken: ct);
 
         if(!dbResultAfterAddingOtp)
         {
@@ -92,6 +92,7 @@ internal sealed class ForgotPasswordHandler :
                 StatusCode = ForgotPasswordReponseStatusCode.DATABASE_OPERATION_FAIL
             };
         }
+
         return new()
         {
             StatusCode = ForgotPasswordReponseStatusCode.OPERATION_SUCCESS,

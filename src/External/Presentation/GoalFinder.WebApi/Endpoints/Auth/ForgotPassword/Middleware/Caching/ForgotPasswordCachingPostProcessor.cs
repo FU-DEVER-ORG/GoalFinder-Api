@@ -11,52 +11,36 @@ using System.Threading.Tasks;
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Middleware.Caching;
 
 /// <summary>
-/// This class is used for caching the forgot password response.
+///     This class is used for caching the forgot password response.
 /// </summary>
-internal sealed class ForgotPasswordCachingPostProcessor :
-    PostProcessor<
-        ForgotPasswordRequest,
-        ForgotPasswordStateBag,
-        ForgotPasswordHttpReponse>
+internal sealed class ForgotPasswordCachingPostProcessor : PostProcessor<
+    ForgotPasswordRequest,
+    ForgotPasswordStateBag,
+    ForgotPasswordHttpReponse>
 {
-    /// <summary>
-    /// The service scope factory.
-    /// </summary>
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public ForgotPasswordCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
-    /// <summary>
-    /// Caches the forgot password response.
-    /// </summary>
-    /// <param name="context"></param>
-    /// <param name="state"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
+
     public override async Task PostProcessAsync(
-        IPostProcessorContext<
-            ForgotPasswordRequest, 
-            ForgotPasswordHttpReponse> context, 
-            ForgotPasswordStateBag state, 
-            CancellationToken ct)
+        IPostProcessorContext<ForgotPasswordRequest, ForgotPasswordHttpReponse> context,
+        ForgotPasswordStateBag state,
+        CancellationToken ct)
     {
         if(Equals(objA: context.Response, objB: default)) { return; }
 
-        await using var scope = _serviceScopeFactory.CreateAsyncScope(); 
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+
         var  cacheHandler = scope.Resolve<ICacheHandler>();
+
         // Caching
-        if(
-            context.Response.AppCode.Equals(
-                value: ForgotPasswordReponseStatusCode.OPERATION_SUCCESS.ToAppCode()) ||
-            context.Response.AppCode.Equals(
+        if(context.Response.AppCode.Equals(
                 value: ForgotPasswordReponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND.ToAppCode()) ||
             context.Response.AppCode.Equals(
-                value: ForgotPasswordReponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()) ||
-            context.Response.AppCode.Equals(
-                value: ForgotPasswordReponseStatusCode.USER_IS_NOT_VERIFY.ToAppCode())
-            )
+                value: ForgotPasswordReponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()))
         {
             // Set cache
             await cacheHandler.SetAsync(
@@ -67,8 +51,7 @@ internal sealed class ForgotPasswordCachingPostProcessor :
                     AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(
                         seconds: state.CacheDurationInSeconds)
                 },
-                cancellationToken: ct
-                );
+                cancellationToken: ct);
         }
     }
 }

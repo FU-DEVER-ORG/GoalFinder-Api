@@ -2,22 +2,17 @@
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 namespace GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
+
 /// <summary>
-/// Forgot Password Repository
+///     Forgot Password Repository
 /// </summary>
 internal sealed partial class ForgotPasswordRepository : IForgotPasswordRepository
 {
     private readonly GoalFinderContext _context;
     private readonly DbSet<UserDetail> _userDetails;
     private readonly DbSet<UserToken> _userTokens;
-    /// <summary>
-    /// Forgot Password Repository
-    /// </summary>
-    /// <param name="context"></param>
+
     internal ForgotPasswordRepository(GoalFinderContext context)
     {
         _context = context;

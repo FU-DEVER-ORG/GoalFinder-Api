@@ -12,7 +12,9 @@ namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Middlewares.Caching;
 /// <summary>
 ///     Pre-processor for register as user caching.
 /// </summary>
-internal sealed class RegisterAsUserCachingPreProcessor : PreProcessor<RegisterAsUserRequest, RegisterAsUserStateBag>
+internal sealed class RegisterAsUserCachingPreProcessor : PreProcessor<
+    RegisterAsUserRequest,
+    RegisterAsUserStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 

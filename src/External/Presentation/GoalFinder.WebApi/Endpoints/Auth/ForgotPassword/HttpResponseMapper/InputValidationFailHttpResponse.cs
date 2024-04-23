@@ -9,13 +9,9 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 /// </summary>
 internal sealed class InputValidationFailHttpResponse : ForgotPasswordHttpReponse
 {
-    /// <summary>
-    ///     Input validation fail http response constructor
-    /// </summary>
-    /// <param name="response"></param>
     internal InputValidationFailHttpResponse(ForgotPasswordResponse response)
     {
         HttpCode = StatusCodes.Status400BadRequest;
-        AppCode = response.StatusCode.ToAppCode(); 
+        AppCode = response.StatusCode.ToAppCode();
     }
 }
