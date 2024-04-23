@@ -1,6 +1,7 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
+using GoalFinder.Data.Repositories.RegisterAsUser;
 
 namespace GoalFinder.Data.UnitOfWork;
 
@@ -22,4 +23,9 @@ public interface IUnitOfWork
     ///     Gets the forgot password repository.
     /// </summary>
     IForgotPasswordRepository ForgotPasswordRepository { get; }
+
+    /// <summary>
+    ///     Gets the register as user repository.
+    /// </summary>
+    IRegisterAsUserRepository RegisterAsUserRepository { get; }
 }

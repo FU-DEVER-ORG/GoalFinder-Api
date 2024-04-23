@@ -20,9 +20,6 @@ public interface ISendingMailHandler
     /// <param name="mainVerifyLink">
     ///     Main mail verification link.
     /// </param>
-    /// <param name="alternativeVerifyLink">
-    ///     Alternative mail verification link.
-    /// </param
     /// <param name="cancellationToken">
     ///     A token that is used for notifying system
     ///     to cancel the current operation when user stop
@@ -35,7 +32,6 @@ public interface ISendingMailHandler
         string to,
         string subject,
         string mainVerifyLink,
-        string alternativeVerifyLink,
         CancellationToken cancellationToken);
 
     /// <summary>

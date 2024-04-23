@@ -98,18 +98,6 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
             };
         }
 
-        // Has user confirmed account creation email.
-        var hasUserConfirmed = await _userManager.IsEmailConfirmedAsync(user: foundUser);
-
-        // User has not confirmed account creation email.
-        if (!hasUserConfirmed)
-        {
-            return new()
-            {
-                StatusCode = LoginResponseStatusCode.USER_EMAIL_IS_NOT_CONFIRMED
-            };
-        }
-
         // Is user not temporarily removed.
         var isUserTemporarilyRemoved = await _unitOfWork.LoginRepository
             .IsUserTemporarilyRemovedQueryAsync(
