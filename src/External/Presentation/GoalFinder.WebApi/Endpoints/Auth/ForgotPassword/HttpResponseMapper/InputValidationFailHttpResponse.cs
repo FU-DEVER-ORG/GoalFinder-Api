@@ -4,8 +4,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 
+/// <summary>
+///     Input validation fail http response
+/// </summary>
 internal sealed class InputValidationFailHttpResponse : ForgotPasswordHttpReponse
 {
+    /// <summary>
+    ///     Input validation fail http response constructor
+    /// </summary>
+    /// <param name="response"></param>
     internal InputValidationFailHttpResponse(ForgotPasswordResponse response)
     {
         HttpCode = StatusCodes.Status400BadRequest;

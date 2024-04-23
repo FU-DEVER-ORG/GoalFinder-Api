@@ -11,6 +11,10 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 /// </summary>
 internal sealed class OperationSuccessHttpResponse : ForgotPasswordHttpReponse
 {
+    /// <summary>
+    ///     Operation success http response constructor
+    /// </summary>
+    /// <param name="response"></param>
     internal OperationSuccessHttpResponse(ForgotPasswordResponse response)
     {
         HttpCode = StatusCodes.Status200OK;

@@ -6,7 +6,9 @@ using System.Linq;
 using GoalFinder.Application.Shared.Commons;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
-
+/// <summary>
+/// Implementation of <see cref="IForgotPasswordQuery"/>
+/// </summary>
 internal sealed partial class ForgotPasswordRepository 
 {
     public Task<bool> IsUserTemporarilyRemovedQueryAsync(

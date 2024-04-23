@@ -10,19 +10,31 @@ using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Middleware.Caching;
 
+/// <summary>
+/// This class is used for caching the forgot password response.
+/// </summary>
 internal sealed class ForgotPasswordCachingPostProcessor :
     PostProcessor<
         ForgotPasswordRequest,
         ForgotPasswordStateBag,
         ForgotPasswordHttpReponse>
 {
+    /// <summary>
+    /// The service scope factory.
+    /// </summary>
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public ForgotPasswordCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
-
+    /// <summary>
+    /// Caches the forgot password response.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="state"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public override async Task PostProcessAsync(
         IPostProcessorContext<
             ForgotPasswordRequest, 
@@ -34,6 +46,7 @@ internal sealed class ForgotPasswordCachingPostProcessor :
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope(); 
         var  cacheHandler = scope.Resolve<ICacheHandler>();
+        // Caching
         if(
             context.Response.AppCode.Equals(
                 value: ForgotPasswordReponseStatusCode.OPERATION_SUCCESS.ToAppCode()) ||
@@ -45,6 +58,7 @@ internal sealed class ForgotPasswordCachingPostProcessor :
                 value: ForgotPasswordReponseStatusCode.USER_IS_NOT_VERIFY.ToAppCode())
             )
         {
+            // Set cache
             await cacheHandler.SetAsync(
                 key: state.CacheKey,
                 value: context.Response,

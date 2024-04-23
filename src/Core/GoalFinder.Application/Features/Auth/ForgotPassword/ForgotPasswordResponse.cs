@@ -2,6 +2,7 @@
 
 namespace GoalFinder.Application.Features.Auth.ForgotPassword;
 
+
 public sealed class ForgotPasswordResponse : IFeatureResponse
 {
     public ForgotPasswordReponseStatusCode StatusCode {  get; init; }
