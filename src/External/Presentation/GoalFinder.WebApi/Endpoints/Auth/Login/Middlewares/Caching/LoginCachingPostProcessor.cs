@@ -36,14 +36,15 @@ internal sealed class LoginCachingPostProcessor : PostProcessor<
 
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
-            if (
+       if (
                 context.Response.AppCode.Equals(value:
                     LoginResponseStatusCode.USER_IS_NOT_FOUND.ToAppCode()) ||
                 context.Response.AppCode.Equals(value:
                     LoginResponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()) ||
                 context.Response.AppCode.Equals(value:
-                    LoginResponseStatusCode.USER_EMAIL_IS_NOT_CONFIRMED.ToAppCode()))
-        {
+                    LoginResponseStatusCode.USER_EMAIL_IS_NOT_CONFIRMED.ToAppCode())
+           )
+       {
             // Caching the return value.
             await cacheHandler.SetAsync(
                 key: state.CacheKey,

@@ -1,7 +1,9 @@
-﻿using GoalFinder.Data.Repositories.InsertErrorLog;
+﻿using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.UnitOfWork;
 using GoalFinder.MySqlRelationalDb.Data;
+using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
 
@@ -15,6 +17,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private readonly GoalFinderContext _context;
     private ILoginRepository _loginRepository;
     private IInsertErrorLogRepository _insertErrorLogRepository;
+    private IForgotPasswordRepository _forgotPasswordRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -38,6 +41,15 @@ internal sealed class UnitOfWork : IUnitOfWork
             _insertErrorLogRepository ??= new InsertErrorLogRepository(context: _context);
 
             return _insertErrorLogRepository;
+        }
+    }
+
+    public IForgotPasswordRepository ForgotPasswordRepository
+    {
+        get
+        {
+            _forgotPasswordRepository ??= new ForgotPasswordRepository(context: _context);
+            return _forgotPasswordRepository;
         }
     }
 }

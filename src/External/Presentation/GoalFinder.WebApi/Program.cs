@@ -18,6 +18,7 @@ using GoalFinder.AppJsonWebToken;
 using FastEndpoints.Swagger;
 using GoalFinder.RedisCachingDb;
 using GoalFinder.GoogleSmtpServerForMail;
+using GoalFinder.AppOTP;
 
 // Default setting.
 AppContext.SetSwitch(
@@ -37,6 +38,7 @@ services.ConfigApplication();
 services.ConfigMySqlRelationalDatabase(configuration: config);
 services.ConfigCloudinaryImageStorage();
 services.ConfigAppJwtIdentityService();
+services.ConfigAppOTP();
 services.AddRedisCachingDatabase(configuration: config);
 services.ConfigGoogleSmtpMailNotification(configuration: config);
 
@@ -73,6 +75,7 @@ await using (var scope = app.Services.CreateAsyncScope())
 
 // Configure the HTTP request pipeline.
 app
+    .UseCors()
     .UseExceptionHandler()
     .UseAuthentication()
     .UseAuthorization()

@@ -1,4 +1,5 @@
-﻿using GoalFinder.Data.Repositories.InsertErrorLog;
+﻿using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 
 namespace GoalFinder.Data.UnitOfWork;
@@ -17,4 +18,8 @@ public interface IUnitOfWork
     ///     Gets the insert error log repository.
     /// </summary>
     IInsertErrorLogRepository InsertErrorLogRepository { get; }
+    /// <summary>
+    ///     Gets the forgot password repository.
+    /// </summary>
+    IForgotPasswordRepository ForgotPasswordRepository { get; }
 }

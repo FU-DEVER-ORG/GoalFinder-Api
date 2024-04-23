@@ -8,8 +8,8 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Oth
 
 public class ForgotPasswordHttpReponse
 {
-    [JsonIgnore]
-    public int HttpCode { get; init; }
+    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int HttpCode { get; set; }
 
     public string AppCode { get; init; } = ForgotPasswordReponseStatusCode.OPERATION_SUCCESS.ToAppCode();
 

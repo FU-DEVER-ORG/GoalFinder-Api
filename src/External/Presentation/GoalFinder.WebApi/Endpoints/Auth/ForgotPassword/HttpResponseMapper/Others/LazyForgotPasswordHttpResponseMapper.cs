@@ -1,7 +1,8 @@
-﻿using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
+﻿namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
-
+/// <summary>
+/// Forgot password extension method
+/// </summary>
 internal static class LazyForgotPasswordHttpResponseMapper
 {
     private static ForgotPasswordHttpResponseManager _forgotPasswordHttpResponseManager;
