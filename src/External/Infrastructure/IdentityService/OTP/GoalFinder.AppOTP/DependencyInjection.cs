@@ -9,9 +9,11 @@ namespace GoalFinder.AppOTP;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Config App OTP
+    ///     Config App OTP
     /// </summary>
-    /// <param name="services"></param>
+    /// <param name="services">
+    ///     Service Collection for managing services.
+    /// </param>
     public static void ConfigAppOTP(this IServiceCollection services)
     {
         services.ConfigCore();

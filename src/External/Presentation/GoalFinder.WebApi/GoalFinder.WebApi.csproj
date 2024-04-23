@@ -15,9 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Endpoints\Auth\ResetPassword\**" />
     <Compile Remove="Others\HttpResponseMapper\**" />
+    <Content Remove="Endpoints\Auth\ResetPassword\**" />
     <Content Remove="Others\HttpResponseMapper\**" />
+    <EmbeddedResource Remove="Endpoints\Auth\ResetPassword\**" />
     <EmbeddedResource Remove="Others\HttpResponseMapper\**" />
+    <None Remove="Endpoints\Auth\ResetPassword\**" />
     <None Remove="Others\HttpResponseMapper\**" />
   </ItemGroup>
 
@@ -36,10 +40,5 @@
     <ProjectReference Include="..\..\Infrastructure\Notification\Mail\GoalFinder.GoogleSmtpServerForMail\GoalFinder.GoogleSmtpServerForMail.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Caching\GoalFinder.RedisCachingDb\GoalFinder.RedisCachingDb.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Endpoints\Auth\ResetPassword\" />
   </ItemGroup>
 </Project>

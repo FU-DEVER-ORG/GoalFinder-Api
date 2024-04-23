@@ -4,14 +4,10 @@ using GoalFinder.Application.Features.Auth.ForgotPassword;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 /// <summary>
-///     UserIsTemporarilyRemovedHttpResponse
+///     User is temporarily removed http response.
 /// </summary>
 internal sealed class UserIsTemporarilyRemovedHttpResponse : ForgotPasswordHttpReponse
 {
-    /// <summary>
-    ///     UserIsTemporarilyRemovedHttpResponse
-    /// </summary>
-    /// <param name="response"></param>
     internal UserIsTemporarilyRemovedHttpResponse(ForgotPasswordResponse response)
     {
         HttpCode = StatusCodes.Status403Forbidden;
