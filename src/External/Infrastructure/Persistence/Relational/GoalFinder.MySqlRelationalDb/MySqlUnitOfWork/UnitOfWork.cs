@@ -1,9 +1,11 @@
 ﻿using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
+using GoalFinder.Data.Repositories.RegisterAsUser;
 using GoalFinder.Data.UnitOfWork;
 using GoalFinder.MySqlRelationalDb.Data;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
+using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
 
 namespace GoalFinder.MySqlRelationalDb.MySqlUnitOfWork;
 
@@ -15,6 +17,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private readonly GoalFinderContext _context;
     private ILoginRepository _loginRepository;
     private IInsertErrorLogRepository _insertErrorLogRepository;
+    private IRegisterAsUserRepository _registerAsUserRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -38,6 +41,16 @@ internal sealed class UnitOfWork : IUnitOfWork
             _insertErrorLogRepository ??= new InsertErrorLogRepository(context: _context);
 
             return _insertErrorLogRepository;
+        }
+    }
+
+    public IRegisterAsUserRepository RegisterAsUserRepository
+    {
+        get
+        {
+            _registerAsUserRepository ??= new RegisterAsUserRepository(context: _context);
+
+            return _registerAsUserRepository;
         }
     }
 }

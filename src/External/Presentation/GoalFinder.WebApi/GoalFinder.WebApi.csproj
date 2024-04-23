@@ -30,8 +30,4 @@
     <ProjectReference Include="..\..\Infrastructure\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\Common\" />
-  </ItemGroup>
-
 </Project>

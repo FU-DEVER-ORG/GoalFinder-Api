@@ -1,33 +1,35 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
+using GoalFinder.Application.Features.Auth.Register;
 using GoalFinder.Application.Shared.Caching;
-using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Common;
+using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper.Others;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
+namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Middlewares.Caching;
 
 /// <summary>
-///     Post-processor for login caching.
+///     Post-processor for register as user caching.
 /// </summary>
-internal sealed class LoginCachingPostProcessor : PostProcessor<
-    LoginRequest,
-    LoginStateBag,
-    LoginHttpResponse>
+internal sealed class RegisterAsUserCachingPostProcessor : PostProcessor<
+    RegisterAsUserRequest,
+    RegisterAsUserStateBag,
+    RegisterAsUserHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public LoginCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
+    public RegisterAsUserCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
     public override async Task PostProcessAsync(
-        IPostProcessorContext<LoginRequest, LoginHttpResponse> context,
-        LoginStateBag state,
+        IPostProcessorContext<RegisterAsUserRequest, RegisterAsUserHttpResponse> context,
+        RegisterAsUserStateBag state,
         CancellationToken ct)
     {
         if (Equals(objA: context.Response, objB: default)) { return; }
@@ -38,9 +40,7 @@ internal sealed class LoginCachingPostProcessor : PostProcessor<
 
         // Set new cache if current app code is suitable.
         if (context.Response.AppCode.Equals(value:
-                LoginResponseStatusCode.USER_IS_NOT_FOUND.ToAppCode()) ||
-            context.Response.AppCode.Equals(value:
-                LoginResponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()))
+                RegisterAsUserResponseStatusCode.USER_IS_EXISTED.ToAppCode()))
         {
             // Caching the return value.
             await cacheHandler.SetAsync(
@@ -51,6 +51,15 @@ internal sealed class LoginCachingPostProcessor : PostProcessor<
                     AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(
                         seconds: state.CacheDurationInSeconds)
                 },
+                cancellationToken: ct);
+        }
+
+        // If registered successfully, remove login cache.
+        else if (context.Response.AppCode.Equals(value:
+                RegisterAsUserResponseStatusCode.OPERATION_SUCCESS.ToAppCode()))
+        {
+            await cacheHandler.RemoveAsync(
+                key: $"{nameof(LoginHttpResponse)}_username_{context.Request.Email}",
                 cancellationToken: ct);
         }
     }
