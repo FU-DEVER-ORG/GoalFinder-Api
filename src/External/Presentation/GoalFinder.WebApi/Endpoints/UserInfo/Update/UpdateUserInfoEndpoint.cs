@@ -1,12 +1,12 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.UserInfo.Update;
-using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others;
 using GoalFinder.WebApi.Endpoints.UserInfo.Update.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.UserInfo.Update.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.Update
 {

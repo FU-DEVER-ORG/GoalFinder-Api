@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.UserInfo.Update;
 using GoalFinder.Data.Entities;
-using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper;
 using GoalFinder.WebApi.Shared.DTO;
 using System.Collections.Generic;
 using System.Linq;

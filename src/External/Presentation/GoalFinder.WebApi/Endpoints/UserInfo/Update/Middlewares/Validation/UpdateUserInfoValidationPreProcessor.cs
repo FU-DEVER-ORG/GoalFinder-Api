@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.UserInfo.Update;
 using GoalFinder.WebApi.Endpoints.UserInfo.Update.Common;
-using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Threading.Tasks;

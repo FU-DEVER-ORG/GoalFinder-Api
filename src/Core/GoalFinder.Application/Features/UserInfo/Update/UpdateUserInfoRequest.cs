@@ -21,7 +21,7 @@ namespace GoalFinder.Application.Features.UserInfo.Update
         public string AvatarUrl { get; init; }
 
         public string Experience { get; init; }
-        public IEnumerable<UserPosition> Position { get; init; }
+        //public IEnumerable<UserPosition> Position { get; init; }
         public string CompetitionLevel { get; init; }
 
 

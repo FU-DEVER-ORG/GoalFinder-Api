@@ -4,7 +4,7 @@ using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
 using GoalFinder.WebApi.Endpoints.UserInfo.Update.Common;
-using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;

@@ -3,7 +3,7 @@ using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.Application.Features.UserInfo.Update;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.UserInfo.Update.Common;
-using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading;

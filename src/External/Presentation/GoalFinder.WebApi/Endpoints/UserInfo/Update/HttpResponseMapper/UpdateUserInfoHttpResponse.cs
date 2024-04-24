@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 using System;
 using GoalFinder.Application.Features.UserInfo.Update;
 
-namespace GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others
+namespace GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper
 {
-    public class UpdateUserInfoHttpResponse
+    internal sealed class UpdateUserInfoHttpResponse
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int HttpCode { get; set; }

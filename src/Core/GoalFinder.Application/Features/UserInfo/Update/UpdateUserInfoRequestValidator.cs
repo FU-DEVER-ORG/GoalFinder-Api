@@ -51,9 +51,9 @@ namespace GoalFinder.Application.Features.UserInfo.Update
                 .MaximumLength(maximumLength: Data.Entities.Experience.MetaData.FullName.MaxLength)
                 .MinimumLength(minimumLength: Data.Entities.Experience.MetaData.FullName.MinLength);
 
-            RuleFor(expression: request => request.Position)
-               .Cascade(cascadeMode: CascadeMode.Stop)
-               .NotEmpty();
+            //RuleFor(expression: request => request.Position)
+            //   .Cascade(cascadeMode: CascadeMode.Stop)
+            //   .NotEmpty();
 
             RuleFor(expression: request => request.CompetitionLevel)
                 .Cascade(cascadeMode: CascadeMode.Stop)

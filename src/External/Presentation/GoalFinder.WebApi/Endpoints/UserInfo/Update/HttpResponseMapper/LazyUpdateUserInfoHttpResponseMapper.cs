@@ -1,4 +1,4 @@
-﻿namespace GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper.Others
+﻿namespace GoalFinder.WebApi.Endpoints.UserInfo.Update.HttpResponseMapper
 {
     internal static class LazyUpdateUserInfoHttpResponseMapper
     {
