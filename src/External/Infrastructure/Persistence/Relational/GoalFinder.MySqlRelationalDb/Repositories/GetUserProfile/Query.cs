@@ -11,7 +11,6 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile
 {
     internal sealed partial class GetUserProfileRepository
     {
-
         public Task<bool> IsUserTemporarilyRemovedQueryAsync(
             Guid userId,
             CancellationToken cancellationToken)
@@ -23,46 +22,55 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile
                     userDetail.RemovedAt != DateTime.MinValue)
                 .AnyAsync(cancellationToken: cancellationToken);
         }
+
         public async Task<UserDetail> GetUserDetailAsync(Guid userId, CancellationToken cancellationToken)
         {
             return await _userDetails
             .AsNoTracking()
-            .Where(userdetail => userdetail.UserId == userId)
-            .Include(userdetail => userdetail.UserPositions)
-            .ThenInclude(userPositions => userPositions.Position.FullName)
-            .Select(userdetail => new UserDetail
+            .Where(predicate: userDetail => userDetail.UserId == userId)
+            .Select(selector: userDetail => new UserDetail
             {
-                FirstName = userdetail.FirstName,
-                LastName = userdetail.LastName,
-                Description = userdetail.Description,
-                PrestigeScore = userdetail.PrestigeScore,
-                Address = userdetail.Address,
-                AvatarUrl = userdetail.AvatarUrl,
-                Experience = userdetail.Experience,
-                CompetitionLevel = userdetail.CompetitionLevel,
-                UserPositions = userdetail.UserPositions
+                FirstName = userDetail.FirstName,
+                LastName = userDetail.LastName,
+                Description = userDetail.Description,
+                PrestigeScore = userDetail.PrestigeScore,
+                Address = userDetail.Address,
+                AvatarUrl = userDetail.AvatarUrl,
+                Experience = new()
+                {
+                    FullName = userDetail.Experience.FullName,
+                },
+                CompetitionLevel = new()
+                {
+                    FullName = userDetail.CompetitionLevel.FullName,
+                },
+                UserPositions = userDetail.UserPositions.Select(
+                    userPosition => new UserPosition
+                    {
+                        Position = new()
+                        {
+                            FullName = userPosition.Position.FullName,
+                        }
+                    }),
             }).FirstAsync();
         }
+
         public async Task<IEnumerable<FootballMatch>> GetFootballMatchByIdAsync(Guid userId, CancellationToken cancellationToken)
         {
             return await _matchPlayer
             .AsNoTracking()
-            .Where(matchPlayer => matchPlayer.PlayerId == userId)
-            .Select(matchPlayer => matchPlayer.FootballMatch) // Include
-            .Select(match => new FootballMatch
+            .Where(predicate: matchPlayer => matchPlayer.PlayerId == userId)
+            .Select(matchPlayer => new FootballMatch
             {
-                Id = match.Id,
-                PitchAddress = match.PitchAddress,
-                MaxMatchPlayersNeed = match.MaxMatchPlayersNeed,
-                PitchPrice = match.PitchPrice,
-                Description = match.Description,
-                StartTime = match.StartTime,
-                Address = match.Address,
-                CompetitionLevel = match.CompetitionLevel,
+                Id = matchPlayer.FootballMatch.Id,
+                PitchAddress = matchPlayer.FootballMatch.PitchAddress,
+                MaxMatchPlayersNeed = matchPlayer.FootballMatch.MaxMatchPlayersNeed,
+                PitchPrice = matchPlayer.FootballMatch.PitchPrice,
+                Description = matchPlayer.FootballMatch.Description,
+                StartTime = matchPlayer.FootballMatch.StartTime,
+                Address = matchPlayer.FootballMatch.Address,
+                CompetitionLevel = matchPlayer.FootballMatch.CompetitionLevel,
             }).ToListAsync();
         }
-
-        
-
     }
 }

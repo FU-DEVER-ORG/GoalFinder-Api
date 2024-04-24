@@ -46,66 +46,41 @@ internal sealed class GetUserProfileHandler : IFeatureHandler<
         CancellationToken ct)
     {
         //Find User By username
-        // var foundUser = await _userManager.FindByNameAsync(userName: command.UserName);
+        var foundUser = await _userManager.FindByNameAsync(userName: command.UserName);
 
         //Validate User
-        // if (Equals(objA: foundUser, objB: default))
-        // {
-        //     return new()
-        //     {
-        //         StatusCode = GetUserProfileResponseStatusCode.USER_IS_NOT_FOUND
-        //     };
-        // }
-
+        if (Equals(objA: foundUser, objB: default))
+        {
+            return new()
+            {
+                StatusCode = GetUserProfileResponseStatusCode.USER_IS_NOT_FOUND
+            };
+        }
 
         // Is user not temporarily removed.
-        // var isUserTemporarilyRemoved = await _unitOfWork.LoginRepository
-        //     .IsUserTemporarilyRemovedQueryAsync(
-        //         userId: foundUser.Id,
-        //         cancellationToken: ct);
+        var isUserTemporarilyRemoved = await _unitOfWork.GetUserProfileRepository
+            .IsUserTemporarilyRemovedQueryAsync(
+                userId: foundUser.Id,
+                cancellationToken: ct);
 
         // User is temporarily removed.
-        // if (isUserTemporarilyRemoved)
-        // {
-        //     return new()
-        //     {
-        //         StatusCode = GetUserProfileResponseStatusCode.USER_IS_TEMPORARILY_REMOVED
-        //     };
-        // }
+        if (isUserTemporarilyRemoved)
+        {
+            return new()
+            {
+                StatusCode = GetUserProfileResponseStatusCode.USER_IS_TEMPORARILY_REMOVED
+            };
+        }
 
         //Get UserDetail
-        // var userDetail = await _unitOfWork.GetUserProfileRepository
-        //     .GetUserDetailAsync(userId: foundUser.Id, cancellationToken: ct);
+        var userDetail = await _unitOfWork.GetUserProfileRepository
+            .GetUserDetailAsync(userId: foundUser.Id, cancellationToken: ct);
 
-        var userDetail = await _unitOfWork.GetUserProfileFakeDb.GetUserDetailAsync(userId: Guid.NewGuid(), cancellationToken: ct);
-
-        var userDetail1 = userDetail.UserPositions.Select(x => x?.Position?.FullName);
         //Get matches of user
-        // var matches = await _unitOfWork.GetUserProfileRepository
-        //     .GetFootballMatchByIdAsync(userId: foundUser.Id, cancellationToken: ct);
+        var matches = await _unitOfWork.GetUserProfileRepository
+            .GetFootballMatchByIdAsync(userId: foundUser.Id, cancellationToken: ct);
 
-        var matches = await _unitOfWork.GetUserProfileFakeDb.GetFootballMatchByIdAsync(userId: Guid.NewGuid(), cancellationToken: ct);
-
-
-        var footballMatchesResponse = matches.Select(match => new GetUserProfileResponse.Body.FootballMatch
-        {
-            Id = match.Id,
-            PitchAddress = match?.PitchAddress,
-            MaxMatchPlayersNeed = match.MaxMatchPlayersNeed,
-            PitchPrice = match.PitchPrice,
-            Description = match.Description,
-            StartTime = match.StartTime.ToString(),
-            Address = match.Address,
-            CompetitionLevel = match?.CompetitionLevel?.FullName
-        });
-        
-        return new()
-        {
-            StatusCode = GetUserProfileResponseStatusCode.OPERATION_SUCCESS,
-            ResponseBody = new()
-            {
-                UserDetail = new()
-                {
+        var userDetailResponse = new GetUserProfileResponse.Body.User {
                     LastName = userDetail.LastName,
 
                     FirstName = userDetail.FirstName,
@@ -122,8 +97,27 @@ internal sealed class GetUserProfileHandler : IFeatureHandler<
 
                     CompetitionLevel = userDetail.CompetitionLevel.FullName,
 
-                    Positions = userDetail1
-                },
+                    Positions = userDetail.UserPositions.Select(x => x?.Position?.FullName)
+        };
+
+        var footballMatchesResponse = matches.Select(match => new GetUserProfileResponse.Body.FootballMatch
+        {
+            Id = match.Id,
+            PitchAddress = match.PitchAddress,
+            MaxMatchPlayersNeed = match.MaxMatchPlayersNeed,
+            PitchPrice = match.PitchPrice,
+            Description = match.Description,
+            StartTime = match.StartTime.ToString(),
+            Address = match.Address,
+            CompetitionLevel = match.CompetitionLevel?.FullName
+        });
+        
+        return new()
+        {
+            StatusCode = GetUserProfileResponseStatusCode.OPERATION_SUCCESS,
+            ResponseBody = new()
+            {
+                UserDetail = userDetailResponse,
                 FootballMatches = footballMatchesResponse
             }
 

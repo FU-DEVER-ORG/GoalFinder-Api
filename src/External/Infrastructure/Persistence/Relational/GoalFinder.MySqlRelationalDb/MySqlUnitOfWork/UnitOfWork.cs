@@ -23,8 +23,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IInsertErrorLogRepository _insertErrorLogRepository;
     private IForgotPasswordRepository _forgotPasswordRepository;
     private IRegisterAsUserRepository _registerAsUserRepository;
-
     private IGetUserProfileRepository _getUserProfileRepository;
+    
     public UnitOfWork(GoalFinderContext context)
     {
         _context = context;
@@ -78,14 +78,4 @@ internal sealed class UnitOfWork : IUnitOfWork
         }
     }
 
-    // test
-    public IGetUserProfileRepository GetUserProfileFakeDb
-    {
-        get
-        {
-            _getUserProfileRepository ??= new GetUserProfileFakeDb();
-
-            return _getUserProfileRepository;
-        }
-    }
 }

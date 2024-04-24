@@ -35,7 +35,6 @@ public sealed class GetUserProfileResponse : IFeatureResponse
             public string CompetitionLevel { get; init; }
 
             public IEnumerable<string> Positions { get; init; }
-
         }
 
         public sealed class FootballMatch

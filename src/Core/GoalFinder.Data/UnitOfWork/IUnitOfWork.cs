@@ -29,7 +29,10 @@ public interface IUnitOfWork
     ///     Gets the register as user repository.
     /// </summary>
     IRegisterAsUserRepository RegisterAsUserRepository { get; }
+
+    /// <summary>
+    ///     Gets the user profile repository 
+    /// </summary>
     IGetUserProfileRepository GetUserProfileRepository { get; }
-    IGetUserProfileRepository GetUserProfileFakeDb { get; }
 
 }

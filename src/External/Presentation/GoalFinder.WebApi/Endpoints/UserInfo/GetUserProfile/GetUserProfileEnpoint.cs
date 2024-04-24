@@ -82,21 +82,13 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile
             .Resolve(statusCode: appResponse.StatusCode)
             .Invoke(arg1: req, arg2: appResponse);
 
-        /*
-         * Store the real http code of http response into a temporary variable.
-         * Set the http code of http response to default for not serializing.
-         */
         var httpResponseStatusCode = httpResponse.HttpCode;
-        // httpResponse.HttpCode = default;
 
         // Send http response to client.
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponseStatusCode,
             cancellation: ct);
-
-        // Set the http code of http response back to real one.
-        httpResponse.HttpCode = httpResponseStatusCode;
 
         return httpResponse;
     }

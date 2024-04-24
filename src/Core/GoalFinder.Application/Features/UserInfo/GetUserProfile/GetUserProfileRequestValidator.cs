@@ -15,8 +15,7 @@ public sealed class GetUserProfileRequestValidator : FeatureRequestValidator<
 
         RuleFor(expression: request => request.UserName)
             .Cascade(cascadeMode: CascadeMode.Stop)
-            // .NotEmpty()
-            // .EmailAddress()
+            .EmailAddress()
             .MaximumLength(maximumLength: Data.Entities.User.MetaData.UserName.MaxLength)
             .MinimumLength(minimumLength: Data.Entities.User.MetaData.UserName.MinLength);
     }
