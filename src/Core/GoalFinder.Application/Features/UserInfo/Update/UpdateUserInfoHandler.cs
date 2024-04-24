@@ -94,5 +94,7 @@ namespace GoalFinder.Application.Features.UserInfo.Update
             updateUser.UpdatedBy = command.UserId;
 
         }
+
+
     }
 }

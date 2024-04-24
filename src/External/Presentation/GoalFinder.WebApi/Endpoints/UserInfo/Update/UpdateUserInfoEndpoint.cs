@@ -6,10 +6,11 @@ using GoalFinder.WebApi.Endpoints.UserInfo.Update.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Threading;
+using System;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.Update
 {
-    internal sealed class UpdateUserInfoEndpoint : Endpoint<UpdateUserInfoRequest, UpdateUserInfoHttpResponse>
+    internal sealed class UpdateUserInfoEndpoint : Endpoint<UpdateUserInfoRequest, UpdateUserInfoHttpResponse, UpdateUserInfoMapper>
     {
         public override void Configure()
         {
@@ -37,7 +38,8 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.Update
                     example: new()
                     {
                         HttpCode = StatusCodes.Status200OK,
-                        AppCode = UpdateUserInfoResponseStatusCode.UPDATE_SUCCESS.ToAppCode()
+                        AppCode = UpdateUserInfoResponseStatusCode.UPDATE_SUCCESS.ToAppCode(),
+                        
                     });
             });
         }
