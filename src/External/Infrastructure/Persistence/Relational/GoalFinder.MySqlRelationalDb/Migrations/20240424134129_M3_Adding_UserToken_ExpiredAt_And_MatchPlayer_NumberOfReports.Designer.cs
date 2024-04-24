@@ -3,6 +3,7 @@ using System;
 using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoalFinder.MySqlRelationalDb.Migrations
 {
     [DbContext(typeof(GoalFinderContext))]
-    partial class GoalFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20240424134129_M3_Adding_UserToken_ExpiredAt_And_MatchPlayer_NumberOfReports")]
+    partial class M3_Adding_UserToken_ExpiredAt_And_MatchPlayer_NumberOfReports
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

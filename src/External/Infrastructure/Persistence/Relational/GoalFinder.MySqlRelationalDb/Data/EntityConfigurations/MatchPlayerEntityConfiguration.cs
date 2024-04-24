@@ -23,5 +23,9 @@ internal sealed class MatchPlayerEntityConfiguration :
             matchPlayer.MatchId,
             matchPlayer.PlayerId
         });
+
+        builder
+            .Property(propertyExpression: matchPlayer => matchPlayer.NumberOfReports)
+            .IsRequired();
     }
 }
