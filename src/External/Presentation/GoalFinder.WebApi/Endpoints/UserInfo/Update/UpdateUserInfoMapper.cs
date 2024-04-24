@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.Update
 {
-    public class UpdateUserInfoMapper : Mapper<UpdateUserInfoRequest, UpdateUserInfoHttpResponse, UpdateUserInfoDTO>
+    internal class UpdateUserInfoMapper : Mapper<UpdateUserInfoRequest, UpdateUserInfoHttpResponse, UpdateUserInfoDTO>
     {
         public override UpdateUserInfoDTO ToEntity(UpdateUserInfoRequest r)
         {

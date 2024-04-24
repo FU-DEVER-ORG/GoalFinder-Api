@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using GoalFinder.Application.Features.Auth.ForgotPassword;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.Application.Features.Auth.Register;
 using GoalFinder.Application.Shared.Caching;
@@ -56,11 +57,15 @@ internal sealed class RegisterAsUserCachingPostProcessor : PostProcessor<
 
         // If registered successfully, remove login cache.
         else if (context.Response.AppCode.Equals(value:
-                RegisterAsUserResponseStatusCode.OPERATION_SUCCESS.ToAppCode()))
+            RegisterAsUserResponseStatusCode.OPERATION_SUCCESS.ToAppCode()))
         {
-            await cacheHandler.RemoveAsync(
-                key: $"{nameof(LoginHttpResponse)}_username_{context.Request.Email}",
-                cancellationToken: ct);
+            await Task.WhenAll(
+                cacheHandler.RemoveAsync(
+                    key: $"{nameof(ForgotPasswordRequest)}_username_{context.Request.Email}",
+                    cancellationToken: ct),
+                cacheHandler.RemoveAsync(
+                    key: $"{nameof(LoginHttpResponse)}_username_{context.Request.Email}",
+                    cancellationToken: ct));
         }
     }
 }
