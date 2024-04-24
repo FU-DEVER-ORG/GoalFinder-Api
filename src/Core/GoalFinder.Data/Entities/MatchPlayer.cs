@@ -13,6 +13,8 @@ public class MatchPlayer : IBaseEntity
     public Guid MatchId { get; set; }
 
     public Guid PlayerId { get; set; }
+    
+    public int NumberOfReports { get; set; }
 
     // Navigation properties.
     public FootballMatch FootballMatch { get; set; }

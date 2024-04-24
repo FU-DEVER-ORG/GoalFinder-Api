@@ -1,4 +1,4 @@
-﻿namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
+﻿namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 
 /// <summary>
 ///     Forgot password extension method

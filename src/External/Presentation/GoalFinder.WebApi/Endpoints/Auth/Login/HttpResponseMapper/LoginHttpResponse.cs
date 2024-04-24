@@ -1,20 +1,19 @@
-﻿
 using System.Collections.Generic;
 using System;
-using GoalFinder.Application.Features.Auth.ForgotPassword;
+using GoalFinder.Application.Features.Auth.Login;
 using System.Text.Json.Serialization;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
+namespace GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 
 /// <summary>
-///     Forgot password http response
+///     Implementation for login http response.
 /// </summary>
-public class ForgotPasswordHttpReponse
+internal sealed class LoginHttpResponse
 {
-    [JsonIgnore (Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int HttpCode { get; set; }
 
-    public string AppCode { get; init; } = ForgotPasswordReponseStatusCode.OPERATION_SUCCESS.ToAppCode();
+    public string AppCode { get; init; } = LoginResponseStatusCode.OPERATION_SUCCESS.ToAppCode();
 
     public DateTime ResponseTime { get; init; } = TimeZoneInfo.ConvertTimeFromUtc(
         dateTime: DateTime.UtcNow,

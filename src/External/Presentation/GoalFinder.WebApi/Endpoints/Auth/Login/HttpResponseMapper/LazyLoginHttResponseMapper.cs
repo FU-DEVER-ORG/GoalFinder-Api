@@ -1,4 +1,4 @@
-﻿namespace GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
+﻿namespace GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 
 /// <summary>
 ///     login extension methods.

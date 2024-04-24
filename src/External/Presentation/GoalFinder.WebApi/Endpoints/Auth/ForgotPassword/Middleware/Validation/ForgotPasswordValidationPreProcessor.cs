@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.ForgotPassword;
 using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Common;
-using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 using System.Threading;
 using System.Threading.Tasks;
 
