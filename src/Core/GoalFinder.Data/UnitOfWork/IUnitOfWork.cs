@@ -1,4 +1,5 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
@@ -28,4 +29,7 @@ public interface IUnitOfWork
     ///     Gets the register as user repository.
     /// </summary>
     IRegisterAsUserRepository RegisterAsUserRepository { get; }
+    IGetUserProfileRepository GetUserProfileRepository { get; }
+    IGetUserProfileRepository GetUserProfileFakeDb { get; }
+
 }
