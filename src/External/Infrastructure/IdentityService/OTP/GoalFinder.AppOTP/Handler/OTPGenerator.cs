@@ -1,15 +1,10 @@
 ﻿using GoalFinder.Application.Shared.Tokens.OTP;
-using GoalFinder.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GoalFinder.AppOTP.Handler;
 
-internal class OTPGenerator : IOtpHandler
+internal sealed class OtpGenerator : IOtpHandler
 {
     public string Generate(int length)
     {
