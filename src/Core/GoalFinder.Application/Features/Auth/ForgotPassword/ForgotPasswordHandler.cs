@@ -4,7 +4,6 @@ using GoalFinder.Application.Shared.Tokens.OTP;
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,8 +12,8 @@ namespace GoalFinder.Application.Features.Auth.ForgotPassword;
 /// <summary>
 /// Forgot Password Handler
 /// </summary>
-/// 
-internal sealed class ForgotPasswordHandler : 
+///
+internal sealed class ForgotPasswordHandler :
     IFeatureHandler<ForgotPasswordRequest, ForgotPasswordResponse>
 {
     private readonly UserManager<Data.Entities.User> _userManager;
@@ -29,7 +28,7 @@ internal sealed class ForgotPasswordHandler :
     /// <param name="otpHandler"></param>
     /// <param name="unitOfWork"></param>
     public ForgotPasswordHandler(
-        UserManager<User> userManager, 
+        UserManager<User> userManager,
         ISendingMailHandler sendingMailHandler,
         IOtpHandler otpHandler,
         IUnitOfWork unitOfWork
@@ -47,12 +46,12 @@ internal sealed class ForgotPasswordHandler :
     /// <param name="ct"></param>
     /// <returns></returns>
     public async Task<ForgotPasswordResponse> ExecuteAsync(
-        ForgotPasswordRequest command, 
+        ForgotPasswordRequest command,
         CancellationToken ct)
     {
         //Find User By UserName
         var foundUser = await _userManager.FindByNameAsync(userName: command.UserName);
-        
+
         //Validate User
         if (Equals(objA: foundUser, objB: default(User)))
         {
@@ -80,7 +79,7 @@ internal sealed class ForgotPasswordHandler :
         //Sending Feature are currently skipping
 
         //Add reset password OTP Code to database
-        var dbResultAfterAddingOtp = await 
+        var dbResultAfterAddingOtp = await
             _unitOfWork.ForgotPasswordRepository
             .AddResetPasswordTokenToDatabaseAsync(
                 foundUser.Id, resetPasswordOTPCode, ct);

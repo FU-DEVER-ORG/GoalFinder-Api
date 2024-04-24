@@ -2,9 +2,6 @@
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 namespace GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 /// <summary>
 /// Forgot Password Repository

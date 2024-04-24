@@ -16,6 +16,10 @@ internal sealed class InputValidationFailHttpResponse : ForgotPasswordHttpRepons
     internal InputValidationFailHttpResponse(ForgotPasswordResponse response)
     {
         HttpCode = StatusCodes.Status400BadRequest;
-        AppCode = response.StatusCode.ToAppCode(); 
+        AppCode = response.StatusCode.ToAppCode();
+        ErrorMessages =
+        [
+           "Input validation fail. Please check your inputs and try again."
+        ];
     }
 }

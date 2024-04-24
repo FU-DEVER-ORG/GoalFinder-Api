@@ -13,10 +13,10 @@ public sealed class ForgotPasswordRequestValidator :
     {
         ClassLevelCascadeMode = CascadeMode.Stop;
         RuleFor(expression: request => request.UserName)
-           .Cascade(cascadeMode: CascadeMode.Stop)
-           .NotEmpty()
-           .EmailAddress()
-           .MaximumLength(maximumLength: Data.Entities.User.MetaData.UserName.MaxLength)
-           .MinimumLength(minimumLength: Data.Entities.User.MetaData.UserName.MinLength);
+            .Cascade(cascadeMode: CascadeMode.Stop)
+            .NotEmpty()
+            .EmailAddress()
+            .MaximumLength(maximumLength: Data.Entities.User.MetaData.UserName.MaxLength)
+            .MinimumLength(minimumLength: Data.Entities.User.MetaData.UserName.MinLength);
     }
 }

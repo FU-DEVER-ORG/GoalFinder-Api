@@ -17,5 +17,9 @@ internal sealed class DatabaseOperationFailHttpResponse : ForgotPasswordHttpRepo
     {
         HttpCode = StatusCodes.Status500InternalServerError;
         AppCode = response.StatusCode.ToAppCode();
+        ErrorMessages =
+        [
+            "Server error !!!"
+        ];
     }
 }
