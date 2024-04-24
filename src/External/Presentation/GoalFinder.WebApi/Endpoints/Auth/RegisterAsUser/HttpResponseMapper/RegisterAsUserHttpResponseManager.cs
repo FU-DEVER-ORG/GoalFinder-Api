@@ -1,8 +1,9 @@
 using GoalFinder.Application.Features.Auth.Register;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper.Others;
+namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper;
 
 /// <summary>
 ///     Http response manager for register as user feature.
@@ -23,25 +24,43 @@ internal sealed class RegisterAsUserHttpResponseManager
 
         _dictionary.Add(
             key: RegisterAsUserResponseStatusCode.DATABASE_OPERATION_FAIL,
-            value: (_, response) => new DatabaseOperationFailHttpResponse(response: response));
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status500InternalServerError,
+                AppCode = response.StatusCode.ToAppCode()
+            });
 
         _dictionary.Add(
             key: RegisterAsUserResponseStatusCode.INPUT_VALIDATION_FAIL,
-            value: (_, response) => new InputValidationFailHttpResponse(response: response));
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
 
         _dictionary.Add(
             key: RegisterAsUserResponseStatusCode.OPERATION_SUCCESS,
-            value: (_, response) => new OperationSuccessHttpResponse(response: response));
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status200OK,
+                AppCode = response.StatusCode.ToAppCode(),
+            });
 
         _dictionary.Add(
             key: RegisterAsUserResponseStatusCode.USER_PASSWORD_IS_NOT_VALID,
-            value: (_, response) => new UserPasswordIsNotValidHttpResponse(response: response));
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode(),
+            });
 
         _dictionary.Add(
             key: RegisterAsUserResponseStatusCode.USER_IS_EXISTED,
-            value: (request, response) => new UserIsExistedHttpResponse(
-                request: request,
-                response: response));
+            value: (request, response) => new()
+            {
+                HttpCode = StatusCodes.Status409Conflict,
+                AppCode = response.StatusCode.ToAppCode(),
+            });
     }
 
     internal Func<

@@ -2,7 +2,7 @@
 using GoalFinder.Application.Features.Auth.Register;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Common;
-using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using System.Threading.Tasks;

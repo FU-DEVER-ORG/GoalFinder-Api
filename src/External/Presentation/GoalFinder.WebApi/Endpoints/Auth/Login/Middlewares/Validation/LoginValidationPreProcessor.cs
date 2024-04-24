@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
-using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 using System.Threading;
 using System.Threading.Tasks;
 
