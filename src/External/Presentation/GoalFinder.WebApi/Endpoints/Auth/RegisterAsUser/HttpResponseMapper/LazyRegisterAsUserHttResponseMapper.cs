@@ -1,4 +1,4 @@
-﻿namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper.Others;
+﻿namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper;
 
 /// <summary>
 ///     register as user extension methods.

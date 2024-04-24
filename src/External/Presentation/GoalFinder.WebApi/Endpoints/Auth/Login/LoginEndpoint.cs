@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
-using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;

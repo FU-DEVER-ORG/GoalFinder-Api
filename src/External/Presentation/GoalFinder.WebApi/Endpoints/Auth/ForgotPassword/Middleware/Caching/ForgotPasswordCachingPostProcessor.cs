@@ -2,7 +2,7 @@
 using GoalFinder.Application.Features.Auth.ForgotPassword;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Common;
-using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper.Others;
+using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading;

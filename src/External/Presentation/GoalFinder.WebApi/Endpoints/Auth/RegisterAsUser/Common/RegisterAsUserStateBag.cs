@@ -1,7 +1,7 @@
 ﻿namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Common;
 
 /// <summary>
-///     Represents the login state bag.
+///     Represents the register as user state bag.
 /// </summary>
 internal sealed class RegisterAsUserStateBag
 {
