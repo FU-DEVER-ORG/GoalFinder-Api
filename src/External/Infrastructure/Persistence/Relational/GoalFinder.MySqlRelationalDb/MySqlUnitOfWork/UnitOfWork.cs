@@ -23,8 +23,13 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IInsertErrorLogRepository _insertErrorLogRepository;
     private IForgotPasswordRepository _forgotPasswordRepository;
     private IRegisterAsUserRepository _registerAsUserRepository;
+<<<<<<< HEAD
     private IUpdateUserInfoRepository _updateUserInfoRepository;
 
+=======
+    private IGetUserProfileRepository _getUserProfileRepository;
+
+>>>>>>> main
     public UnitOfWork(GoalFinderContext context)
     {
         _context = context;
@@ -75,6 +80,16 @@ internal sealed class UnitOfWork : IUnitOfWork
             _updateUserInfoRepository ??= new UpdateUserInfoRepository(context: _context);
 
             return _updateUserInfoRepository;
+        }
+    }
+
+    public IGetUserProfileRepository GetUserProfileRepository
+    {
+        get
+        {
+            _getUserProfileRepository ??= new GetUserProfileRepository(context: _context);
+
+            return _getUserProfileRepository;
         }
     }
 }

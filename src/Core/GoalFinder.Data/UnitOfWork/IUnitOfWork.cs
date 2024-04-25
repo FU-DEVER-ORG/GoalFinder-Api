@@ -1,4 +1,5 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
@@ -33,5 +34,9 @@ public interface IUnitOfWork
     /// <summary>
     ///     Gets the update user information repository.
     /// </summary>
+
     IUpdateUserInfoRepository UpdateUserInfoRepository { get; }
+    ///     Gets the user profile repository
+    /// </summary>
+    IGetUserProfileRepository GetUserProfileRepository { get; }
 }
