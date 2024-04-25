@@ -6,7 +6,7 @@ using GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.HttpResponseMapper;
 
 /// <summary>
-/// Response mapper for <see cref="ResetPasswordWithOtpResponse"/>
+///     Response mapper for <see cref="ResetPasswordWithOtpResponse"/>
 /// </summary>
 
 internal sealed class ResetPasswordWithOtpHttpResponse

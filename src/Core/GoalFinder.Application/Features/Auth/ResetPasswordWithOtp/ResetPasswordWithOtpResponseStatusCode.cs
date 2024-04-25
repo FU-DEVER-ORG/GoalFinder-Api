@@ -1,7 +1,7 @@
 ﻿namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
 /// <summary>
-/// Reset password with otp response status code for <see cref="ResetPasswordWithOtpResponse"/>
+///     Reset password with otp response status code for <see cref="ResetPasswordWithOtpResponse"/>
 /// </summary>
 
 public enum ResetPasswordWithOtpResponseStatusCode

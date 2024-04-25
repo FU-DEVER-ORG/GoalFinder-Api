@@ -4,7 +4,7 @@ using FluentValidation;
 namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
 /// <summary>
-/// Request validator for <see cref="ResetPasswordWithOtpRequest"/>
+///     Request validator for <see cref="ResetPasswordWithOtpRequest"/>
 /// </summary>
 
 public sealed class ResetPasswordWithOtpRequestValidator :
@@ -14,7 +14,7 @@ public sealed class ResetPasswordWithOtpRequestValidator :
 {
 
     /// <summary>
-    /// Create a new instance of <see cref="ResetPasswordWithOtpRequestValidator"/>
+    ///     Create a new instance of <see cref="ResetPasswordWithOtpRequestValidator"/>
     /// </summary>
 
     private readonly string _PASSWORD_EXPRESSION = @"^(?=.*\d)(?=.*[A-Z]).+$";

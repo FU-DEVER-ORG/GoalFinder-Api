@@ -3,7 +3,7 @@
 namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
 /// <summary>
-/// Request for reset password with otp
+///     Request for reset password with otp
 /// </summary>
 /// <param name="OTPCode"></param>
 

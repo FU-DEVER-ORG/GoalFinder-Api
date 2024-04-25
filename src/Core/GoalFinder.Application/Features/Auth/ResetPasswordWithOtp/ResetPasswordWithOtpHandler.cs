@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
 /// <summary>
-/// Reset password with otp handler
+///     Reset password with otp handler
 /// </summary>
 
 internal class ResetPasswordWithOtpHandler :

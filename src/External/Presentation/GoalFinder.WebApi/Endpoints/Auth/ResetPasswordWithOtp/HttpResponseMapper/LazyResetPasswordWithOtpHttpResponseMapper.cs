@@ -1,7 +1,7 @@
 ﻿namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.HttpResponseMapper;
 
 /// <summary>
-/// Lazy initialization of <see cref="ResetPasswordWithOtpHttpResponseManager"/>
+///     Lazy initialization of <see cref="ResetPasswordWithOtpHttpResponseManager"/>
 /// </summary>
 
 internal static class LazyResetPasswordWithOtpHttpResponseMapper

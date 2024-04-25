@@ -3,7 +3,7 @@
 namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
 /// <summary>
-/// Response for reset password with otp
+///     Response for reset password with otp
 /// </summary>
 
 public sealed class ResetPasswordWithOtpResponse : IFeatureResponse

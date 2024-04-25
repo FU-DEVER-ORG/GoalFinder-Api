@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 
 /// <summary>
-/// Implement <see cref="IResetPasswordWithOtpRepository"/>
+///     Implement <see cref="IResetPasswordWithOtpRepository"/>
 /// </summary>
 
 internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWithOtpRepository

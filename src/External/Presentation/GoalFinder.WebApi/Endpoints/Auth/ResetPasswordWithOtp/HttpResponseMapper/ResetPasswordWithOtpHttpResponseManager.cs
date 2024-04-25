@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.HttpResponseMapper;
 
 /// <summary>
-/// Manager for <see cref="ResetPasswordWithOtpResponse"/>
+///     Manager for <see cref="ResetPasswordWithOtpResponse"/>
 /// </summary>
 
 internal sealed class ResetPasswordWithOtpHttpResponseManager

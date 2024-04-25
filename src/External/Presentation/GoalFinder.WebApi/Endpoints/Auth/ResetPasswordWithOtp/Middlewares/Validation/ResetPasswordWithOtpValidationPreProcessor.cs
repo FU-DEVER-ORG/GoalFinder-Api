@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.Middlewares.Validation;
 
 /// <summary>
-/// PreProcessor for ResetPasswordWithOtp for validation
+///     PreProcessor for ResetPasswordWithOtp for validation
 /// </summary>
 
 internal sealed class ResetPasswordWithOtpValidationPreProcessor :

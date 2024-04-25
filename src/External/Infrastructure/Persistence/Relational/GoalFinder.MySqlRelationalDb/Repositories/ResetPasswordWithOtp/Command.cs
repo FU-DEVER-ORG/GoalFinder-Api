@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 
 /// <summary>
-/// <see cref="ResetPasswordWithOtpRepository"/>
+///     <see cref="ResetPasswordWithOtpRepository"/>
 /// </summary>
 
 internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWithOtpRepository

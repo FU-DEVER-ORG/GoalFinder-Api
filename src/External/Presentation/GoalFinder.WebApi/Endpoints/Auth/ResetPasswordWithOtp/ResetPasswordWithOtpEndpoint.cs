@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp;
 
+/// <summary>
+///     Reset password with otp endpoint
+/// </summary>
+
 internal sealed class ResetPasswordWithOtpEndpoint :
     Endpoint<ResetPasswordWithOtpRequest, ResetPasswordWithOtpHttpResponse>
 {

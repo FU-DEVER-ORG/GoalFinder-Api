@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.Middlewares.Caching;
 
+/// <summary>
+/// Reset Password With Otp Caching Post Processor
+/// </summary>
+
 internal sealed class ResetPasswordWithOptCachingPostProcessor : PostProcessor<
     ResetPasswordWithOtpRequest,
     ResetPasswordWithOtpStateBag,
