@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using System.Linq;
 using GoalFinder.Application.Shared.Commons;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
@@ -17,10 +16,10 @@ internal sealed partial class ForgotPasswordRepository
         CancellationToken cancellationToken)
     {
         return _userDetails
-            .Where(predicate:
+            .AnyAsync(predicate:
                 userDetail => userDetail.UserId == userId &&
                 userDetail.RemovedBy != CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID &&
-                userDetail.RemovedAt != DateTime.MinValue)
-            .AnyAsync(cancellationToken: cancellationToken);
+                userDetail.RemovedAt != DateTime.MinValue,
+                cancellationToken: cancellationToken);
     }
 }

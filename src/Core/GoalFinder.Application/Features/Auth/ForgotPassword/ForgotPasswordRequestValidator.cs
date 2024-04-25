@@ -4,7 +4,7 @@ using FluentValidation;
 namespace GoalFinder.Application.Features.Auth.ForgotPassword;
 
 /// <summary>
-/// Forgot Password Request Validator
+///     Forgot Password Request Validator
 /// </summary>
 public sealed class ForgotPasswordRequestValidator : FeatureRequestValidator<
     ForgotPasswordRequest,

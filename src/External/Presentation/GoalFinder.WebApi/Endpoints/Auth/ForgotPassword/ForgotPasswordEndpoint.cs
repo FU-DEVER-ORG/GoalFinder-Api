@@ -2,6 +2,7 @@
 using GoalFinder.Application.Features.Auth.ForgotPassword;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Middleware.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Middleware.Validation;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
@@ -21,6 +22,8 @@ internal sealed class ForgotPasswordEndpoint : Endpoint<
         Post(routePatterns: "auth/forgot-password");
         AllowAnonymous();
         PreProcessor<ForgotPasswordValidationPreProcessor>();
+        PreProcessor<ForgotPasswordCachingPreProcessor>();
+        PostProcessor<ForgotPasswordCachingPostProcessor>();
         DontThrowIfValidationFails();
         Description(builder: builder =>
         {

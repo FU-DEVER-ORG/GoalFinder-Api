@@ -37,7 +37,8 @@ internal sealed class ForgotPasswordHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status404NotFound,
-                AppCode = response.StatusCode.ToAppCode()
+                AppCode = response.StatusCode.ToAppCode(),
+                ErrorMessages = [$"User with user email {_.UserName} is not found!"]
             });
 
         _dictionary.Add(
@@ -45,7 +46,8 @@ internal sealed class ForgotPasswordHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode()
+                AppCode = response.StatusCode.ToAppCode(),
+                ErrorMessages = [$"Input validation failed!"]
             });
 
         _dictionary.Add(
@@ -53,7 +55,8 @@ internal sealed class ForgotPasswordHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status403Forbidden,
-                AppCode = response.StatusCode.ToAppCode()
+                AppCode = response.StatusCode.ToAppCode(),
+                ErrorMessages = [$"User with user email {_.UserName} is ban or temporarily removed by admintrator!"]
             });
 
         _dictionary.Add(
