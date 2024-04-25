@@ -58,7 +58,7 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
         CancellationToken ct)
     {
         // Find user by username.
-        var foundUser = await _userManager.FindByNameAsync(userName: command.Username);
+        var foundUser = await _userManager.FindByEmailAsync(email: command.Username);
 
         // User with username does not exist.
         if (Equals(objA: foundUser, objB: default))

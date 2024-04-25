@@ -72,22 +72,6 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
         }
 
         #endregion
-
-        // Is user found by user id.
-        var isUserFound = await _unitOfWork.UpdateUserInfoRepository
-            .IsUserFoundByUserIdQueryAsync(
-                userId: command.UserId,
-                cancellationToken: ct);
-
-        // user is not found by user id.
-        if (!isUserFound)
-        {
-            return new()
-            {
-                StatusCode = UpdateUserInfoResponseStatusCode.USER_NOT_FOUND
-            };
-        }
-
         // Is username already taken by other user.
         var isUsernameAlreadyTaken = await _unitOfWork.UpdateUserInfoRepository
             .IsUserNameAlreadyTakenQueryAsync(

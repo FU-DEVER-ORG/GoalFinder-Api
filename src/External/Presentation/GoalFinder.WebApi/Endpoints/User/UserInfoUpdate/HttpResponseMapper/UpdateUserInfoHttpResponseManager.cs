@@ -41,6 +41,22 @@ internal sealed class UpdateUserInfoHttpResponseManager
             });
 
         _dictionary.Add(
+            key: UpdateUserInfoResponseStatusCode.FORBIDDEN,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status403Forbidden,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
+            key: UpdateUserInfoResponseStatusCode.UN_AUTHORIZED,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status401Unauthorized,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
             key: UpdateUserInfoResponseStatusCode.DATABASE_OPERATION_FAIL,
             value: (_, response) => new()
             {

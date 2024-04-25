@@ -1,4 +1,5 @@
-﻿using GoalFinder.Data.Entities;
+﻿using GoalFinder.Application.Shared.Commons;
+using GoalFinder.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,16 @@ internal partial class UpdateUserInfoRepository
             cancellationToken: cancellationToken);
     }
 
-    public Task<bool> IsUserFoundByUserIdQueryAsync(
+    public Task<bool> IsUserTemporarilyRemovedQueryAsync(
         Guid userId,
         CancellationToken cancellationToken)
     {
-        return _userDetails.AnyAsync(
-            predicate: userDetail => userDetail.UserId == userId,
-            cancellationToken: cancellationToken);
+        return _userDetails
+            .Where(predicate:
+                userDetail => userDetail.UserId == userId &&
+                userDetail.RemovedBy != CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID &&
+                userDetail.RemovedAt != DateTime.MinValue)
+            .AnyAsync(cancellationToken: cancellationToken);
     }
 
     public Task<UserDetail> GetUserDetailsQueryAsync(
@@ -67,7 +71,7 @@ internal partial class UpdateUserInfoRepository
         CancellationToken cancellationToken)
     {
         return _competitionLevels.AnyAsync(
-            competitionLevel => competitionLevel.Id
+            predicate: competitionLevel => competitionLevel.Id
                 .Equals(competitionLevelId),
             cancellationToken: cancellationToken);
     }
@@ -77,7 +81,7 @@ internal partial class UpdateUserInfoRepository
         CancellationToken cancellationToken)
     {
         return _experiences.AnyAsync(
-            experience => experience.Id
+            predicate: experience => experience.Id
                 .Equals(experienceId),
             cancellationToken: cancellationToken);
     }
@@ -92,5 +96,14 @@ internal partial class UpdateUserInfoRepository
             .CountAsync(cancellationToken: cancellationToken);
 
         return foundPositionCount == positionIds.Count();
+    }
+
+    public Task<bool> IsRefreshTokenFoundByAccessTokenIdQueryAsync(
+        Guid accessTokenId,
+        CancellationToken cancellationToken)
+    {
+        return _refreshTokens.AnyAsync(
+            predicate: refreshToken => refreshToken.AccessTokenId == accessTokenId,
+            cancellationToken: cancellationToken);
     }
 }

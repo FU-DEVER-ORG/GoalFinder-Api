@@ -13,8 +13,12 @@ public partial interface IUpdateUserInfoRepository
         string userName,
         CancellationToken cancellationToken);
 
-    Task<bool> IsUserFoundByUserIdQueryAsync(
+    Task<bool> IsUserTemporarilyRemovedQueryAsync(
         Guid userId,
+        CancellationToken cancellationToken);
+
+    Task<bool> IsRefreshTokenFoundByAccessTokenIdQueryAsync(
+        Guid accessTokenId,
         CancellationToken cancellationToken);
 
     Task<UserDetail> GetUserDetailsQueryAsync(

@@ -7,6 +7,8 @@ using System;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Validation;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace GoalFinder.WebApi.Endpoints.User.UserInfoUpdate;
 
@@ -20,15 +22,18 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
     public override void Configure()
     {
         Patch(routePatterns: "user/update");
-        AllowAnonymous();
+        AuthSchemes(authSchemeNames: JwtBearerDefaults.AuthenticationScheme);
         DontThrowIfValidationFails();
+        PreProcessor<UpdateUserInfoAuthorizationPreProcessor>();
         PreProcessor<UpdateUserInfoValidationPreProcessor>();
         PreProcessor<UpdateUserInfoCachingPreProcessor>();
         PostProcessor<UpdateUserInfoCachingPostProcessor>();
         DontThrowIfValidationFails();
         Description(builder: builder =>
         {
-            builder.ClearDefaultProduces(statusCodes: StatusCodes.Status400BadRequest);
+            builder.ClearDefaultProduces(
+                StatusCodes.Status400BadRequest,
+                StatusCodes.Status401Unauthorized);
         });
         Summary(endpointSummary: summary =>
         {

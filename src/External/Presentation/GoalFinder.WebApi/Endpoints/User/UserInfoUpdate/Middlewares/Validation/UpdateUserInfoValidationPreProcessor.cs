@@ -19,6 +19,8 @@ internal class UpdateUserInfoValidationPreProcessor : PreProcessor<
         UpdateUserInfoStateBag state,
         CancellationToken ct)
     {
+        if (context.HttpContext.ResponseStarted()) { return; }
+
         if (context.HasValidationFailures)
         {
             var httpResponse = LazyUpdateUserInfoHttpResponseMapper
@@ -29,8 +31,8 @@ internal class UpdateUserInfoValidationPreProcessor : PreProcessor<
                     arg2: new()
                     {
                         StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL
-                    }
-                );
+                    });
+
             await context.HttpContext.Response.SendAsync(
                 response: httpResponse,
                 statusCode: httpResponse.HttpCode,

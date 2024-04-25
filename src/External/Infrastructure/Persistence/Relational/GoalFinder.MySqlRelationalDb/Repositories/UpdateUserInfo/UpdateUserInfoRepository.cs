@@ -14,6 +14,7 @@ internal sealed partial class UpdateUserInfoRepository : IUpdateUserInfoReposito
     private readonly DbSet<Experience> _experiences;
     private readonly DbSet<Position> _positions;
     private readonly DbSet<UserPosition> _userPositions;
+    private readonly DbSet<RefreshToken> _refreshTokens;
 
     internal UpdateUserInfoRepository(GoalFinderContext context)
     {
@@ -24,5 +25,6 @@ internal sealed partial class UpdateUserInfoRepository : IUpdateUserInfoReposito
         _experiences = _context.Set<Experience>();
         _positions = _context.Set<Position>();
         _userPositions = _context.Set<UserPosition>();
+        _refreshTokens = _context.Set<RefreshToken>();
     }
 }
