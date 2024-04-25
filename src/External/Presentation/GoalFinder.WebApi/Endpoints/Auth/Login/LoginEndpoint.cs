@@ -30,12 +30,6 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
         {
             summary.Summary = "Endpoint for login/signin feature";
             summary.Description = "This endpoint is used for login/signin purpose.";
-            summary.ExampleRequest = new()
-            {
-                Username = "string",
-                Password = "string",
-                IsRemember = true
-            };
             summary.Response<LoginHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
