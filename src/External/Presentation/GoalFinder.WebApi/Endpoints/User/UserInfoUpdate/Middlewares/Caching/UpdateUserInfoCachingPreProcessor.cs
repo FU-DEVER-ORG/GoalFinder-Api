@@ -1,52 +1,48 @@
 ﻿using FastEndpoints;
-using GoalFinder.Application.Features.Auth.Register;
+using GoalFinder.Application.Features.User.UpdateUserInfo;
 using GoalFinder.Application.Shared.Caching;
-using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Common;
-using GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Common;
+using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.RegisterAsUser.Middlewares.Caching;
+namespace GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Caching;
 
 /// <summary>
-///     Pre-processor for register as user caching.
+///     Caching pre processor.
 /// </summary>
-
-internal sealed class RegisterAsUserCachingPreProcessor : PreProcessor<
-    RegisterAsUserRequest,
-    RegisterAsUserStateBag>
-
+internal sealed class UpdateUserInfoCachingPreProcessor : PreProcessor<
+    UpdateUserInfoRequest,
+    UpdateUserInfoStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public RegisterAsUserCachingPreProcessor(IServiceScopeFactory serviceScopeFactory)
+    public UpdateUserInfoCachingPreProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
     public override async Task PreProcessAsync(
-        IPreProcessorContext<RegisterAsUserRequest> context,
-        RegisterAsUserStateBag state,
+        IPreProcessorContext<UpdateUserInfoRequest> context,
+        UpdateUserInfoStateBag state,
         CancellationToken ct)
     {
         if (context.HttpContext.ResponseStarted()) { return; }
 
-        state.CacheKey = $"{nameof(RegisterAsUserHttpResponse)}_username_{context.Request.Email}";
+        state.CacheKey = $"{nameof(UpdateUserInfoRequest)}_username_{context.Request.UserId}";
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
-        // Retrieve from cache.
-        var cacheModel = await cacheHandler.GetAsync<RegisterAsUserHttpResponse>(
+        var cacheModel = await cacheHandler.GetAsync<UpdateUserInfoHttpResponse>(
             key: state.CacheKey,
             cancellationToken: ct);
 
-        // Cache value does not exist.
         if (!Equals(
                 objA: cacheModel,
-                objB: AppCacheModel<RegisterAsUserHttpResponse>.NotFound))
+                objB: AppCacheModel<UpdateUserInfoHttpResponse>.NotFound))
         {
             await context.HttpContext.Response.SendAsync(
                 response: cacheModel.Value,
@@ -55,5 +51,6 @@ internal sealed class RegisterAsUserCachingPreProcessor : PreProcessor<
 
             context.HttpContext.MarkResponseStart();
         }
+
     }
 }

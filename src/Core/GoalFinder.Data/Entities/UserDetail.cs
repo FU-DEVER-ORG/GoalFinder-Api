@@ -63,21 +63,21 @@ public class UserDetail :
     {
         public static class LastName
         {
-            public const int MinLength = 3;
+            public const int MinLength = 2;
 
             public const int MaxLength = 50;
         }
 
         public static class FirstName
         {
-            public const int MinLength = 3;
+            public const int MinLength = 2;
 
             public const int MaxLength = 50;
         }
 
         public static class Description
         {
-            public const int MinLength = 3;
+            public const int MinLength = 2;
         }
 
         public static class PrestigeScore
@@ -89,14 +89,14 @@ public class UserDetail :
 
         public static class Address
         {
-            public const int MinLength = 1;
+            public const int MinLength = 2;
 
             public const int MaxLength = 200;
         }
 
         public static class AvatarUrl
         {
-            public const int MinLength = 1;
+            public const int MinLength = 2;
         }
     }
 }

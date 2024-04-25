@@ -20,15 +20,15 @@ namespace GoalFinder.Application.Features.Auth.Login;
 internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
+    private readonly UserManager<Data.Entities.User> _userManager;
+    private readonly SignInManager<Data.Entities.User> _signInManager;
     private readonly IRefreshTokenHandler _refreshTokenHandler;
     private readonly IAccessTokenHandler _accessTokenHandler;
 
     public LoginHandler(
         IUnitOfWork unitOfWork,
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
+        UserManager<Data.Entities.User> userManager,
+        SignInManager<Data.Entities.User> signInManager,
         IRefreshTokenHandler refreshTokenHandler,
         IAccessTokenHandler accessTokenHandler)
     {
@@ -58,7 +58,7 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
         CancellationToken ct)
     {
         // Find user by username.
-        var foundUser = await _userManager.FindByNameAsync(userName: command.Username);
+        var foundUser = await _userManager.FindByEmailAsync(email: command.Username);
 
         // User with username does not exist.
         if (Equals(objA: foundUser, objB: default))

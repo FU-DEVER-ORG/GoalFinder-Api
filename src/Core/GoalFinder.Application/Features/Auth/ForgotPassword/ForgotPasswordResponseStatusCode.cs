@@ -3,7 +3,7 @@
 /// <summary>
 ///     Forgot Password Response Status Code
 /// </summary>
-public enum ForgotPasswordReponseStatusCode
+public enum ForgotPasswordResponseStatusCode
 {
     USER_WITH_EMAIL_IS_NOT_FOUND,
     USER_IS_TEMPORARILY_REMOVED,

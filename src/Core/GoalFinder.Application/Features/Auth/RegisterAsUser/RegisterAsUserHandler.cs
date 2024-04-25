@@ -1,7 +1,6 @@
 ﻿using GoalFinder.Application.Shared.Commons;
 using GoalFinder.Application.Shared.Features;
 using GoalFinder.Application.Shared.FIleObjectStorage;
-using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -18,12 +17,12 @@ internal sealed class RegisterAsUserHandler : IFeatureHandler<
     RegisterAsUserResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<Data.Entities.User> _userManager;
     private readonly IDefaultUserAvatarAsUrlHandler _defaultUserAvatarAsUrlHandler;
 
     public RegisterAsUserHandler(
         IUnitOfWork unitOfWork,
-        UserManager<User> userManager,
+        UserManager<Data.Entities.User> userManager,
         IDefaultUserAvatarAsUrlHandler defaultUserAvatarAsUrlHandler)
     {
         _unitOfWork = unitOfWork;
@@ -65,7 +64,7 @@ internal sealed class RegisterAsUserHandler : IFeatureHandler<
         }
 
         // Init new user.
-        User newUser = new()
+        Data.Entities.User newUser = new()
         {
             Id = Guid.NewGuid()
         };
@@ -125,7 +124,7 @@ internal sealed class RegisterAsUserHandler : IFeatureHandler<
     ///     True if the password is valid, False otherwise.
     /// </returns>
     private async Task<bool> ValidateUserPasswordAsync(
-        User newUser,
+        Data.Entities.User newUser,
         string newPassword)
     {
         IdentityResult result = default;
@@ -154,7 +153,7 @@ internal sealed class RegisterAsUserHandler : IFeatureHandler<
     ///     The newly created user.
     /// </param>
     private void FinishFillingUser(
-        User newUser,
+        Data.Entities.User newUser,
         RegisterAsUserRequest command)
     {
         newUser.Email = command.Email;
