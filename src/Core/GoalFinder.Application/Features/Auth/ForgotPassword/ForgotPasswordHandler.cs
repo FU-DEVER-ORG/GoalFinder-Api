@@ -82,7 +82,8 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
         var dbResultAfterAddingOtp = await _unitOfWork.ForgotPasswordRepository
             .AddResetPasswordTokenToDatabaseAsync(
                 userId: foundUser.Id,
-                passwordResetOtpCode: resetPasswordOTPCode,
+                otpId: resetPasswordOTPCode,
+                otpValue: await _userManager.GeneratePasswordResetTokenAsync(foundUser),
                 cancellationToken: ct);
 
         if(!dbResultAfterAddingOtp)

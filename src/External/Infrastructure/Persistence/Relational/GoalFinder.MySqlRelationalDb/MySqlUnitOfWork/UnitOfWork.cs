@@ -2,12 +2,14 @@
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.UnitOfWork;
 using GoalFinder.MySqlRelationalDb.Data;
 using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
+using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 
 namespace GoalFinder.MySqlRelationalDb.MySqlUnitOfWork;
 
@@ -21,6 +23,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IInsertErrorLogRepository _insertErrorLogRepository;
     private IForgotPasswordRepository _forgotPasswordRepository;
     private IRegisterAsUserRepository _registerAsUserRepository;
+    private IResetPasswordWithOtpRepository _resetPasswordWithOtpRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -62,6 +65,15 @@ internal sealed class UnitOfWork : IUnitOfWork
             _registerAsUserRepository ??= new RegisterAsUserRepository(context: _context);
 
             return _registerAsUserRepository;
+        }
+    }
+
+    public IResetPasswordWithOtpRepository ResetPasswordWithOtpRepository
+    {
+        get
+        {
+            _resetPasswordWithOtpRepository ??= new ResetPasswordWithOtpRepository(context: _context);
+            return _resetPasswordWithOtpRepository;
         }
     }
 }

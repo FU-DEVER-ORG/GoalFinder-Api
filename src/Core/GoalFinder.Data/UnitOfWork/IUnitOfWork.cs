@@ -2,6 +2,7 @@
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 
 namespace GoalFinder.Data.UnitOfWork;
 
@@ -28,4 +29,9 @@ public interface IUnitOfWork
     ///     Gets the register as user repository.
     /// </summary>
     IRegisterAsUserRepository RegisterAsUserRepository { get; }
+
+    /// <summary>
+    ///     Gets the reset password with otp repository.
+    /// </summary>
+    IResetPasswordWithOtpRepository ResetPasswordWithOtpRepository { get; }
 }

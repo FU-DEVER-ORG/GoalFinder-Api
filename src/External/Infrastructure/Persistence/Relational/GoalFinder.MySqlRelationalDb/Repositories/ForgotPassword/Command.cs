@@ -14,23 +14,18 @@ internal sealed partial class ForgotPasswordRepository
 {
     public async Task<bool> AddResetPasswordTokenToDatabaseAsync(
         Guid userId,
-        string passwordResetOtpCode,
+        string otpId,
+        string otpValue,
         CancellationToken cancellationToken)
     {
-        //Create User Token
         UserToken userToken = new()
         {
             UserId = userId,
-            LoginProvider = Guid.NewGuid().ToString(),
+            LoginProvider = otpId,
             Name = "PasswordResetOtpCode",
-            Value = passwordResetOtpCode
+            Value = otpValue,
+            ExpiredAt = DateTime.UtcNow.AddMinutes(1),
         };
-
-        //Check if User Token is default
-        if(Equals(objA: userToken, objB: default))
-        {
-            return false;
-        }
 
         var executedTransactionResult = false;
 

@@ -1,8 +1,5 @@
 ﻿namespace GoalFinder.Application.Features.Auth.ForgotPassword;
-<<<<<<< HEAD
 
-=======
->>>>>>> Feat_ForgotPassword
 /// <summary>
 ///     Forgot Password Response Status Code
 /// </summary>

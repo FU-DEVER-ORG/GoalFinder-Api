@@ -37,7 +37,10 @@ internal sealed class ForgotPasswordCachingPostProcessor : PostProcessor<
         var  cacheHandler = scope.Resolve<ICacheHandler>();
 
         // Caching
-        if(context.Response.AppCode.Equals(
+        if(
+            context.Response.AppCode.Equals(
+                value: ForgotPasswordReponseStatusCode.OPERATION_SUCCESS.ToAppCode()) ||
+            context.Response.AppCode.Equals(
                 value: ForgotPasswordReponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND.ToAppCode()) ||
             context.Response.AppCode.Equals(
                 value: ForgotPasswordReponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()))

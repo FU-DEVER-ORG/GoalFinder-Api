@@ -3,6 +3,7 @@
 /// <summary>
 ///     Extension method for login feature.
 /// </summary>
+
 public static class ExtensionMethods
 {
     /// <summary>
