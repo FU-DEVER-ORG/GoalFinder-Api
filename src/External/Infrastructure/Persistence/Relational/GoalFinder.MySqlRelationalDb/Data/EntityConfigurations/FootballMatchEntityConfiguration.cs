@@ -14,7 +14,7 @@ internal sealed class FootballMatchEntityConfiguration :
     public void Configure(EntityTypeBuilder<FootballMatch> builder)
     {
         builder.ToTable(
-            name: $"{nameof(FootballMatch)}ss",
+            name: $"{nameof(FootballMatch)}s",
             buildAction: table => table.HasComment(
                 comment: "Contain football match records."));
 

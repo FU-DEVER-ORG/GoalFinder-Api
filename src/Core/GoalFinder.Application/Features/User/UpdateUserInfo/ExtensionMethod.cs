@@ -1,7 +1,7 @@
-﻿namespace GoalFinder.Application.Features.Auth.ForgotPassword;
+﻿namespace GoalFinder.Application.Features.User.UpdateUserInfo;
 
 /// <summary>
-///     Extension Method for forgot password features.
+///     Extension method for update user info feature.
 /// </summary>
 public static class ExtensionMethod
 {
@@ -15,8 +15,8 @@ public static class ExtensionMethod
     /// <returns>
     ///     New app code.
     /// </returns>
-    public static string ToAppCode(this ForgotPasswordResponseStatusCode statusCode)
+    public static string ToAppCode(this UpdateUserInfoResponseStatusCode statusCode)
     {
-        return $"{nameof(Auth)}.{nameof(ForgotPassword)}.{statusCode}";
+        return $"{nameof(User)}.{nameof(UpdateUserInfo)}.{statusCode}";
     }
 }

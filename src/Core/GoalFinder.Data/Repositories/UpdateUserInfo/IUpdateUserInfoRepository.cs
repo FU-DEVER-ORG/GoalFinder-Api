@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace GoalFinder.Data.Repositories.UpdateUserInfo;
 
-namespace GoalFinder.Data.Repositories.UpdateUserInfo
+/// <summary>
+///     Repository interface for the update user info feature.
+/// </summary>
+public partial interface IUpdateUserInfoRepository
 {
-    public partial interface IUpdateUserInfoRepository
-    {
-    }
 }
