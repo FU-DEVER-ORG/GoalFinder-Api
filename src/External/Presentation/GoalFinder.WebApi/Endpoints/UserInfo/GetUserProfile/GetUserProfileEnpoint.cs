@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -10,9 +8,11 @@ using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Middleware.Caching;
 using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Middleware.Validation;
 using Microsoft.AspNetCore.Http;
 
-namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile
-{
-    internal sealed class GetUserProfileEndpoint : Endpoint<GetUserProfileRequest, GetUserProfileHttpResponse>
+namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile;
+
+internal sealed class GetUserProfileEndpoint : Endpoint<
+    GetUserProfileRequest,
+    GetUserProfileHttpResponse>
 {
     public override void Configure()
     {
@@ -32,40 +32,40 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile
             summary.Description = "This endpoint is used for get user profile purpose by username route.";
             summary.Response<GetUserProfileHttpResponse>(
                 description: "Represent successful operation response.",
-               example: new()
-        {
-            HttpCode = StatusCodes.Status200OK,
-            AppCode = GetUserProfileResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
-            Body = new GetUserProfileResponse.Body()
-            {
-                UserDetail = new GetUserProfileResponse.Body.User
+                example: new()
                 {
-                    LastName = "string",
-                    FirstName = "string",
-                    Description = "string",
-                    PrestigeScore = 0,
-                    Address = "string",
-                    AvatarUrl = "https://example.com/avatar.png",
-                    Experience = "string",
-                    CompetitionLevel = "string",
-                    Positions = new List<string> { "string", "string" }
-                },
-                FootballMatches = new List<GetUserProfileResponse.Body.FootballMatch>
-                {
-                    new GetUserProfileResponse.Body.FootballMatch ()
+                    HttpCode = StatusCodes.Status200OK,
+                    AppCode = GetUserProfileResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
+                    Body = new GetUserProfileResponse.Body()
                     {
-                        Id = Guid.NewGuid(),
-                        PitchAddress = "string",
-                        MaxMatchPlayersNeed = 0,
-                        PitchPrice = 0.00m,
-                        Description = "string",
-                        StartTime = "2024-04-25 10:00 AM",
-                        Address = "string",
-                        CompetitionLevel = "string"
+                        UserDetail = new GetUserProfileResponse.Body.User
+                        {
+                            LastName = "string",
+                            FirstName = "string",
+                            Description = "string",
+                            PrestigeScore = default,
+                            Address = "string",
+                            AvatarUrl = "https://example.com/avatar.png",
+                            Experience = "string",
+                            CompetitionLevel = "string",
+                            Positions = ["string", "string"]
+                        },
+                        FootballMatches =
+                        [
+                            new GetUserProfileResponse.Body.FootballMatch ()
+                            {
+                                Id = Guid.NewGuid(),
+                                PitchAddress = "string",
+                                MaxMatchPlayersNeed = 0,
+                                PitchPrice = 0.00m,
+                                Description = "string",
+                                StartTime = "2024-04-25 10:00 AM",
+                                Address = "string",
+                                CompetitionLevel = "string"
+                            }
+                        ]
                     }
-                }
-            }
-        });
+                });
         });
     }
 
@@ -82,7 +82,12 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile
             .Resolve(statusCode: appResponse.StatusCode)
             .Invoke(arg1: req, arg2: appResponse);
 
+        /*
+         * Store the real http code of http response into a temporary variable.
+         * Set the http code of http response to default for not serializing.
+         */
         var httpResponseStatusCode = httpResponse.HttpCode;
+        httpResponse.HttpCode = default;
 
         // Send http response to client.
         await SendAsync(
@@ -90,7 +95,9 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile
             statusCode: httpResponseStatusCode,
             cancellation: ct);
 
+        // Set the http code of http response back to real one.
+        httpResponse.HttpCode = httpResponseStatusCode;
+
         return httpResponse;
     }
-}
 }

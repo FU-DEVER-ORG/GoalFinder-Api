@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
-using System.Text.Json.Serialization;
 using GoalFinder.Application.Features.UserInfo.GetUserProfile;
+using System.Text.Json.Serialization;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.HttpResponseMapper;
 
@@ -10,7 +10,7 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.HttpResponseMapper
 /// </summary>
 public class GetUserProfileHttpResponse
 {
-    // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int HttpCode { get; set; }
 
     public string AppCode { get; init; } = GetUserProfileResponseStatusCode.OPERATION_SUCCESS.ToAppCode();

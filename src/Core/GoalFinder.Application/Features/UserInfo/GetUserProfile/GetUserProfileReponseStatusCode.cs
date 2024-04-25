@@ -1,4 +1,5 @@
 ﻿namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
+
 /// <summary>
 ///     Get User Profile Status Code
 /// </summary>

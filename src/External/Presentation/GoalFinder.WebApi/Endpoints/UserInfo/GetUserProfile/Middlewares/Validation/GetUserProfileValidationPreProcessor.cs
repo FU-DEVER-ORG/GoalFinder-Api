@@ -10,7 +10,9 @@ namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Middleware.Validat
 /// <summary>
 ///     Preprocessor for get user profile validation.
 /// </summary>
-internal sealed class GetUserProfileValidationPreProcessor : PreProcessor<GetUserProfileRequest, GetUserProfileStateBag>
+internal sealed class GetUserProfileValidationPreProcessor : PreProcessor<
+    GetUserProfileRequest,
+    GetUserProfileStateBag>
 {
     public override async Task PreProcessAsync(
         IPreProcessorContext<GetUserProfileRequest> context,

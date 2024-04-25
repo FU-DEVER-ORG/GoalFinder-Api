@@ -49,11 +49,11 @@ internal sealed class GetUserProfileHttpResponseManager
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.USER_IS_NOT_FOUND,
-             value: (_, response) => new()
-             {
-                 HttpCode = StatusCodes.Status404NotFound,
-                 AppCode = response.StatusCode.ToAppCode()
-             });
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status404NotFound,
+                AppCode = response.StatusCode.ToAppCode()
+            });
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,

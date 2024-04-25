@@ -7,25 +7,28 @@ using GoalFinder.Application.Shared.Commons;
 using GoalFinder.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile
+namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
+
+internal sealed partial class GetUserProfileRepository
 {
-    internal sealed partial class GetUserProfileRepository
+    public Task<bool> IsUserTemporarilyRemovedQueryAsync(
+        Guid userId,
+        CancellationToken cancellationToken)
     {
-        public Task<bool> IsUserTemporarilyRemovedQueryAsync(
-            Guid userId,
-            CancellationToken cancellationToken)
-        {
-            return _userDetails
-                .Where(predicate:
+        return _userDetails
+            .AnyAsync(
+                predicate:
                     userDetail => userDetail.UserId == userId &&
                     userDetail.RemovedBy != CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID &&
-                    userDetail.RemovedAt != DateTime.MinValue)
-                .AnyAsync(cancellationToken: cancellationToken);
-        }
+                    userDetail.RemovedAt != DateTime.MinValue,
+                cancellationToken: cancellationToken);
+    }
 
-        public async Task<UserDetail> GetUserDetailAsync(Guid userId, CancellationToken cancellationToken)
-        {
-            return await _userDetails
+    public Task<UserDetail> GetUserDetailAsync(
+        Guid userId,
+        CancellationToken cancellationToken)
+    {
+        return _userDetails
             .AsNoTracking()
             .Where(predicate: userDetail => userDetail.UserId == userId)
             .Select(selector: userDetail => new UserDetail
@@ -52,12 +55,15 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile
                             FullName = userPosition.Position.FullName,
                         }
                     }),
-            }).FirstAsync();
-        }
+            })
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+    }
 
-        public async Task<IEnumerable<FootballMatch>> GetFootballMatchByIdAsync(Guid userId, CancellationToken cancellationToken)
-        {
-            return await _matchPlayer
+    public async Task<IEnumerable<FootballMatch>> GetFootballMatchByIdAsync(
+        Guid userId,
+        CancellationToken cancellationToken)
+    {
+        return await _matchPlayer
             .AsNoTracking()
             .Where(predicate: matchPlayer => matchPlayer.PlayerId == userId)
             .Select(matchPlayer => new FootballMatch
@@ -70,7 +76,20 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile
                 StartTime = matchPlayer.FootballMatch.StartTime,
                 Address = matchPlayer.FootballMatch.Address,
                 CompetitionLevel = matchPlayer.FootballMatch.CompetitionLevel,
-            }).ToListAsync();
-        }
+            })
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public Task<User> GetUserByUsernameQueryAsync(
+        string userName,
+        CancellationToken cancellationToken)
+    {
+        return _users
+            .Where(user => user.NormalizedUserName.Equals(userName.ToUpper()))
+            .Select(user => new User
+            {
+                Id = user.Id
+            })
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 }

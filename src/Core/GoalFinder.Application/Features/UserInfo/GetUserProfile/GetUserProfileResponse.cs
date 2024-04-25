@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
+
 /// <summary>
 ///     Get User Profile Response.
 /// </summary>
@@ -15,7 +16,9 @@ public sealed class GetUserProfileResponse : IFeatureResponse
     public sealed class Body
     {
         public User UserDetail { get; init; }
+
         public IEnumerable<FootballMatch> FootballMatches { get; init; }
+
         public sealed class User
         {
             public string LastName { get; init; }
