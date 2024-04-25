@@ -10,7 +10,8 @@ namespace GoalFinder.Data.Repositories.ForgotPassword;
 public partial interface IForgotPasswordRepository
 {
     Task<bool> AddResetPasswordTokenToDatabaseAsync(
-        Guid userId,
-        string passwordResetOtpCode,
-        CancellationToken cancellationToken);
+            Guid userId,
+            string otpId,
+            string otpValue,
+            CancellationToken cancellationToken);
 }

@@ -38,6 +38,8 @@ internal sealed class ForgotPasswordCachingPostProcessor : PostProcessor<
 
         // Caching
         if(context.Response.AppCode.Equals(
+                value: ForgotPasswordResponseStatusCode.OPERATION_SUCCESS.ToAppCode()) ||
+            context.Response.AppCode.Equals(
                 value: ForgotPasswordResponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND.ToAppCode()) ||
             context.Response.AppCode.Equals(
                 value: ForgotPasswordResponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()))

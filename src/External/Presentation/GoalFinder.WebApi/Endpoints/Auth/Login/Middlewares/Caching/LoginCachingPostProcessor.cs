@@ -20,7 +20,8 @@ internal sealed class LoginCachingPostProcessor : PostProcessor<
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public LoginCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
+    public LoginCachingPostProcessor(
+        IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
