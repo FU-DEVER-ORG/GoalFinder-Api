@@ -48,20 +48,25 @@ internal sealed class GetAllMatchesHandler : IFeatureHandler<
             StatusCode = GetAllMatchesResponseStatusCode.OPERATION_SUCCESS,
             ResponseBody = new()
             {
-                FootballMatches = matches.Select(m => new GetAllMatchesResponse.Body.FootballMatch()
+                FootballMatches = matches.Select(matches => new GetAllMatchesResponse.Body.FootballMatch
                 {
-                    Id = m.Id,
-                    PitchAddress = m.PitchAddress,
-                    MaxMatchPlayersNeed = m.MaxMatchPlayersNeed,
-                    PitchPrice = m.PitchPrice,
-                    Description = m.Description,
-                    MinPrestigeScore = m.MinPrestigeScore,
-                    StartTime = m.StartTime.ToLocalTime().ToString(),
-                    Address = m.Address,
-                    CompetitionLevel = m.CompetitionLevel?.FullName,
-                    TimeAgo = (DateTime.UtcNow.ToLocalTime() - m.CreatedAt.ToLocalTime()).ToString(),
-                    HostId = m.HostId,
-                    HostName = $"{m.UserDetail?.FirstName} {m.UserDetail?.LastName}",
+                    Id = matches.Id,
+                    PitchAddress = matches.PitchAddress,
+                    MaxMatchPlayersNeed = matches.MaxMatchPlayersNeed,
+                    PitchPrice = matches.PitchPrice,
+                    Description = matches.Description,
+                    MinPrestigeScore = matches.MinPrestigeScore,
+                    StartTime = matches.StartTime.ToLocalTime(),
+                    Address = matches.Address,
+                    CompetitionLevel = matches.CompetitionLevel?.FullName,
+                    TimeAgo = (int)(TimeZoneInfo.ConvertTimeFromUtc(
+                        dateTime: DateTime.UtcNow,
+                        destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "SE Asia Standard Time"))
+                            - TimeZoneInfo.ConvertTimeFromUtc(
+                        dateTime: matches.CreatedAt,
+                        destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "SE Asia Standard Time"))).TotalMinutes,
+                    HostId = matches.HostId,
+                    HostName = $"{matches.UserDetail?.FirstName} {matches.UserDetail?.LastName}",
                 })
             }
         };

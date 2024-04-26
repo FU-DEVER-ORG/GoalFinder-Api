@@ -13,7 +13,7 @@ namespace GoalFinder.WebApi.Endpoints.Match.GetAllMatches.Middleware.Caching;
 ///     Caching pre processor for get all football matches feature.
 /// </summary>
 internal sealed class GetAllMatchesCachingPreProcessor : PreProcessor<
-    GetAllMatchesRequest,
+    EmptyRequest,
     GetAllMatchesStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -24,13 +24,11 @@ internal sealed class GetAllMatchesCachingPreProcessor : PreProcessor<
     }
 
     public override async Task PreProcessAsync(
-        IPreProcessorContext<GetAllMatchesRequest> context,
+        IPreProcessorContext<EmptyRequest> context,
         GetAllMatchesStateBag state,
         CancellationToken ct)
     {
-        if (context.HttpContext.ResponseStarted()) { return; }
-
-        state.CacheKey = $"{nameof(GetAllMatchesRequest)}_match_{context.Request}";
+        state.CacheKey = $"{nameof(GetAllMatchesRequest)}_matches";
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 

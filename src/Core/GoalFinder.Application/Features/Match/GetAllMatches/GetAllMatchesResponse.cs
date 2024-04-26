@@ -29,19 +29,19 @@ public sealed class GetAllMatchesResponse : IFeatureResponse
 
             public string Description { get; init; }
 
-            public int MinPrestigeScore { get; set; }
+            public int MinPrestigeScore { get; init; }
 
-            public string StartTime { get; init; }
+            public DateTime StartTime { get; init; }
 
-            public string Address { get; set; }
+            public string Address { get; init; }
 
             public string CompetitionLevel { get; init; }
 
-            public string TimeAgo { get; set; }
+            public int TimeAgo { get; init; }
 
-            public Guid HostId { get; set; }
+            public Guid HostId { get; init; }
             
-            public string HostName { get; set; }
+            public string HostName { get; init; }
         }
     }
 }

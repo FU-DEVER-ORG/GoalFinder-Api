@@ -10,16 +10,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetAllMatches;
 
-internal sealed class GetAllMatchesEndpoint : EndpointWithoutRequest<
+internal sealed class GetAllMatchesEndpoint : Endpoint<
+    EmptyRequest,
     GetAllMatchesHttpResponse>
 {
     public override void Configure()
     {
-        Get(routePatterns: "/match/getAllMatches");
+        Get(routePatterns: "/match");
         AllowAnonymous();
         DontThrowIfValidationFails();
-        // PreProcessor<GetAllMatchesCachingPreProcessor>();
-        // PostProcessor<GetAllMatchesCachingPostProcessor>();
+        PreProcessor<GetAllMatchesCachingPreProcessor>();
+        PostProcessor<GetAllMatchesCachingPostProcessor>();
         Description(builder: builder =>
         {
             builder.ClearDefaultProduces(statusCodes: StatusCodes.Status400BadRequest);
@@ -46,10 +47,10 @@ internal sealed class GetAllMatchesEndpoint : EndpointWithoutRequest<
                                 PitchPrice = default,
                                 Description = "string",
                                 MinPrestigeScore = default,
-                                StartTime = "2024-04-25 10:00 AM",
+                                StartTime = default,
                                 Address = "string",
                                 CompetitionLevel = "string",
-                                TimeAgo = "2024-04-25 10:00 AM",
+                                TimeAgo = default,
                                 HostId = Guid.NewGuid(),
                                 HostName = "string",
                             }
@@ -59,7 +60,9 @@ internal sealed class GetAllMatchesEndpoint : EndpointWithoutRequest<
         });
     }
 
-    public override async Task<GetAllMatchesHttpResponse> ExecuteAsync(CancellationToken ct)
+    public override async Task<GetAllMatchesHttpResponse> ExecuteAsync(
+        EmptyRequest emptyRequest,
+        CancellationToken ct)
     {
         // Get command request
         var command = new GetAllMatchesRequest();

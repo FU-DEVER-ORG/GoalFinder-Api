@@ -14,7 +14,7 @@ namespace GoalFinder.WebApi.Endpoints.Match.GetAllMatches.Middlewares.Caching;
 ///     Post-processor for get all football matches caching.
 /// </summary>
 internal sealed class GetAllMatchesCachingPostProcessor : PostProcessor<
-    GetAllMatchesRequest,
+    EmptyRequest,
     GetAllMatchesStateBag,
     GetAllMatchesHttpResponse>
 {
@@ -26,7 +26,7 @@ internal sealed class GetAllMatchesCachingPostProcessor : PostProcessor<
     }
 
     public override async Task PostProcessAsync(
-        IPostProcessorContext<GetAllMatchesRequest, GetAllMatchesHttpResponse> context,
+        IPostProcessorContext<EmptyRequest, GetAllMatchesHttpResponse> context,
         GetAllMatchesStateBag state,
         CancellationToken ct)
     {

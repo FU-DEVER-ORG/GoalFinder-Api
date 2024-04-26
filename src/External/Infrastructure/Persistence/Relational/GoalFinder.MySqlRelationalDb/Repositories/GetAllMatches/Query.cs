@@ -32,13 +32,13 @@ internal sealed partial class GetAllMatchesRepository
                 MinPrestigeScore = match.MinPrestigeScore,
                 StartTime = match.StartTime,
                 Address = match.Address,
-                CompetitionLevel = new CompetitionLevel()
+                CompetitionLevel = new CompetitionLevel
                 {
                     FullName = match.CompetitionLevel.FullName,
                 },
                 CreatedAt = match.CreatedAt,
                 HostId = match.HostId,
-                UserDetail = new UserDetail() {
+                UserDetail = new UserDetail {
                     FirstName = match.UserDetail.FirstName,
                     LastName = match.UserDetail.LastName,
                 }
