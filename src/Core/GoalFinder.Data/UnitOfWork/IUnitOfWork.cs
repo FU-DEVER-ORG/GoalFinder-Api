@@ -1,4 +1,5 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
@@ -46,4 +47,9 @@ public interface IUnitOfWork
     ///     Gets the reset password with otp repository.
     /// </summary>
     IResetPasswordWithOtpRepository ResetPasswordWithOtpRepository { get; }
+    /// <summary>
+    ///     Gets all matches repository
+    /// </summary>
+    IGetAllMatchesRepository GetAllMatchesRepository { get; }
+
 }
