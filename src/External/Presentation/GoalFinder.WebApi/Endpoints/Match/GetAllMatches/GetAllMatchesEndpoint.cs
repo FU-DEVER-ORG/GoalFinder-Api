@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using FastEndpoints;
 using GoalFinder.Application.Features.Match.GetAllMatches;
 using GoalFinder.WebApi.Endpoints.Match.GetAllMatches.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.Match.GetAllMatches.Middleware.Caching;
+using GoalFinder.WebApi.Endpoints.Match.GetAllMatches.Middlewares.Caching;
 using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetAllMatches;
@@ -17,6 +19,7 @@ internal sealed class GetAllMatchesEndpoint : EndpointWithoutRequest<
         AllowAnonymous();
         DontThrowIfValidationFails();
         // PreProcessor<GetAllMatchesCachingPreProcessor>();
+        // PostProcessor<GetAllMatchesCachingPostProcessor>();
         Description(builder: builder =>
         {
             builder.ClearDefaultProduces(statusCodes: StatusCodes.Status400BadRequest);
