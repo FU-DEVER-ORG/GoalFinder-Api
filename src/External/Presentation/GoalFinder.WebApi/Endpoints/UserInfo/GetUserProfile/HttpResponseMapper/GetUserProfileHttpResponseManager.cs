@@ -56,10 +56,18 @@ internal sealed class GetUserProfileHttpResponseManager
             });
 
         _dictionary.Add(
+            key: GetUserProfileResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
             key: GetUserProfileResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
             value: (_, response) => new()
             {
-                HttpCode = StatusCodes.Status403Forbidden,
+                HttpCode = StatusCodes.Status417ExpectationFailed,
                 AppCode = response.StatusCode.ToAppCode()
             });
     }

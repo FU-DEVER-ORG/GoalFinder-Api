@@ -39,6 +39,14 @@ internal sealed class LoginHttpResponseManager
             });
 
         _dictionary.Add(
+            key: LoginResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
             key: LoginResponseStatusCode.OPERATION_SUCCESS,
             value: (_, response) => new()
             {
@@ -75,7 +83,7 @@ internal sealed class LoginHttpResponseManager
             key: LoginResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
             value: (request, response) => new()
             {
-                HttpCode = StatusCodes.Status403Forbidden,
+                HttpCode = StatusCodes.Status417ExpectationFailed,
                 AppCode = response.StatusCode.ToAppCode(),
             });
     }

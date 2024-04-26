@@ -43,7 +43,6 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
             summary.Description = "This endpoint is used for updating user information purpose.";
             summary.ExampleRequest = new()
             {
-                UserId = Guid.Empty,
                 UserName = "string",
                 LastName = "string",
                 FirstName = "string",
@@ -69,8 +68,10 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
         UpdateUserInfoRequest req,
         CancellationToken ct)
     {
-        req.UserId = Guid.Parse(input: HttpContext.User
-            .FindFirstValue(claimType: JwtRegisteredClaimNames.Sub));
+        req.SetUserId(
+            userId:Guid.Parse(
+                input: HttpContext.User.FindFirstValue(
+                    claimType: JwtRegisteredClaimNames.Sub)));
 
         var appResponse = await req.ExecuteAsync(ct: ct);
 

@@ -22,16 +22,37 @@ internal sealed class ResetPasswordWithOtpValidationPreProcessor :
     {
         if(context.HasValidationFailures)
         {
-            var httpResponse = LazyResetPasswordWithOtpHttpResponseMapper
-                .Get()
-                .Resolve(statusCode: ResetPasswordWithOtpResponseStatusCode.INPUT_VALIDATION_FAILD)
-                .Invoke(
-                    arg1: context.Request,
-                    arg2: new()
-                    {
-                        StatusCode = ResetPasswordWithOtpResponseStatusCode.INPUT_VALIDATION_FAILD
-                    }
-                );
+            ResetPasswordWithOtpHttpResponse httpResponse;
+
+            if (!Equals(
+                objA: context.ValidationFailures
+                    .Find(match: failure => failure.PropertyName
+                        .Equals(value: "SerializerErrors")),
+                objB: default))
+            {
+                httpResponse = LazyResetPasswordWithOtpHttpResponseMapper
+                    .Get()
+                    .Resolve(statusCode: ResetPasswordWithOtpResponseStatusCode.INPUT_NOT_UNDERSTANDABLE)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = ResetPasswordWithOtpResponseStatusCode.INPUT_NOT_UNDERSTANDABLE
+                        });
+            }
+            else
+            {
+                httpResponse = LazyResetPasswordWithOtpHttpResponseMapper
+                    .Get()
+                    .Resolve(statusCode: ResetPasswordWithOtpResponseStatusCode.INPUT_VALIDATION_FAILED)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = ResetPasswordWithOtpResponseStatusCode.INPUT_VALIDATION_FAILED
+                        });
+            }
+
             await context.HttpContext.Response.SendAsync(
                 response: httpResponse,
                 statusCode: httpResponse.HttpCode,

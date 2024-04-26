@@ -57,6 +57,14 @@ internal sealed class UpdateUserInfoHttpResponseManager
             });
 
         _dictionary.Add(
+            key: UpdateUserInfoResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
             key: UpdateUserInfoResponseStatusCode.DATABASE_OPERATION_FAIL,
             value: (_, response) => new()
             {
@@ -77,6 +85,14 @@ internal sealed class UpdateUserInfoHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
+            key: UpdateUserInfoResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status417ExpectationFailed,
                 AppCode = response.StatusCode.ToAppCode()
             });
     }

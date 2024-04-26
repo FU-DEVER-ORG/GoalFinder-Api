@@ -15,7 +15,7 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword;
 /// </summary>
 internal sealed class ForgotPasswordEndpoint : Endpoint<
     ForgotPasswordRequest,
-    ForgotPasswordHttpReponse>
+    ForgotPasswordHttpResponse>
 {
     public override void Configure()
     {
@@ -37,7 +37,7 @@ internal sealed class ForgotPasswordEndpoint : Endpoint<
             {
                 UserName = "string",
             };
-            summary.Response<ForgotPasswordHttpReponse>(
+            summary.Response<ForgotPasswordHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
                 {
@@ -50,7 +50,7 @@ internal sealed class ForgotPasswordEndpoint : Endpoint<
                 });
         });
     }
-    public override async Task<ForgotPasswordHttpReponse> ExecuteAsync(
+    public override async Task<ForgotPasswordHttpResponse> ExecuteAsync(
         ForgotPasswordRequest req,
         CancellationToken ct)
     {

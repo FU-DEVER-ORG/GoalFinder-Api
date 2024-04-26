@@ -54,7 +54,7 @@ internal sealed class GetUserProfileHandler : IFeatureHandler<
             };
         }
 
-        // Is user not temporarily removed.
+        // Is user temporarily removed.
         var isUserTemporarilyRemoved = await _unitOfWork.GetUserProfileRepository
             .IsUserTemporarilyRemovedQueryAsync(
                 userId: foundUser.Id,
