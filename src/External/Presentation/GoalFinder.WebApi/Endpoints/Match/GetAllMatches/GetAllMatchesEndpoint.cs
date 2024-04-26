@@ -42,8 +42,8 @@ internal sealed class GetAllMatchesEndpoint : EndpointWithoutRequest<
                             {
                                 Id = Guid.NewGuid(),
                                 PitchAddress = "string",
-                                MaxMatchPlayersNeed = 0,
-                                PitchPrice = 0.00m,
+                                MaxMatchPlayersNeed = default,
+                                PitchPrice = default,
                                 Description = "string",
                                 MinPrestigeScore = default,
                                 StartTime = "2024-04-25 10:00 AM",

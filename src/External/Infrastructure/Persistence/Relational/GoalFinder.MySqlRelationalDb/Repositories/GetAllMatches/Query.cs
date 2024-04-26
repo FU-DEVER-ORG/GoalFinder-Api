@@ -43,6 +43,6 @@ internal sealed partial class GetAllMatchesRepository
                     LastName = match.UserDetail.LastName,
                 }
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

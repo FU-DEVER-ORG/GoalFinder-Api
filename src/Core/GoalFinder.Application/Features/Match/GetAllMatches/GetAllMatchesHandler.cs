@@ -58,10 +58,10 @@ internal sealed class GetAllMatchesHandler : IFeatureHandler<
                     MinPrestigeScore = m.MinPrestigeScore,
                     StartTime = m.StartTime.ToLocalTime().ToString(),
                     Address = m.Address,
-                    CompetitionLevel = m?.CompetitionLevel?.FullName,
+                    CompetitionLevel = m.CompetitionLevel?.FullName,
                     TimeAgo = (DateTime.UtcNow.ToLocalTime() - m.CreatedAt.ToLocalTime()).ToString(),
                     HostId = m.HostId,
-                    HostName = $"{m.UserDetail.FirstName} {m.UserDetail.LastName}",
+                    HostName = $"{m.UserDetail?.FirstName} {m.UserDetail?.LastName}",
                 })
             }
         };
