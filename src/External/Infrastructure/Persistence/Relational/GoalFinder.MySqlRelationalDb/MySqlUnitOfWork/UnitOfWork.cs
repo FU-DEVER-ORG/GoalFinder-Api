@@ -29,7 +29,6 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IRegisterAsUserRepository _registerAsUserRepository;
     private IUpdateUserInfoRepository _updateUserInfoRepository;
     private IResetPasswordWithOtpRepository _resetPasswordWithOtpRepository;
-
     private IGetUserProfileRepository _getUserProfileRepository;
 
     public UnitOfWork(GoalFinderContext context)

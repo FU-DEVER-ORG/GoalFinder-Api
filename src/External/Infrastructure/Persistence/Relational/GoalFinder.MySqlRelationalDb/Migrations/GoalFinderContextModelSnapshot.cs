@@ -3,7 +3,6 @@ using System;
 using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
@@ -186,7 +185,7 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
 
                     b.HasIndex("UserDetailUserId");
 
-                    b.ToTable("FootballMatchss", null, t =>
+                    b.ToTable("FootballMatches", null, t =>
                         {
                             t.HasComment("Contain football match records.");
                         });

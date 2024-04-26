@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GoalFinder.MySqlRelationalDb.Migrations
 {
     [DbContext(typeof(GoalFinderContext))]
-    [Migration("20240421083640_M2_Adding_ErrorLogging_Table")]
-    partial class M2_Adding_ErrorLogging_Table
+    [Migration("20240425174240_M1_NewDb_And_Change_FootballMatch_Table_Name")]
+    partial class M1_NewDb_And_Change_FootballMatch_Table_Name
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,7 +188,7 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
 
                     b.HasIndex("UserDetailUserId");
 
-                    b.ToTable("FootballMatchss", null, t =>
+                    b.ToTable("FootballMatches", null, t =>
                         {
                             t.HasComment("Contain football match records.");
                         });
@@ -201,6 +201,9 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
 
                     b.Property<Guid>("PlayerId")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("NumberOfReports")
+                        .HasColumnType("int");
 
                     b.HasKey("MatchId", "PlayerId");
 
@@ -613,7 +616,13 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>");
 
-                    b.ToTable("UserTokens");
+                    b.Property<DateTime>("ExpiredAt")
+                        .HasColumnType("DATETIME");
+
+                    b.ToTable("UserTokens", null, t =>
+                        {
+                            t.HasComment("Contain user token records.");
+                        });
 
                     b.HasDiscriminator().HasValue("UserToken");
                 });

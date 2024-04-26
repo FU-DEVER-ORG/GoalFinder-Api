@@ -42,8 +42,11 @@ internal static class AuthenticationServiceConfig
             .AddSingleton(implementationInstance: option)
             .AddSingleton(implementationInstance: tokenValidationParameters)
             .AddAuthenticationJwtBearer(
-                jwtSigningOption => jwtSigningOption.SigningKey = option.Jwt.IssuerSigningKey,
-                jwtBearerOption =>
+                signingOptions: jwtSigningOption =>
+                {
+                    jwtSigningOption.SigningKey = option.Jwt.IssuerSigningKey;
+                },
+                bearerOptions: jwtBearerOption =>
                 {
                     jwtBearerOption.TokenValidationParameters = tokenValidationParameters;
                     jwtBearerOption.Validate();

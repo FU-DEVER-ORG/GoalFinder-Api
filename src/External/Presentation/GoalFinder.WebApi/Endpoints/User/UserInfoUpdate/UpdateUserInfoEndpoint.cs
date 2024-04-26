@@ -8,6 +8,8 @@ using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Validation;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Authorization;
+using System.Security.Claims;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace GoalFinder.WebApi.Endpoints.User.UserInfoUpdate;
@@ -28,12 +30,12 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
         PreProcessor<UpdateUserInfoValidationPreProcessor>();
         PreProcessor<UpdateUserInfoCachingPreProcessor>();
         PostProcessor<UpdateUserInfoCachingPostProcessor>();
-        DontThrowIfValidationFails();
         Description(builder: builder =>
         {
             builder.ClearDefaultProduces(
                 StatusCodes.Status400BadRequest,
-                StatusCodes.Status401Unauthorized);
+                StatusCodes.Status401Unauthorized,
+                StatusCodes.Status403Forbidden);
         });
         Summary(endpointSummary: summary =>
         {
@@ -67,6 +69,9 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
         UpdateUserInfoRequest req,
         CancellationToken ct)
     {
+        req.UserId = Guid.Parse(input: HttpContext.User
+            .FindFirstValue(claimType: JwtRegisteredClaimNames.Sub));
+
         var appResponse = await req.ExecuteAsync(ct: ct);
 
         var httpResponse = LazyUpdateUserInfoHttpResponseMapper
