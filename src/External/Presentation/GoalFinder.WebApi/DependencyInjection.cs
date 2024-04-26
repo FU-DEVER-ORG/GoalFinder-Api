@@ -21,10 +21,10 @@ internal static class DependencyInjection
         this IServiceCollection services,
         IConfigurationManager configuration)
     {
-        services.ConfigLogging();
-        services.ConfigCors();
         services.ConfigAuthentication(configuration: configuration);
         services.ConfigAuthorization();
+        services.ConfigLogging();
+        services.ConfigCors();
         services.ConfigCore(configuration: configuration);
         services.ConfigSwagger(configuration: configuration);
         services.ConfigResponseCaching();

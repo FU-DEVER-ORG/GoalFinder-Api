@@ -1,6 +1,5 @@
 ﻿using GoalFinder.Application.Shared.Features;
 using GoalFinder.Application.Shared.Tokens.OTP;
-using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using System.Threading;
@@ -15,12 +14,12 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
     ForgotPasswordRequest,
     ForgotPasswordResponse>
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<Data.Entities.User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IOtpHandler _otpHandler;
 
     public ForgotPasswordHandler(
-        UserManager<User> userManager,
+        UserManager<Data.Entities.User> userManager,
         IOtpHandler otpHandler,
         IUnitOfWork unitOfWork)
     {
@@ -55,7 +54,7 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
         {
             return new()
             {
-                StatusCode = ForgotPasswordReponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND
+                StatusCode = ForgotPasswordResponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND
             };
         }
 
@@ -69,7 +68,7 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
         {
             return new()
             {
-                StatusCode = ForgotPasswordReponseStatusCode.USER_IS_TEMPORARILY_REMOVED
+                StatusCode = ForgotPasswordResponseStatusCode.USER_IS_TEMPORARILY_REMOVED
             };
         }
 
@@ -82,20 +81,21 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
         var dbResultAfterAddingOtp = await _unitOfWork.ForgotPasswordRepository
             .AddResetPasswordTokenToDatabaseAsync(
                 userId: foundUser.Id,
-                passwordResetOtpCode: resetPasswordOTPCode,
+                otpId: resetPasswordOTPCode,
+                otpValue: await _userManager.GeneratePasswordResetTokenAsync(foundUser),
                 cancellationToken: ct);
 
         if(!dbResultAfterAddingOtp)
         {
             return new()
             {
-                StatusCode = ForgotPasswordReponseStatusCode.DATABASE_OPERATION_FAIL
+                StatusCode = ForgotPasswordResponseStatusCode.DATABASE_OPERATION_FAIL
             };
         }
 
         return new()
         {
-            StatusCode = ForgotPasswordReponseStatusCode.OPERATION_SUCCESS,
+            StatusCode = ForgotPasswordResponseStatusCode.OPERATION_SUCCESS,
             ResponseBody = new()
             {
                 OtpCode = resetPasswordOTPCode

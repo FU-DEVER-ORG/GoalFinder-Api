@@ -8,7 +8,8 @@ internal static class LazyForgotPasswordHttpResponseMapper
     /// <summary>
     ///     Forgot password http response manager
     /// </summary>
-    private static ForgotPasswordHttpResponseManager _forgotPasswordHttpResponseManager;
+    private static ForgotPasswordHttpResponseManager 
+                    _forgotPasswordHttpResponseManager;
 
     internal static ForgotPasswordHttpResponseManager Get()
     {

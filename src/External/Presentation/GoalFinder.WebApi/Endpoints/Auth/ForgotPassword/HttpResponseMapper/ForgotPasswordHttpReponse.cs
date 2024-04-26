@@ -14,7 +14,7 @@ internal sealed class ForgotPasswordHttpReponse
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int HttpCode { get; set; }
 
-    public string AppCode { get; init; } = ForgotPasswordReponseStatusCode.OPERATION_SUCCESS.ToAppCode();
+    public string AppCode { get; init; } = ForgotPasswordResponseStatusCode.OPERATION_SUCCESS.ToAppCode();
 
     public DateTime ResponseTime { get; init; } = TimeZoneInfo.ConvertTimeFromUtc(
         dateTime: DateTime.UtcNow,

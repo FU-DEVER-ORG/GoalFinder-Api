@@ -1,5 +1,4 @@
-﻿using GoalFinder.Configuration.Presentation.WebApi.Authentication;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.WebApi.Shared.ServiceConfigs;
@@ -13,8 +12,5 @@ internal static class CoreServiceConfig
         this IServiceCollection services,
         IConfigurationManager configuration)
     {
-        services.AddSingleton(configuration
-            .GetRequiredSection(key: "Authentication")
-            .Get<JwtAuthenticationOption>());
     }
 }

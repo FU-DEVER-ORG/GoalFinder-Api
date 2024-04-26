@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace GoalFinder.MySqlRelationalDb.Migrations
 {
     /// <inheritdoc />
-    public partial class M1_Init_Db : Migration
+    public partial class M1_NewDb_And_Change_FootballMatch_Table_Name : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,6 +33,23 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     table.PrimaryKey("PK_CompetitionLevels", x => x.Id);
                 },
                 comment: "Contain competition level records.")
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ErrorLoggings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ErrorMessage = table.Column<string>(type: "TEXT", nullable: false),
+                    ErrorStackTrace = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    Data = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ErrorLoggings", x => x.Id);
+                },
+                comment: "Contain error logging records.")
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -299,7 +316,8 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "varchar(255)", nullable: false),
                     Value = table.Column<string>(type: "longtext", nullable: true),
-                    Discriminator = table.Column<string>(type: "varchar(34)", maxLength: 34, nullable: false)
+                    Discriminator = table.Column<string>(type: "varchar(34)", maxLength: 34, nullable: false),
+                    ExpiredAt = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -310,11 +328,12 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
+                },
+                comment: "Contain user token records.")
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "FootballMatchss",
+                name: "FootballMatches",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
@@ -338,15 +357,15 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FootballMatchss", x => x.Id);
+                    table.PrimaryKey("PK_FootballMatches", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FootballMatchss_CompetitionLevels_CompetitionLevelId",
+                        name: "FK_FootballMatches_CompetitionLevels_CompetitionLevelId",
                         column: x => x.CompetitionLevelId,
                         principalTable: "CompetitionLevels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FootballMatchss_UserDetails_UserDetailUserId",
+                        name: "FK_FootballMatches_UserDetails_UserDetailUserId",
                         column: x => x.UserDetailUserId,
                         principalTable: "UserDetails",
                         principalColumn: "UserId");
@@ -383,15 +402,16 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 columns: table => new
                 {
                     MatchId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "char(36)", nullable: false)
+                    PlayerId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    NumberOfReports = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MatchPlayers", x => new { x.MatchId, x.PlayerId });
                     table.ForeignKey(
-                        name: "FK_MatchPlayers_FootballMatchss_MatchId",
+                        name: "FK_MatchPlayers_FootballMatches_MatchId",
                         column: x => x.MatchId,
-                        principalTable: "FootballMatchss",
+                        principalTable: "FootballMatches",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MatchPlayers_UserDetails_PlayerId",
@@ -403,13 +423,13 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FootballMatchss_CompetitionLevelId",
-                table: "FootballMatchss",
+                name: "IX_FootballMatches_CompetitionLevelId",
+                table: "FootballMatches",
                 column: "CompetitionLevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FootballMatchss_UserDetailUserId",
-                table: "FootballMatchss",
+                name: "IX_FootballMatches_UserDetailUserId",
+                table: "FootballMatches",
                 column: "UserDetailUserId");
 
             migrationBuilder.CreateIndex(
@@ -474,6 +494,9 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ErrorLoggings");
+
+            migrationBuilder.DropTable(
                 name: "MatchPlayers");
 
             migrationBuilder.DropTable(
@@ -501,7 +524,7 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "FootballMatchss");
+                name: "FootballMatches");
 
             migrationBuilder.DropTable(
                 name: "Positions");

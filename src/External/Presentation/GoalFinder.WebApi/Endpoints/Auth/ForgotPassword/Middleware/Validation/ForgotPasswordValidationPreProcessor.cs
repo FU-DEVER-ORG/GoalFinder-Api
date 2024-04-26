@@ -24,12 +24,12 @@ internal sealed class ForgotPasswordValidationPreProcessor : PreProcessor<
         {
             var httpResponse = LazyForgotPasswordHttpResponseMapper
                 .Get()
-                .Resolve(statusCode: ForgotPasswordReponseStatusCode.INPUT_VALIDATION_FAIL)
+                .Resolve(statusCode: ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL)
                 .Invoke(
                     arg1: context.Request,
                     arg2: new()
                     {
-                        StatusCode = ForgotPasswordReponseStatusCode.INPUT_VALIDATION_FAIL
+                        StatusCode = ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL
                     });
 
             // Send Response

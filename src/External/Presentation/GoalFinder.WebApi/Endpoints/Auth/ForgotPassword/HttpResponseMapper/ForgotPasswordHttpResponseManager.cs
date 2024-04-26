@@ -12,7 +12,7 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 internal sealed class ForgotPasswordHttpResponseManager
 {
     private readonly Dictionary<
-        ForgotPasswordReponseStatusCode,
+        ForgotPasswordResponseStatusCode,
         Func<
             ForgotPasswordRequest,
             ForgotPasswordResponse,
@@ -24,7 +24,7 @@ internal sealed class ForgotPasswordHttpResponseManager
         _dictionary = [];
 
         _dictionary.Add(
-            key: ForgotPasswordReponseStatusCode.OPERATION_SUCCESS,
+            key: ForgotPasswordResponseStatusCode.OPERATION_SUCCESS,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status200OK,
@@ -33,47 +33,46 @@ internal sealed class ForgotPasswordHttpResponseManager
             });
 
         _dictionary.Add(
-            key: ForgotPasswordReponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND,
+            key: ForgotPasswordResponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status404NotFound,
-                AppCode = response.StatusCode.ToAppCode()
+                AppCode = response.StatusCode.ToAppCode(),
+                ErrorMessages = [$"User with user email {_.UserName} is not found!"]
             });
 
         _dictionary.Add(
-            key: ForgotPasswordReponseStatusCode.INPUT_VALIDATION_FAIL,
+            key: ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode()
+                AppCode = response.StatusCode.ToAppCode(),
+                ErrorMessages = [$"Input validation failed!"]
             });
 
         _dictionary.Add(
-            key: ForgotPasswordReponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
+            key: ForgotPasswordResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status403Forbidden,
-                AppCode = response.StatusCode.ToAppCode()
+                AppCode = response.StatusCode.ToAppCode(),
+                ErrorMessages = [$"User with user email {_.UserName} is ban or temporarily removed by admintrator!"]
             });
 
         _dictionary.Add(
-            key: ForgotPasswordReponseStatusCode.DATABASE_OPERATION_FAIL,
+            key: ForgotPasswordResponseStatusCode.DATABASE_OPERATION_FAIL,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status500InternalServerError,
                 AppCode = response.StatusCode.ToAppCode(),
             });
     }
-    /// <summary>
-    /// Resolve
-    /// </summary>
-    /// <param name="statusCode"></param>
-    /// <returns></returns>
+
     internal Func<
         ForgotPasswordRequest,
         ForgotPasswordResponse,
         ForgotPasswordHttpReponse>
-            Resolve(ForgotPasswordReponseStatusCode statusCode)
+            Resolve(ForgotPasswordResponseStatusCode statusCode)
     {
         return _dictionary[statusCode];
     }

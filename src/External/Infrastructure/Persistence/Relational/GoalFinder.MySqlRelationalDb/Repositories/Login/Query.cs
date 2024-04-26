@@ -33,7 +33,7 @@ internal partial class LoginRepository
             {
                 AvatarUrl = userDetail.AvatarUrl
             })
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         return foundUserDetail.AvatarUrl;
     }

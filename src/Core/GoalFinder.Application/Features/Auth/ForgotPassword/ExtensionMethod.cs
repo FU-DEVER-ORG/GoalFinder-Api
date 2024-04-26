@@ -15,7 +15,7 @@ public static class ExtensionMethod
     /// <returns>
     ///     New app code.
     /// </returns>
-    public static string ToAppCode(this ForgotPasswordReponseStatusCode statusCode)
+    public static string ToAppCode(this ForgotPasswordResponseStatusCode statusCode)
     {
         return $"{nameof(Auth)}.{nameof(ForgotPassword)}.{statusCode}";
     }

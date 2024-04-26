@@ -1,11 +1,14 @@
-﻿using GoalFinder.Data.Entities;
+﻿using GoalFinder.Data;
+using GoalFinder.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace GoalFinder.MySqlRelationalDb.Data;
 
-public sealed class GoalFinderContext : IdentityDbContext<User, Role, Guid>
+public sealed class GoalFinderContext :
+    IdentityDbContext<User, Role, Guid>,
+    IGoalFinderContext
 {
     public GoalFinderContext(DbContextOptions<GoalFinderContext> options) : base(options: options) { }
 

@@ -4,6 +4,8 @@ using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
+using GoalFinder.Data.Repositories.UpdateUserInfo;
 
 namespace GoalFinder.Data.UnitOfWork;
 
@@ -32,10 +34,19 @@ public interface IUnitOfWork
     IRegisterAsUserRepository RegisterAsUserRepository { get; }
 
     /// <summary>
-    ///     Gets the user profile repository 
+    ///     Gets the update user information repository.
+    /// </summary>
+
+    IUpdateUserInfoRepository UpdateUserInfoRepository { get; }
+    /// <summary>
+    ///     Gets the user profile repository
     /// </summary>
     IGetUserProfileRepository GetUserProfileRepository { get; }
 
+    /// <summary>
+    ///     Gets the reset password with otp repository.
+    /// </summary>
+    IResetPasswordWithOtpRepository ResetPasswordWithOtpRepository { get; }
     /// <summary>
     ///     Gets all matches repository
     /// </summary>
