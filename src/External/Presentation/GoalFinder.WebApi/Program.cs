@@ -76,7 +76,6 @@ await using (var scope = app.Services.CreateAsyncScope())
 // Configure the HTTP request pipeline.
 app
     .UseExceptionHandler()
-    .UseHsts()
     .UseCors()
     .UseAuthentication()
     .UseAuthorization()

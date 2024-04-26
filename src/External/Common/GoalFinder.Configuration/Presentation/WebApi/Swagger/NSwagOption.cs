@@ -8,34 +8,57 @@ public sealed class NSwagOption
 
     public sealed class DocOption
     {
-        public string Name { get; set; }
+        public PostProcessOption PostProcess { get; set; } = new();
 
-        public InfoOption Info { get; set; } = new();
+        public AuthOption Auth { get; set; } = new();
 
-        public sealed class InfoOption
+        public sealed class PostProcessOption
         {
-            public string Version { get; set; }
+            public InfoOption Info { get; set; } = new();
 
-            public string Title { get; set; }
-
-            public string Description { get; set; }
-
-            public ContactOption Contact { get; set; } = new();
-
-            public LicenseOption License { get; set; } = new();
-
-            public sealed class ContactOption
+            public sealed class InfoOption
             {
-                public string Name { get; set; }
+                public string Version { get; set; }
 
-                public string Email { get; set; }
+                public string Title { get; set; }
+
+                public string Description { get; set; }
+
+                public ContactOption Contact { get; set; } = new();
+
+                public LicenseOption License { get; set; } = new();
+
+                public sealed class ContactOption
+                {
+                    public string Name { get; set; }
+
+                    public string Email { get; set; }
+                }
+
+                public sealed class LicenseOption
+                {
+                    public string Name { get; set; }
+
+                    public string Url { get; set; }
+                }
             }
+        }
 
-            public sealed class LicenseOption
+        public sealed class AuthOption
+        {
+            public BearerOption Bearer { get; set; } = new();
+
+            public sealed class BearerOption
             {
-                public string Name { get; set; }
+                public int Type { get; set; }
 
-                public string Url { get; set; }
+                public int In { get; set; }
+
+                public string Scheme { get; set; }
+
+                public string BearerFormat { get; set; }
+
+                public string Description { get; set; }
             }
         }
     }
