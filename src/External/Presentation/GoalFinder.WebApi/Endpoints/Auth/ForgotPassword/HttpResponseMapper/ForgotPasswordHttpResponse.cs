@@ -9,7 +9,7 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 /// <summary>
 ///     Forgot password http response
 /// </summary>
-internal sealed class ForgotPasswordHttpReponse
+internal sealed class ForgotPasswordHttpResponse
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int HttpCode { get; set; }

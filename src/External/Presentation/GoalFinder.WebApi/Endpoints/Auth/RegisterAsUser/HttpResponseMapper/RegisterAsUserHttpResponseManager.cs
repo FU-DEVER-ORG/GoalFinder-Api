@@ -47,10 +47,18 @@ internal sealed class RegisterAsUserHttpResponseManager
             });
 
         _dictionary.Add(
-            key: RegisterAsUserResponseStatusCode.USER_PASSWORD_IS_NOT_VALID,
+            key: RegisterAsUserResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode(),
+            });
+
+        _dictionary.Add(
+            key: RegisterAsUserResponseStatusCode.USER_PASSWORD_IS_NOT_VALID,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status417ExpectationFailed,
                 AppCode = response.StatusCode.ToAppCode(),
             });
 

@@ -16,7 +16,7 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Middleware.Caching;
 internal sealed class ForgotPasswordCachingPostProcessor : PostProcessor<
     ForgotPasswordRequest,
     ForgotPasswordStateBag,
-    ForgotPasswordHttpReponse>
+    ForgotPasswordHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -26,7 +26,7 @@ internal sealed class ForgotPasswordCachingPostProcessor : PostProcessor<
     }
 
     public override async Task PostProcessAsync(
-        IPostProcessorContext<ForgotPasswordRequest, ForgotPasswordHttpReponse> context,
+        IPostProcessorContext<ForgotPasswordRequest, ForgotPasswordHttpResponse> context,
         ForgotPasswordStateBag state,
         CancellationToken ct)
     {

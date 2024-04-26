@@ -19,15 +19,36 @@ internal sealed class LoginValidationPreProcessor : PreProcessor<LoginRequest, L
     {
         if (context.HasValidationFailures)
         {
-            var httpResponse = LazyLoginHttResponseMapper
-                .Get()
-                .Resolve(statusCode: LoginResponseStatusCode.INPUT_VALIDATION_FAIL)
-                .Invoke(
-                    arg1: context.Request,
-                    arg2: new()
-                    {
-                        StatusCode = LoginResponseStatusCode.INPUT_VALIDATION_FAIL
-                    });
+            LoginHttpResponse httpResponse;
+
+            if (!Equals(
+                objA: context.ValidationFailures
+                    .Find(match: failure => failure.PropertyName
+                        .Equals(value: "SerializerErrors")),
+                objB: default))
+            {
+                httpResponse = LazyLoginHttResponseMapper
+                    .Get()
+                    .Resolve(statusCode: LoginResponseStatusCode.INPUT_NOT_UNDERSTANDABLE)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = LoginResponseStatusCode.INPUT_NOT_UNDERSTANDABLE
+                        });
+            }
+            else
+            {
+                httpResponse = LazyLoginHttResponseMapper
+                    .Get()
+                    .Resolve(statusCode: LoginResponseStatusCode.INPUT_VALIDATION_FAIL)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = LoginResponseStatusCode.INPUT_VALIDATION_FAIL
+                        });
+            }
 
             await context.HttpContext.Response.SendAsync(
                 response: httpResponse,

@@ -22,15 +22,36 @@ internal sealed class ForgotPasswordValidationPreProcessor : PreProcessor<
         // Validation
         if(context.HasValidationFailures)
         {
-            var httpResponse = LazyForgotPasswordHttpResponseMapper
-                .Get()
-                .Resolve(statusCode: ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL)
-                .Invoke(
-                    arg1: context.Request,
-                    arg2: new()
-                    {
-                        StatusCode = ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL
-                    });
+            ForgotPasswordHttpResponse httpResponse;
+
+            if (!Equals(
+                objA: context.ValidationFailures
+                    .Find(match: failure => failure.PropertyName
+                        .Equals(value: "SerializerErrors")),
+                objB: default))
+            {
+                httpResponse = LazyForgotPasswordHttpResponseMapper
+                    .Get()
+                    .Resolve(statusCode: ForgotPasswordResponseStatusCode.INPUT_NOT_UNDERSTANDABLE)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = ForgotPasswordResponseStatusCode.INPUT_NOT_UNDERSTANDABLE
+                        });
+            }
+            else
+            {
+                httpResponse = LazyForgotPasswordHttpResponseMapper
+                    .Get()
+                    .Resolve(statusCode: ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = ForgotPasswordResponseStatusCode.INPUT_VALIDATION_FAIL
+                        });
+            }
 
             // Send Response
             await context.HttpContext.Response.SendAsync(

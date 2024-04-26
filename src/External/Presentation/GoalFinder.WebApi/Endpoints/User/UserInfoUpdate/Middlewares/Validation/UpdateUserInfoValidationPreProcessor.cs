@@ -23,15 +23,36 @@ internal class UpdateUserInfoValidationPreProcessor : PreProcessor<
 
         if (context.HasValidationFailures)
         {
-            var httpResponse = LazyUpdateUserInfoHttpResponseMapper
-                .Get()
-                .Resolve(statusCode: UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL)
-                .Invoke(
-                    arg1: context.Request,
-                    arg2: new()
-                    {
-                        StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL
-                    });
+            UpdateUserInfoHttpResponse httpResponse;
+
+            if (!Equals(
+                    objA: context.ValidationFailures
+                        .Find(match: failure => failure.PropertyName
+                            .Equals(value: "SerializerErrors")),
+                    objB: default))
+            {
+                httpResponse = LazyUpdateUserInfoHttpResponseMapper
+                    .Get()
+                    .Resolve(statusCode: UpdateUserInfoResponseStatusCode.INPUT_NOT_UNDERSTANDABLE)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = UpdateUserInfoResponseStatusCode.INPUT_NOT_UNDERSTANDABLE
+                        });
+            }
+            else
+            {
+                httpResponse = LazyUpdateUserInfoHttpResponseMapper
+                    .Get()
+                    .Resolve(statusCode: UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL)
+                    .Invoke(
+                        arg1: context.Request,
+                        arg2: new()
+                        {
+                            StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL
+                        });
+            }
 
             await context.HttpContext.Response.SendAsync(
                 response: httpResponse,

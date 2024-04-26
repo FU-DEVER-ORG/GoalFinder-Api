@@ -72,10 +72,25 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
         }
 
         #endregion
+        // Is user temporarily removed.
+        var isUserTemporarilyRemoved = await _unitOfWork.UpdateUserInfoRepository
+            .IsUserTemporarilyRemovedQueryAsync(
+                userId: command.GetUserId(),
+                cancellationToken: ct);
+
+        // User is temporarily removed.
+        if (isUserTemporarilyRemoved)
+        {
+            return new()
+            {
+                StatusCode = UpdateUserInfoResponseStatusCode.USER_IS_TEMPORARILY_REMOVED
+            };
+        }
+
         // Is username already taken by other user.
         var isUsernameAlreadyTaken = await _unitOfWork.UpdateUserInfoRepository
             .IsUserNameAlreadyTakenQueryAsync(
-                currentUserId: command.UserId,
+                currentUserId: command.GetUserId(),
                 userName: command.UserName,
                 cancellationToken: ct);
 
@@ -90,7 +105,7 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
 
         var foundUser = await _unitOfWork.UpdateUserInfoRepository
             .GetUserDetailsQueryAsync(
-                userId: command.UserId,
+                userId: command.GetUserId(),
                 cancellationToken: ct);
 
         var dbResult = await _unitOfWork.UpdateUserInfoRepository
@@ -121,7 +136,7 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
     {
         UserDetail newUpdateUser = new()
         {
-            UserId = command.UserId,
+            UserId = command.GetUserId(),
             User = new()
         };
 
@@ -134,7 +149,7 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
         newUpdateUser.ExperienceId = command.ExperienceId;
         newUpdateUser.CompetitionLevelId = command.CompetitionLevelId;
         newUpdateUser.UpdatedAt = DateTime.UtcNow;
-        newUpdateUser.UpdatedBy = command.UserId;
+        newUpdateUser.UpdatedBy = command.GetUserId();
 
         return newUpdateUser;
     }

@@ -12,11 +12,9 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.HttpResponseMapp
 
 internal sealed class ResetPasswordWithOtpHttpResponseManager
 {
-
     /// <summary>
-    /// Dictionary for <see cref="ResetPasswordWithOtpResponse"/>
+    ///     Dictionary for <see cref="ResetPasswordWithOtpResponse"/>
     /// </summary>
-
     private readonly Dictionary<
         ResetPasswordWithOtpResponseStatusCode,
         Func<
@@ -26,9 +24,8 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
                 _dictionary;
 
     /// <summary>
-    /// Constructor for <see cref="ResetPasswordWithOtpHttpResponseManager"/>
+    ///     Constructor for <see cref="ResetPasswordWithOtpHttpResponseManager"/>
     /// </summary>
-
     internal ResetPasswordWithOtpHttpResponseManager()
     {
         _dictionary = [];
@@ -38,7 +35,7 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status200OK,
-                AppCode = response.StatusCode.ToAppCode(),
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -47,7 +44,6 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             {
                 HttpCode = StatusCodes.Status500InternalServerError,
                 AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"Database operation failed!"]
             });
 
         _dictionary.Add(
@@ -56,7 +52,6 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             {
                 HttpCode = StatusCodes.Status404NotFound,
                 AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"OTP code {_.OtpCode} not found!"]
             });
 
         _dictionary.Add(
@@ -64,8 +59,7 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"OTP code {_.OtpCode} not valid!"]
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -74,16 +68,14 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             {
                 HttpCode = StatusCodes.Status417ExpectationFailed,
                 AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"OTP code {_.OtpCode} is expired!"]
             });
 
         _dictionary.Add(
-            key: ResetPasswordWithOtpResponseStatusCode.INPUT_VALIDATION_FAILD,
+            key: ResetPasswordWithOtpResponseStatusCode.INPUT_VALIDATION_FAILED,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"Input validation failed!"]
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -91,8 +83,7 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status417ExpectationFailed,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"New password and confirm password not match!"]
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -100,16 +91,17 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status417ExpectationFailed,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"User is temporary removed by admintrator!"]
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
+            key: ResetPasswordWithOtpResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
             });
     }
-
-    /// <summary>
-    /// Resolve <see cref="ResetPasswordWithOtpResponse"/>
-    /// </summary>
-    /// <param name="statusCode"></param>
-    /// <returns></returns>
 
     internal Func<
             ResetPasswordWithOtpRequest,

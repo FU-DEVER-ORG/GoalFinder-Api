@@ -30,7 +30,7 @@ internal sealed class UpdateUserInfoCachingPreProcessor : PreProcessor<
     {
         if (context.HttpContext.ResponseStarted()) { return; }
 
-        state.CacheKey = $"{nameof(UpdateUserInfoRequest)}_username_{context.Request.UserId}";
+        state.CacheKey = $"{nameof(UpdateUserInfoRequest)}_username_{context.Request.GetUserId()}";
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 

@@ -9,7 +9,7 @@ namespace GoalFinder.Application.Features.User.UpdateUserInfo;
 /// </summary>
 public sealed class UpdateUserInfoRequest : IFeatureRequest<UpdateUserInfoResponse>
 {
-    public Guid UserId { get; set; }
+    private Guid _userId;
 
     public string UserName { get; init; }
 
@@ -28,4 +28,14 @@ public sealed class UpdateUserInfoRequest : IFeatureRequest<UpdateUserInfoRespon
     public IEnumerable<Guid> PositionIds { get; set; }
 
     public Guid CompetitionLevelId { get; init; }
+
+    public void SetUserId(Guid userId)
+    {
+        _userId = userId;
+    }
+
+    public Guid GetUserId()
+    {
+        return _userId;
+    }
 }

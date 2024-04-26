@@ -37,14 +37,14 @@ internal sealed class ForgotPasswordCachingPreProcessor : PreProcessor<
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
         // get from cache
-        var cacheModel = await cacheHandler.GetAsync<ForgotPasswordHttpReponse>(
+        var cacheModel = await cacheHandler.GetAsync<ForgotPasswordHttpResponse>(
             key: state.CacheKey,
             cancellationToken: ct);
 
         // send response
         if (!Equals(
             objA: cacheModel,
-            objB: AppCacheModel<ForgotPasswordHttpReponse>.NotFound))
+            objB: AppCacheModel<ForgotPasswordHttpResponse>.NotFound))
         {
             await context.HttpContext.Response.SendAsync(
                 response: cacheModel.Value,

@@ -16,7 +16,7 @@ internal sealed class ForgotPasswordHttpResponseManager
         Func<
             ForgotPasswordRequest,
             ForgotPasswordResponse,
-            ForgotPasswordHttpReponse>>
+            ForgotPasswordHttpResponse>>
                 _dictionary;
 
     internal ForgotPasswordHttpResponseManager()
@@ -33,12 +33,19 @@ internal sealed class ForgotPasswordHttpResponseManager
             });
 
         _dictionary.Add(
+            key: ForgotPasswordResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+
+        _dictionary.Add(
             key: ForgotPasswordResponseStatusCode.USER_WITH_EMAIL_IS_NOT_FOUND,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status404NotFound,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"User with user email {_.UserName} is not found!"]
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -46,8 +53,7 @@ internal sealed class ForgotPasswordHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"Input validation failed!"]
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -55,8 +61,7 @@ internal sealed class ForgotPasswordHttpResponseManager
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status403Forbidden,
-                AppCode = response.StatusCode.ToAppCode(),
-                ErrorMessages = [$"User with user email {_.UserName} is ban or temporarily removed by admintrator!"]
+                AppCode = response.StatusCode.ToAppCode()
             });
 
         _dictionary.Add(
@@ -71,7 +76,7 @@ internal sealed class ForgotPasswordHttpResponseManager
     internal Func<
         ForgotPasswordRequest,
         ForgotPasswordResponse,
-        ForgotPasswordHttpReponse>
+        ForgotPasswordHttpResponse>
             Resolve(ForgotPasswordResponseStatusCode statusCode)
     {
         return _dictionary[statusCode];
