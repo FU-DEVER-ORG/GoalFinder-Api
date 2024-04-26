@@ -1,4 +1,4 @@
-﻿using FastEndpoints;
+using FastEndpoints;
 using GoalFinder.Application.Features.UserInfo.GetUserProfile;
 using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Common;
 using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.HttpResponseMapper;
