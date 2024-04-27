@@ -1,20 +1,19 @@
-﻿using FastEndpoints;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.UserInfo.GetUserProfile;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Common;
 using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Middleware.Caching;
 
 /// <summary>
 ///     Caching pre processor for get user profile feature.
 /// </summary>
-internal sealed class GetUserProfileCachingPreProcessor : PreProcessor<
-    GetUserProfileRequest,
-    GetUserProfileStateBag>
+internal sealed class GetUserProfileCachingPreProcessor
+    : PreProcessor<GetUserProfileRequest, GetUserProfileStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -26,9 +25,13 @@ internal sealed class GetUserProfileCachingPreProcessor : PreProcessor<
     public override async Task PreProcessAsync(
         IPreProcessorContext<GetUserProfileRequest> context,
         GetUserProfileStateBag state,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        if (context.HttpContext.ResponseStarted()) { return; }
+        if (context.HttpContext.ResponseStarted())
+        {
+            return;
+        }
 
         state.CacheKey = $"{nameof(GetUserProfileRequest)}_username_{context.Request.UserName}";
 
@@ -39,17 +42,20 @@ internal sealed class GetUserProfileCachingPreProcessor : PreProcessor<
         // get from cache
         var cacheModel = await cacheHandler.GetAsync<GetUserProfileHttpResponse>(
             key: state.CacheKey,
-            cancellationToken: ct);
+            cancellationToken: ct
+        );
 
         // send response
-        if (!Equals(
-            objA: cacheModel,
-            objB: AppCacheModel<GetUserProfileHttpResponse>.NotFound))
+        if (!Equals(objA: cacheModel, objB: AppCacheModel<GetUserProfileHttpResponse>.NotFound))
         {
+            var httpCode = cacheModel.Value.HttpCode;
+            cacheModel.Value.HttpCode = default;
+
             await context.HttpContext.Response.SendAsync(
                 response: cacheModel.Value,
-                statusCode: cacheModel.Value.HttpCode,
-                cancellation: ct);
+                statusCode: httpCode,
+                cancellation: ct
+            );
 
             context.HttpContext.MarkResponseStart();
         }

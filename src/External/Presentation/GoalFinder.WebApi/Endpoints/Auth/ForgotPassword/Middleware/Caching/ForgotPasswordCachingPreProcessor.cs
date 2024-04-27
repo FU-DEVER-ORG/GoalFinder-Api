@@ -1,20 +1,19 @@
-﻿using FastEndpoints;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.Auth.ForgotPassword;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Common;
 using GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ForgotPassword.Middleware.Caching;
 
 /// <summary>
 ///     Caching pre processor for forgot password feature.
 /// </summary>
-internal sealed class ForgotPasswordCachingPreProcessor : PreProcessor<
-    ForgotPasswordRequest,
-    ForgotPasswordStateBag>
+internal sealed class ForgotPasswordCachingPreProcessor
+    : PreProcessor<ForgotPasswordRequest, ForgotPasswordStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -26,9 +25,13 @@ internal sealed class ForgotPasswordCachingPreProcessor : PreProcessor<
     public override async Task PreProcessAsync(
         IPreProcessorContext<ForgotPasswordRequest> context,
         ForgotPasswordStateBag state,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        if (context.HttpContext.ResponseStarted()) { return; }
+        if (context.HttpContext.ResponseStarted())
+        {
+            return;
+        }
 
         state.CacheKey = $"{nameof(ForgotPasswordRequest)}_username_{context.Request.UserName}";
 
@@ -39,17 +42,20 @@ internal sealed class ForgotPasswordCachingPreProcessor : PreProcessor<
         // get from cache
         var cacheModel = await cacheHandler.GetAsync<ForgotPasswordHttpResponse>(
             key: state.CacheKey,
-            cancellationToken: ct);
+            cancellationToken: ct
+        );
 
         // send response
-        if (!Equals(
-            objA: cacheModel,
-            objB: AppCacheModel<ForgotPasswordHttpResponse>.NotFound))
+        if (!Equals(objA: cacheModel, objB: AppCacheModel<ForgotPasswordHttpResponse>.NotFound))
         {
+            var httpCode = cacheModel.Value.HttpCode;
+            cacheModel.Value.HttpCode = default;
+
             await context.HttpContext.Response.SendAsync(
                 response: cacheModel.Value,
-                statusCode: cacheModel.Value.HttpCode,
-                cancellation: ct);
+                statusCode: httpCode,
+                cancellation: ct
+            );
 
             context.HttpContext.MarkResponseStart();
         }
