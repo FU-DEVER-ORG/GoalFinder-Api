@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Shared.Features;
 using GoalFinder.Data.UnitOfWork;
@@ -41,22 +42,18 @@ internal class ResetPasswordWithOtpHandler
         }
 
         // get OTP from database
-        var OtpCode = await _unitOfWork.ResetPasswordWithOtpRepository.FindUserTokenByOtpCodeAsync(
+        var otpCode = await _unitOfWork.ResetPasswordWithOtpRepository.FindUserTokenByOtpCodeAsync(
             command.OtpCode,
             cancellationToken: ct
         );
-        if (OtpCode is null)
+
+        if (Equals(objA: otpCode, objB: default))
         {
             return new() { StatusCode = ResetPasswordWithOtpResponseStatusCode.OTP_CODE_NOT_FOUND };
         }
 
         // checking the otp code expired or not?
-        var isOtpCodeExpired =
-            await _unitOfWork.ResetPasswordWithOtpRepository.IsOtpCodeForResettingPasswordExpiredAsync(
-                OtpCode.LoginProvider,
-                ct
-            );
-        if (isOtpCodeExpired)
+        if (otpCode.ExpiredAt < DateTime.UtcNow)
         {
             return new()
             {
@@ -64,13 +61,9 @@ internal class ResetPasswordWithOtpHandler
             };
         }
 
-        // get user from otp code ?
-
-        var foundUser = await _userManager.FindByIdAsync(userId: OtpCode.UserId.ToString());
-
         var isUserTemporarilyRemoved =
             await _unitOfWork.ResetPasswordWithOtpRepository.IsUserTemporarilyRemovedQueryAsync(
-                userId: foundUser.Id,
+                userId: otpCode.UserId,
                 cancellationToken: ct
             );
 
@@ -82,6 +75,9 @@ internal class ResetPasswordWithOtpHandler
                 StatusCode = ResetPasswordWithOtpResponseStatusCode.USER_IS_TEMPORARY_REMOVED
             };
         }
+
+        // get user from otp code ?
+        var foundUser = await _userManager.FindByIdAsync(userId: otpCode.UserId.ToString());
 
         var isNewPasswordMatchOldPassword = await _userManager.CheckPasswordAsync(
             foundUser,
@@ -99,7 +95,7 @@ internal class ResetPasswordWithOtpHandler
         // update new user password
         var resetPasswordResult = await _userManager.ResetPasswordAsync(
             user: foundUser,
-            token: OtpCode.Value,
+            token: otpCode.Value,
             newPassword: command.newPassword
         );
         // reset password failed
@@ -113,7 +109,7 @@ internal class ResetPasswordWithOtpHandler
 
         var removeOtpCodeResult =
             await _unitOfWork.ResetPasswordWithOtpRepository.RemoveUserTokenUsingForResetPasswordAsync(
-                OtpCode.Value,
+                otpCode.Value,
                 ct
             );
 

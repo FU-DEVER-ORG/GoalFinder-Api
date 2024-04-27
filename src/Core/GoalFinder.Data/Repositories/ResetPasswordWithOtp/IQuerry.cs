@@ -10,12 +10,9 @@ namespace GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 
 public partial interface IResetPasswordWithOtpRepository
 {
-    Task<bool> IsOtpCodeForResettingPasswordExpiredAsync(
-        string otpCode,
-        CancellationToken cancellationToken
-    );
     Task<bool> IsUserTemporarilyRemovedQueryAsync(Guid userId, CancellationToken cancellationToken);
-    Task<GoalFinder.Data.Entities.UserToken> FindUserTokenByOtpCodeAsync(
+
+    Task<Entities.UserToken> FindUserTokenByOtpCodeAsync(
         string otpCode,
         CancellationToken cancellationToken
     );

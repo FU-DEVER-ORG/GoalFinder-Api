@@ -4,7 +4,4 @@
 /// IResetPasswordWithOtpRepository <see cref="IResetPasswordWithOtpRepository"/>
 /// </summary>
 
-public partial interface IResetPasswordWithOtpRepository
-{
-
-}
+public partial interface IResetPasswordWithOtpRepository { }
