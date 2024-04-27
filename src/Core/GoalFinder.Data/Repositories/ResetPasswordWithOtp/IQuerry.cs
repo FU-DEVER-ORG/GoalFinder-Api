@@ -12,12 +12,11 @@ public partial interface IResetPasswordWithOtpRepository
 {
     Task<bool> IsOtpCodeForResettingPasswordExpiredAsync(
         string otpCode,
-        CancellationToken cancellationToken);
-    Task<bool> IsUserTemporarilyRemovedQueryAsync(
-        Guid userId,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
+    Task<bool> IsUserTemporarilyRemovedQueryAsync(Guid userId, CancellationToken cancellationToken);
     Task<GoalFinder.Data.Entities.UserToken> FindUserTokenByOtpCodeAsync(
-        string otpCode, CancellationToken cancellationToken);
-
+        string otpCode,
+        CancellationToken cancellationToken
+    );
 }
-

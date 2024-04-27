@@ -1,18 +1,17 @@
-﻿using GoalFinder.Application.Shared.Features;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using GoalFinder.Application.Shared.Features;
 using GoalFinder.Application.Shared.Tokens.OTP;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.Application.Features.Auth.ForgotPassword;
 
 /// <summary>
 ///     Forgot Password Handler
 /// </summary>
-internal sealed class ForgotPasswordHandler : IFeatureHandler<
-    ForgotPasswordRequest,
-    ForgotPasswordResponse>
+internal sealed class ForgotPasswordHandler
+    : IFeatureHandler<ForgotPasswordRequest, ForgotPasswordResponse>
 {
     private readonly UserManager<Data.Entities.User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +20,8 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
     public ForgotPasswordHandler(
         UserManager<Data.Entities.User> userManager,
         IOtpHandler otpHandler,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork
+    )
     {
         _userManager = userManager;
         _otpHandler = otpHandler;
@@ -44,7 +44,8 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
     /// </returns>
     public async Task<ForgotPasswordResponse> ExecuteAsync(
         ForgotPasswordRequest command,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         //Find User By username
         var foundUser = await _userManager.FindByNameAsync(userName: command.UserName);
@@ -58,10 +59,11 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
             };
         }
 
-        var isUserTemporarilyRemoved = await _unitOfWork.ForgotPasswordRepository
-            .IsUserTemporarilyRemovedQueryAsync(
+        var isUserTemporarilyRemoved =
+            await _unitOfWork.ForgotPasswordRepository.IsUserTemporarilyRemovedQueryAsync(
                 userId: foundUser.Id,
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
         // User is temporarily removed.
         if (isUserTemporarilyRemoved)
@@ -78,28 +80,23 @@ internal sealed class ForgotPasswordHandler : IFeatureHandler<
         //Sending Feature are currently skipping
 
         //Add reset password OTP Code to database
-        var dbResultAfterAddingOtp = await _unitOfWork.ForgotPasswordRepository
-            .AddResetPasswordTokenToDatabaseAsync(
+        var dbResultAfterAddingOtp =
+            await _unitOfWork.ForgotPasswordRepository.AddResetPasswordTokenToDatabaseAsync(
                 userId: foundUser.Id,
                 otpId: resetPasswordOTPCode,
                 otpValue: await _userManager.GeneratePasswordResetTokenAsync(foundUser),
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
-        if(!dbResultAfterAddingOtp)
+        if (!dbResultAfterAddingOtp)
         {
-            return new()
-            {
-                StatusCode = ForgotPasswordResponseStatusCode.DATABASE_OPERATION_FAIL
-            };
+            return new() { StatusCode = ForgotPasswordResponseStatusCode.DATABASE_OPERATION_FAIL };
         }
 
         return new()
         {
             StatusCode = ForgotPasswordResponseStatusCode.OPERATION_SUCCESS,
-            ResponseBody = new()
-            {
-                OtpCode = resetPasswordOTPCode
-            }
+            ResponseBody = new() { OtpCode = resetPasswordOTPCode }
         };
     }
 }

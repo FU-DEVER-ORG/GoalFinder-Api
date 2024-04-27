@@ -1,8 +1,8 @@
-﻿using GoalFinder.Application.Shared.Features;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using GoalFinder.Application.Shared.Features;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
@@ -10,15 +10,16 @@ namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 ///     Reset password with otp handler
 /// </summary>
 
-internal class ResetPasswordWithOtpHandler :
-    IFeatureHandler<ResetPasswordWithOtpRequest, ResetPasswordWithOtpResponse>
+internal class ResetPasswordWithOtpHandler
+    : IFeatureHandler<ResetPasswordWithOtpRequest, ResetPasswordWithOtpResponse>
 {
     private readonly UserManager<Data.Entities.User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
 
     public ResetPasswordWithOtpHandler(
         UserManager<Data.Entities.User> userManager,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork
+    )
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
@@ -26,31 +27,35 @@ internal class ResetPasswordWithOtpHandler :
 
     public async Task<ResetPasswordWithOtpResponse> ExecuteAsync(
         ResetPasswordWithOtpRequest command,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         // Checking matching new password and confirm password
         if (!Equals(objA: command.newPassword, objB: command.confirmPassword))
         {
             return new()
             {
-                StatusCode = ResetPasswordWithOtpResponseStatusCode.NEW_PASSWORD_NOT_MATCH_CONFIRM_PASSWORD
+                StatusCode =
+                    ResetPasswordWithOtpResponseStatusCode.NEW_PASSWORD_NOT_MATCH_CONFIRM_PASSWORD
             };
         }
 
         // get OTP from database
-        var OtpCode = await _unitOfWork.ResetPasswordWithOtpRepository
-            .FindUserTokenByOtpCodeAsync(command.OtpCode, cancellationToken: ct);
+        var OtpCode = await _unitOfWork.ResetPasswordWithOtpRepository.FindUserTokenByOtpCodeAsync(
+            command.OtpCode,
+            cancellationToken: ct
+        );
         if (OtpCode is null)
         {
-            return new()
-            {
-                StatusCode = ResetPasswordWithOtpResponseStatusCode.OTP_CODE_NOT_FOUND
-            };
+            return new() { StatusCode = ResetPasswordWithOtpResponseStatusCode.OTP_CODE_NOT_FOUND };
         }
 
         // checking the otp code expired or not?
-        var isOtpCodeExpired = await _unitOfWork.ResetPasswordWithOtpRepository
-            .IsOtpCodeForResettingPasswordExpiredAsync(OtpCode.Value, ct);
+        var isOtpCodeExpired =
+            await _unitOfWork.ResetPasswordWithOtpRepository.IsOtpCodeForResettingPasswordExpiredAsync(
+                OtpCode.LoginProvider,
+                ct
+            );
         if (isOtpCodeExpired)
         {
             return new()
@@ -63,8 +68,11 @@ internal class ResetPasswordWithOtpHandler :
 
         var foundUser = await _userManager.FindByIdAsync(userId: OtpCode.UserId.ToString());
 
-        var isUserTemporarilyRemoved = await _unitOfWork.ResetPasswordWithOtpRepository
-            .IsUserTemporarilyRemovedQueryAsync(userId: foundUser.Id, cancellationToken: ct);
+        var isUserTemporarilyRemoved =
+            await _unitOfWork.ResetPasswordWithOtpRepository.IsUserTemporarilyRemovedQueryAsync(
+                userId: foundUser.Id,
+                cancellationToken: ct
+            );
 
         // checking user is active or not
         if (isUserTemporarilyRemoved)
@@ -75,12 +83,16 @@ internal class ResetPasswordWithOtpHandler :
             };
         }
 
-        var isNewPasswordMatchOldPassword = await _userManager.CheckPasswordAsync(foundUser, command.confirmPassword);
-        if(isNewPasswordMatchOldPassword)
+        var isNewPasswordMatchOldPassword = await _userManager.CheckPasswordAsync(
+            foundUser,
+            command.confirmPassword
+        );
+        if (isNewPasswordMatchOldPassword)
         {
             return new()
             {
-                StatusCode = ResetPasswordWithOtpResponseStatusCode.NEW_PASSWORD_CANT_BE_MATCH_WITH_OLD_PASSWORD
+                StatusCode =
+                    ResetPasswordWithOtpResponseStatusCode.NEW_PASSWORD_CANT_BE_MATCH_WITH_OLD_PASSWORD
             };
         }
 
@@ -89,7 +101,7 @@ internal class ResetPasswordWithOtpHandler :
             user: foundUser,
             token: OtpCode.Value,
             newPassword: command.newPassword
-            );
+        );
         // reset password failed
         if (!resetPasswordResult.Succeeded)
         {
@@ -99,10 +111,13 @@ internal class ResetPasswordWithOtpHandler :
             };
         }
 
-        var removeOtpCodeResult = await _unitOfWork.ResetPasswordWithOtpRepository
-            .RemoveUserTokenUsingForResetPasswordAsync(OtpCode.Value, ct);
+        var removeOtpCodeResult =
+            await _unitOfWork.ResetPasswordWithOtpRepository.RemoveUserTokenUsingForResetPasswordAsync(
+                OtpCode.Value,
+                ct
+            );
 
-        if(!removeOtpCodeResult)
+        if (!removeOtpCodeResult)
         {
             return new()
             {
@@ -110,9 +125,6 @@ internal class ResetPasswordWithOtpHandler :
             };
         }
 
-        return new()
-        {
-            StatusCode = ResetPasswordWithOtpResponseStatusCode.OPERATION_SUCCESS
-        };
+        return new() { StatusCode = ResetPasswordWithOtpResponseStatusCode.OPERATION_SUCCESS };
     }
 }

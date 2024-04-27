@@ -1,8 +1,8 @@
-﻿using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 
@@ -14,21 +14,25 @@ internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWit
 {
     public async Task<bool> RemoveUserTokenUsingForResetPasswordAsync(
         string otpCode,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var executedTransactionResult = false;
-        await _context.Database
-            .CreateExecutionStrategy()
+        await _context
+            .Database.CreateExecutionStrategy()
             .ExecuteAsync(operation: async () =>
             {
-                await using var dbTransaction = await
-                _context.Database.BeginTransactionAsync(cancellationToken: cancellationToken);
+                await using var dbTransaction = await _context.Database.BeginTransactionAsync(
+                    cancellationToken: cancellationToken
+                );
                 try
                 {
-                    await _userTokens.Where(predicate:
-                        userToken => userToken.Value == otpCode &&
-                        userToken.Name.Equals("PasswordResetOtpCode"))
-                    .ExecuteDeleteAsync(cancellationToken: cancellationToken);
+                    await _userTokens
+                        .Where(predicate: userToken =>
+                            userToken.Value == otpCode
+                            && userToken.Name.Equals("PasswordResetOtpCode")
+                        )
+                        .ExecuteDeleteAsync(cancellationToken: cancellationToken);
 
                     await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
