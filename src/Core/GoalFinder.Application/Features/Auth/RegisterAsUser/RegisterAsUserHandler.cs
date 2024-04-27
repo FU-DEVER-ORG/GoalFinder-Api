@@ -174,7 +174,8 @@ internal sealed class RegisterAsUserHandler : IFeatureHandler<
             Description = string.Empty,
             ExperienceId = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
             PrestigeScore = 100,
-            AvatarUrl = _defaultUserAvatarAsUrlHandler.Get()
+            AvatarUrl = _defaultUserAvatarAsUrlHandler.Get(),
+            BackgroundUrl = string.Empty
         };
     }
 }

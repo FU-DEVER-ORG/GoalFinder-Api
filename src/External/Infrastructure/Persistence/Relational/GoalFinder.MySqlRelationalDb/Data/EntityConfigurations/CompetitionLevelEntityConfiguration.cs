@@ -8,15 +8,15 @@ namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 /// <summary>
 ///     Represents configuration of "CompetitionLevels" table.
 /// </summary>
-internal sealed class CompetitionLevelEntityConfiguration :
-    IEntityTypeConfiguration<CompetitionLevel>
+internal sealed class CompetitionLevelEntityConfiguration
+    : IEntityTypeConfiguration<CompetitionLevel>
 {
     public void Configure(EntityTypeBuilder<CompetitionLevel> builder)
     {
         builder.ToTable(
             name: $"{nameof(CompetitionLevel)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain competition level records."));
+            buildAction: table => table.HasComment(comment: "Contain competition level records.")
+        );
 
         // Primary key configuration.
         builder.HasKey(keyExpression: competitionLevel => competitionLevel.Id);
@@ -24,9 +24,12 @@ internal sealed class CompetitionLevelEntityConfiguration :
         // FullName property configuration
         builder
             .Property(propertyExpression: competitionLevel => competitionLevel.FullName)
-                .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                    length: CompetitionLevel.MetaData.FullName.MaxLength))
-                .IsRequired();
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: CompetitionLevel.MetaData.FullName.MaxLength
+                )
+            )
+            .IsRequired();
 
         // CreatedAt property configuration.
         builder
