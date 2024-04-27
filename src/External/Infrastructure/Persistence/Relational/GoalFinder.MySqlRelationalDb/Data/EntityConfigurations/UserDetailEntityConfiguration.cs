@@ -54,6 +54,12 @@ internal sealed class UserDetailEntityConfiguration :
             .HasColumnType(typeName: CommonConstant.Database.DataType.TEXT)
             .IsRequired();
 
+        // BackgroundUrl property configuration.
+        builder
+            .Property(propertyExpression: userDetail => userDetail.BackgroundUrl)
+            .HasColumnType(typeName: CommonConstant.Database.DataType.TEXT)
+            .IsRequired();
+
         // PrestigeScore property configuration.
         builder
             .Property(propertyExpression: roleDetail => roleDetail.PrestigeScore)
@@ -116,5 +122,18 @@ internal sealed class UserDetailEntityConfiguration :
             .WithOne(navigationExpression: matchPlayer => matchPlayer.UserDetail)
             .HasForeignKey(foreignKeyExpression: matchPlayer => matchPlayer.PlayerId)
             .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
+        builder
+            .HasMany(navigationExpression: userDetail => userDetail.RefreshTokens)
+            .WithOne(navigationExpression: refreshToken => refreshToken.UserDetail)
+            .HasForeignKey(foreignKeyExpression: refreshToken => refreshToken.UserId)
+            .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
+        builder
+            .HasMany(navigationExpression: userDetail => userDetail.FootballMatches)
+            .WithOne(navigationExpression: footballMatch => footballMatch.UserDetail)
+            .HasForeignKey(foreignKeyExpression: footballMatch => footballMatch.HostId)
+            .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
     }
 }

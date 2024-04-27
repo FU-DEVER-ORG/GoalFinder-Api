@@ -54,6 +54,7 @@ internal partial class UpdateUserInfoRepository
                 LastName = userDetail.LastName,
                 Description = userDetail.Description,
                 AvatarUrl = userDetail.AvatarUrl,
+                BackgroundUrl = userDetail.BackgroundUrl,
                 Address = userDetail.Address,
                 ExperienceId = userDetail.ExperienceId,
                 CompetitionLevelId = userDetail.CompetitionLevelId,

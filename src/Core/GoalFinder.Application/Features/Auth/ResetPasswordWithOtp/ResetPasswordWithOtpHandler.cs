@@ -75,6 +75,15 @@ internal class ResetPasswordWithOtpHandler :
             };
         }
 
+        var isNewPasswordMatchOldPassword = await _userManager.CheckPasswordAsync(foundUser, command.confirmPassword);
+        if(isNewPasswordMatchOldPassword)
+        {
+            return new()
+            {
+                StatusCode = ResetPasswordWithOtpResponseStatusCode.NEW_PASSWORD_CANT_BE_MATCH_WITH_OLD_PASSWORD
+            };
+        }
+
         // update new user password
         var resetPasswordResult = await _userManager.ResetPasswordAsync(
             user: foundUser,
@@ -86,7 +95,7 @@ internal class ResetPasswordWithOtpHandler :
         {
             return new()
             {
-                StatusCode = ResetPasswordWithOtpResponseStatusCode.DATABASE_OPERATION_FAILD
+                StatusCode = ResetPasswordWithOtpResponseStatusCode.DATABASE_OPERATION_FAILED
             };
         }
 
@@ -97,7 +106,7 @@ internal class ResetPasswordWithOtpHandler :
         {
             return new()
             {
-                StatusCode = ResetPasswordWithOtpResponseStatusCode.DATABASE_OPERATION_FAILD
+                StatusCode = ResetPasswordWithOtpResponseStatusCode.DATABASE_OPERATION_FAILED
             };
         }
 

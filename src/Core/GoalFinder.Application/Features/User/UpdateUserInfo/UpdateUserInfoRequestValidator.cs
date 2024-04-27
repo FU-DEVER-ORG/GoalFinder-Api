@@ -46,7 +46,12 @@ public sealed class UpdateUserInfoRequestValidator :
         RuleFor(expression: request => request.AvatarUrl)
             .Cascade(cascadeMode: CascadeMode.Stop)
             .NotEmpty()
-            .MinimumLength(minimumLength: Data.Entities.UserDetail.MetaData.FirstName.MinLength);
+            .MinimumLength(minimumLength: Data.Entities.UserDetail.MetaData.AvatarUrl.MinLength);
+
+        RuleFor(expression: request => request.BackgroundUrl)
+            .Cascade(cascadeMode: CascadeMode.Stop)
+            .NotEmpty()
+            .MinimumLength(minimumLength: Data.Entities.UserDetail.MetaData.BackgroundUrl.MinLength);
 
         RuleFor(expression: request => request.ExperienceId)
             .Cascade(cascadeMode: CascadeMode.Stop)

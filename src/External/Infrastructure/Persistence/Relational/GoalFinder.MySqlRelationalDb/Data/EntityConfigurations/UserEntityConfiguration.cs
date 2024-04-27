@@ -31,7 +31,6 @@ internal sealed class UserEntityConfiguration :
             .WithOne(navigationExpression: userToken => userToken.User)
             .HasForeignKey(foreignKeyExpression: userToken => userToken.UserId)
             .IsRequired();
-
         // [Users] - [UserDetails] (1 - 1).
         builder
             .HasOne(navigationExpression: user => user.UserDetail)

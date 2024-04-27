@@ -49,6 +49,7 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
                 Description = "string",
                 Address = "string",
                 AvatarUrl = "string",
+                BackgroundUrl = "string",
                 ExperienceId = Guid.Empty,
                 PositionIds = [],
                 CompetitionLevelId = Guid.Empty

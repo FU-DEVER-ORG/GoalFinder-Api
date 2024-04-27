@@ -146,6 +146,7 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
         newUpdateUser.Description = command.Description;
         newUpdateUser.Address = command.Address;
         newUpdateUser.AvatarUrl = command.AvatarUrl;
+        newUpdateUser.BackgroundUrl = command.BackgroundUrl;
         newUpdateUser.ExperienceId = command.ExperienceId;
         newUpdateUser.CompetitionLevelId = command.CompetitionLevelId;
         newUpdateUser.UpdatedAt = DateTime.UtcNow;

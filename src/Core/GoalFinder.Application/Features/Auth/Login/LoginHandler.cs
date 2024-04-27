@@ -134,6 +134,7 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
                 .First(predicate: claim => claim.Type.Equals(
                     value: JwtRegisteredClaimNames.Jti))
                 .Value),
+            UserId = foundUser.Id,
             ExpiredDate = command.IsRemember ?
                 DateTime.UtcNow.AddDays(value: 7) :
                 DateTime.UtcNow.AddDays(value: 3),

@@ -39,7 +39,7 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
             });
 
         _dictionary.Add(
-            key: ResetPasswordWithOtpResponseStatusCode.DATABASE_OPERATION_FAILD,
+            key: ResetPasswordWithOtpResponseStatusCode.DATABASE_OPERATION_FAILED,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status500InternalServerError,
@@ -96,6 +96,13 @@ internal sealed class ResetPasswordWithOtpHttpResponseManager
 
         _dictionary.Add(
             key: ResetPasswordWithOtpResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
+            value: (_, response) => new()
+            {
+                HttpCode = StatusCodes.Status400BadRequest,
+                AppCode = response.StatusCode.ToAppCode()
+            });
+        _dictionary.Add(
+            key: ResetPasswordWithOtpResponseStatusCode.NEW_PASSWORD_CANT_BE_MATCH_WITH_OLD_PASSWORD,
             value: (_, response) => new()
             {
                 HttpCode = StatusCodes.Status400BadRequest,

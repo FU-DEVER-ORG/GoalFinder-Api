@@ -27,6 +27,8 @@ public class UserDetail :
 
     public string Address { get; set; }
 
+    public string BackgroundUrl { get; set; }
+
     public string AvatarUrl { get; set; }
 
     public DateTime UpdatedAt { get; set; }
@@ -57,6 +59,9 @@ public class UserDetail :
     public IEnumerable<UserPosition> UserPositions { get; set; }
 
     public IEnumerable<MatchPlayer> MatchPlayers { get; set; }
+
+    public IEnumerable<RefreshToken> RefreshTokens { get; set; }
+    public IEnumerable<FootballMatch> FootballMatches { get; set; }
 
     // Additional information of this table.
     public static class MetaData
@@ -95,6 +100,10 @@ public class UserDetail :
         }
 
         public static class AvatarUrl
+        {
+            public const int MinLength = 2;
+        }
+        public static class BackgroundUrl
         {
             public const int MinLength = 2;
         }

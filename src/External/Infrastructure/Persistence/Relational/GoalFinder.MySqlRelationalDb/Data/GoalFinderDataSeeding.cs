@@ -358,7 +358,7 @@ public static class GoalFinderDataSeeding
             value: "Tiền vệ");
 
         newPositionNames.Add(
-            key: Guid.Parse(input: "7bfadb87-4950-4627-aa93-c0312ff492a5"),
+            key: Guid.Parse(input: "697ed101-07cb-4745-a80f-488e695c830a"),
             value: "Hậu vệ");
 
         List<Position> newPositions = [];
@@ -416,6 +416,7 @@ public static class GoalFinderDataSeeding
                 Description = "Hi my name is khoa, admin of this website.",
                 ExperienceId = experienceId,
                 PrestigeScore = 100,
+                BackgroundUrl = string.Empty,
                 AvatarUrl = defaultUserAvatarAsUrlHandler.Get()
             }
         };

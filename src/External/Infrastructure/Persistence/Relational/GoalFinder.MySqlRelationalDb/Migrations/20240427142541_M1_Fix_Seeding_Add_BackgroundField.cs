@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace GoalFinder.MySqlRelationalDb.Migrations
 {
     /// <inheritdoc />
-    public partial class M1_NewDb_And_Change_FootballMatch_Table_Name : Migration
+    public partial class M1_Fix_Seeding_Add_BackgroundField : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -90,22 +90,6 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     table.PrimaryKey("PK_Positions", x => x.Id);
                 },
                 comment: "Contain position records.")
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "RefreshTokens",
-                columns: table => new
-                {
-                    AccessTokenId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    RefreshTokenValue = table.Column<string>(type: "TEXT", nullable: false),
-                    ExpiredDate = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.AccessTokenId);
-                },
-                comment: "Contain refresh token records.")
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -229,6 +213,7 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     PrestigeScore = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "VARCHAR(200)", nullable: false),
+                    BackgroundUrl = table.Column<string>(type: "TEXT", nullable: false),
                     AvatarUrl = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "char(36)", nullable: false),
@@ -352,8 +337,7 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     RemovedBy = table.Column<Guid>(type: "char(36)", nullable: false),
                     Address = table.Column<string>(type: "VARCHAR(200)", nullable: false),
                     HostId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    CompetitionLevelId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    UserDetailUserId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    CompetitionLevelId = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -365,12 +349,34 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FootballMatches_UserDetails_UserDetailUserId",
-                        column: x => x.UserDetailUserId,
+                        name: "FK_FootballMatches_UserDetails_HostId",
+                        column: x => x.HostId,
                         principalTable: "UserDetails",
                         principalColumn: "UserId");
                 },
                 comment: "Contain football match records.")
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    AccessTokenId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    RefreshTokenValue = table.Column<string>(type: "TEXT", nullable: false),
+                    ExpiredDate = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.AccessTokenId);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_UserDetails_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserDetails",
+                        principalColumn: "UserId");
+                },
+                comment: "Contain refresh token records.")
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -428,14 +434,19 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 column: "CompetitionLevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FootballMatches_UserDetailUserId",
+                name: "IX_FootballMatches_HostId",
                 table: "FootballMatches",
-                column: "UserDetailUserId");
+                column: "HostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MatchPlayers_PlayerId",
                 table: "MatchPlayers",
                 column: "PlayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
