@@ -1,5 +1,6 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
@@ -23,6 +24,7 @@ public interface IUnitOfWork
     ///     Gets the insert error log repository.
     /// </summary>
     IInsertErrorLogRepository InsertErrorLogRepository { get; }
+
     /// <summary>
     ///     Gets the forgot password repository.
     /// </summary>
@@ -38,6 +40,7 @@ public interface IUnitOfWork
     /// </summary>
 
     IUpdateUserInfoRepository UpdateUserInfoRepository { get; }
+
     /// <summary>
     ///     Gets the user profile repository
     /// </summary>
@@ -47,9 +50,14 @@ public interface IUnitOfWork
     ///     Gets the reset password with otp repository.
     /// </summary>
     IResetPasswordWithOtpRepository ResetPasswordWithOtpRepository { get; }
+
     /// <summary>
     ///     Gets all matches repository
     /// </summary>
     IGetAllMatchesRepository GetAllMatchesRepository { get; }
 
+    /// <summary>
+    ///     Gets the get user info on sidebar repository
+    /// </summary>
+    IGetUserInfoOnSidebarRepository GetUserInfoOnSidebarRepository { get; }
 }
