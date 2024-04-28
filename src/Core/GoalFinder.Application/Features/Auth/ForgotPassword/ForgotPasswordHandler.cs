@@ -48,7 +48,7 @@ internal sealed class ForgotPasswordHandler
     )
     {
         //Find User By username
-        var foundUser = await _userManager.FindByNameAsync(userName: command.UserName);
+        var foundUser = await _userManager.FindByEmailAsync(email: command.UserName);
 
         //Validate User
         if (Equals(objA: foundUser, objB: default))
