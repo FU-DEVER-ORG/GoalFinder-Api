@@ -1,5 +1,5 @@
-﻿using GoalFinder.Application.Shared.Features;
-using FluentValidation;
+﻿using FluentValidation;
+using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 
@@ -7,12 +7,9 @@ namespace GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 ///     Request validator for <see cref="ResetPasswordWithOtpRequest"/>
 /// </summary>
 
-public sealed class ResetPasswordWithOtpRequestValidator :
-    FeatureRequestValidator<
-        ResetPasswordWithOtpRequest,
-        ResetPasswordWithOtpResponse>
+public sealed class ResetPasswordWithOtpRequestValidator
+    : FeatureRequestValidator<ResetPasswordWithOtpRequest, ResetPasswordWithOtpResponse>
 {
-
     /// <summary>
     ///     Create a new instance of <see cref="ResetPasswordWithOtpRequestValidator"/>
     /// </summary>

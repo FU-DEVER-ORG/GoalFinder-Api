@@ -9,4 +9,3 @@ public sealed class UpdateUserInfoResponse : IFeatureResponse
 {
     public UpdateUserInfoResponseStatusCode StatusCode { get; init; }
 }
-

@@ -1,17 +1,13 @@
-﻿using GoalFinder.Data.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 
 /// <summary>
 ///     Represent the "FootballMatches" table.
 /// </summary>
-public class FootballMatch :
-    IBaseEntity,
-    ICreatedEntity,
-    IUpdatedEntity,
-    ITemporarilyRemovedEntity
+public class FootballMatch : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITemporarilyRemovedEntity
 {
     // Primary keys.
     public Guid Id { get; set; }

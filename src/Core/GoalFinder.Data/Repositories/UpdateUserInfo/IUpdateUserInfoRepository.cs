@@ -3,6 +3,4 @@
 /// <summary>
 ///     Repository interface for the update user info feature.
 /// </summary>
-public partial interface IUpdateUserInfoRepository
-{
-}
+public partial interface IUpdateUserInfoRepository { }

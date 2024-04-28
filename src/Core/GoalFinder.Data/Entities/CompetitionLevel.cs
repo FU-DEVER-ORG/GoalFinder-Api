@@ -1,17 +1,17 @@
-﻿using GoalFinder.Data.Entities.Base;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 
 /// <summary>
 ///     Represent the "CompetitionLevels" table.
 /// </summary>
-public class CompetitionLevel :
-    IBaseEntity,
-    ICreatedEntity,
-    IUpdatedEntity,
-    ITemporarilyRemovedEntity
+public class CompetitionLevel
+    : IBaseEntity,
+        ICreatedEntity,
+        IUpdatedEntity,
+        ITemporarilyRemovedEntity
 {
     // Primary keys.
     public Guid Id { get; set; }

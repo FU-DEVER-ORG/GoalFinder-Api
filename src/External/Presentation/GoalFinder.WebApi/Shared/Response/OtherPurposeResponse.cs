@@ -1,6 +1,6 @@
-using GoalFinder.WebApi.Shared.AppCodes;
 using System;
 using System.Collections.Generic;
+using GoalFinder.WebApi.Shared.AppCodes;
 
 namespace GoalFinder.WebApi.Shared.Response;
 
@@ -14,9 +14,11 @@ internal sealed class OtherPurposeResponse
 {
     public object Body { get; init; } = new();
 
-    public DateTime ResponseTime { get; init; } = TimeZoneInfo.ConvertTimeFromUtc(
-        dateTime: DateTime.UtcNow,
-        destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "SE Asia Standard Time"));
+    public DateTime ResponseTime { get; init; } =
+        TimeZoneInfo.ConvertTimeFromUtc(
+            dateTime: DateTime.UtcNow,
+            destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "SE Asia Standard Time")
+        );
 
     public string AppCode { get; init; } = OtherPurposeAppCode.SUCCESS.ToString();
 

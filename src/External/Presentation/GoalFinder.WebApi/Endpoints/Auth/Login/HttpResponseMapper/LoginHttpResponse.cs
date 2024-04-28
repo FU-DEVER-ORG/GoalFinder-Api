@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using System;
-using GoalFinder.Application.Features.Auth.Login;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using GoalFinder.Application.Features.Auth.Login;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 
@@ -15,9 +15,11 @@ internal sealed class LoginHttpResponse
 
     public string AppCode { get; init; } = LoginResponseStatusCode.OPERATION_SUCCESS.ToAppCode();
 
-    public DateTime ResponseTime { get; init; } = TimeZoneInfo.ConvertTimeFromUtc(
-        dateTime: DateTime.UtcNow,
-        destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "SE Asia Standard Time"));
+    public DateTime ResponseTime { get; init; } =
+        TimeZoneInfo.ConvertTimeFromUtc(
+            dateTime: DateTime.UtcNow,
+            destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "SE Asia Standard Time")
+        );
 
     public object Body { get; init; } = new();
 

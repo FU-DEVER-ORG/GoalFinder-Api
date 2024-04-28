@@ -22,7 +22,8 @@ public static class DependencyInjection
     /// </param>
     public static void AddRedisCachingDatabase(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         services.ConfigCore();
         services.ConfigStackExchangeRedisCache(configuration: configuration);

@@ -9,9 +9,5 @@ namespace GoalFinder.Data.Repositories.ForgotPassword;
 /// </summary>
 public partial interface IForgotPasswordRepository
 {
-    Task<bool> IsUserTemporarilyRemovedQueryAsync(
-        Guid userId,
-        CancellationToken cancellationToken
-    );
+    Task<bool> IsUserTemporarilyRemovedQueryAsync(Guid userId, CancellationToken cancellationToken);
 }
-

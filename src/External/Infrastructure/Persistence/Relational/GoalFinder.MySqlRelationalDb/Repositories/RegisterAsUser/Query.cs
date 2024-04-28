@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Threading;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using GoalFinder.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +9,8 @@ internal partial class RegisterAsUserRepository
 {
     public Task<bool> IsUserFoundByNormalizedEmailOrUsernameQueryAsync(
         string userEmail,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         userEmail = userEmail.ToUpper();
 
@@ -17,8 +18,9 @@ internal partial class RegisterAsUserRepository
             .Set<User>()
             .AnyAsync(
                 predicate: user =>
-                    user.NormalizedEmail.Equals(userEmail) &&
-                    user.NormalizedUserName.Equals(userEmail),
-                cancellationToken: cancellationToken);
+                    user.NormalizedEmail.Equals(userEmail)
+                    && user.NormalizedUserName.Equals(userEmail),
+                cancellationToken: cancellationToken
+            );
     }
 }

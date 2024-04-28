@@ -1,10 +1,10 @@
-﻿using FastEndpoints.Swagger;
+﻿using System;
+using FastEndpoints.Swagger;
 using FuDever.Configuration.Presentation.WebApi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag;
-using System;
 
 namespace GoalFinder.WebApi.Shared.ServiceConfigs;
 
@@ -15,7 +15,8 @@ internal static class SwaggerServiceConfig
 {
     internal static void ConfigSwagger(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         var option = configuration
             .GetRequiredSection(key: "Swagger")
@@ -50,16 +51,21 @@ internal static class SwaggerServiceConfig
                     schemeName: JwtBearerDefaults.AuthenticationScheme,
                     securityScheme: new()
                     {
-                        Type = (OpenApiSecuritySchemeType) Enum.ToObject(
+                        Type = (OpenApiSecuritySchemeType)
+                            Enum.ToObject(
                                 enumType: typeof(OpenApiSecuritySchemeType),
-                                value: option.Doc.Auth.Bearer.Type),
-                        In = (OpenApiSecurityApiKeyLocation) Enum.ToObject(
+                                value: option.Doc.Auth.Bearer.Type
+                            ),
+                        In = (OpenApiSecurityApiKeyLocation)
+                            Enum.ToObject(
                                 enumType: typeof(OpenApiSecurityApiKeyLocation),
-                                value: option.Doc.Auth.Bearer.In),
+                                value: option.Doc.Auth.Bearer.In
+                            ),
                         Scheme = option.Doc.Auth.Bearer.Scheme,
                         BearerFormat = option.Doc.Auth.Bearer.BearerFormat,
                         Description = option.Doc.Auth.Bearer.Description,
-                    });
+                    }
+                );
             };
 
             documentOption.EnableJWTBearerAuth = option.EnableJWTBearerAuth;

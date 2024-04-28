@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetAllMatches;
 
-internal sealed class GetAllMatchesEndpoint : Endpoint<
-    EmptyRequest,
-    GetAllMatchesHttpResponse>
+internal sealed class GetAllMatchesEndpoint : Endpoint<EmptyRequest, GetAllMatchesHttpResponse>
 {
     public override void Configure()
     {
@@ -28,7 +26,8 @@ internal sealed class GetAllMatchesEndpoint : Endpoint<
         Summary(endpointSummary: summary =>
         {
             summary.Summary = "Endpoint for get all football matches";
-            summary.Description = "This endpoint is used for get all football matches sort by created time and display list matches in home page";
+            summary.Description =
+                "This endpoint is used for get all football matches sort by created time and display list matches in home page";
             summary.Response<GetAllMatchesHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
@@ -39,7 +38,7 @@ internal sealed class GetAllMatchesEndpoint : Endpoint<
                     {
                         FootballMatches =
                         [
-                            new GetAllMatchesResponse.Body.FootballMatch ()
+                            new GetAllMatchesResponse.Body.FootballMatch()
                             {
                                 Id = Guid.NewGuid(),
                                 PitchAddress = "string",
@@ -56,13 +55,15 @@ internal sealed class GetAllMatchesEndpoint : Endpoint<
                             }
                         ]
                     }
-                });
+                }
+            );
         });
     }
 
     public override async Task<GetAllMatchesHttpResponse> ExecuteAsync(
         EmptyRequest emptyRequest,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         // Get command request
         var command = new GetAllMatchesRequest();
@@ -87,7 +88,8 @@ internal sealed class GetAllMatchesEndpoint : Endpoint<
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponseStatusCode,
-            cancellation: ct);
+            cancellation: ct
+        );
 
         // Set the http code of http response back to real one.
         httpResponse.HttpCode = httpResponseStatusCode;

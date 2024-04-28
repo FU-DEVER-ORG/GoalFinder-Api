@@ -3,6 +3,4 @@
 /// <summary>
 ///     Interface for Get All Matches Repository.
 /// </summary>
-public partial interface IGetAllMatchesRepository
-{
-}
+public partial interface IGetAllMatchesRepository { }

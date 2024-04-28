@@ -1,22 +1,21 @@
 ﻿using GoalFinder.Data.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 using GoalFinder.MySqlRelationalDb.Commons;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 
 /// <summary>
 ///     Represents configuration of "UserDetails" table.
 /// </summary>
-internal sealed class UserDetailEntityConfiguration :
-    IEntityTypeConfiguration<UserDetail>
+internal sealed class UserDetailEntityConfiguration : IEntityTypeConfiguration<UserDetail>
 {
     public void Configure(EntityTypeBuilder<UserDetail> builder)
     {
         builder.ToTable(
             name: $"{nameof(UserDetail)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain user detail records."));
+            buildAction: table => table.HasComment(comment: "Contain user detail records.")
+        );
 
         // Primary key configuration.
         builder.HasKey(keyExpression: userDetail => userDetail.UserId);
@@ -24,22 +23,31 @@ internal sealed class UserDetailEntityConfiguration :
         // LastName property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.LastName)
-            .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                length: UserDetail.MetaData.LastName.MaxLength))
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: UserDetail.MetaData.LastName.MaxLength
+                )
+            )
             .IsRequired();
 
         // FirstName property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.FirstName)
-            .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                length: UserDetail.MetaData.FirstName.MaxLength))
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: UserDetail.MetaData.FirstName.MaxLength
+                )
+            )
             .IsRequired();
 
         // Address property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.Address)
-            .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                length: UserDetail.MetaData.Address.MaxLength))
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: UserDetail.MetaData.Address.MaxLength
+                )
+            )
             .IsRequired();
 
         // Description property configuration.
@@ -61,14 +69,10 @@ internal sealed class UserDetailEntityConfiguration :
             .IsRequired();
 
         // PrestigeScore property configuration.
-        builder
-            .Property(propertyExpression: roleDetail => roleDetail.PrestigeScore)
-            .IsRequired();
+        builder.Property(propertyExpression: roleDetail => roleDetail.PrestigeScore).IsRequired();
 
         // ExperienceId property configuration.
-        builder
-            .Property(propertyExpression: userDetail => userDetail.ExperienceId)
-            .IsRequired();
+        builder.Property(propertyExpression: userDetail => userDetail.ExperienceId).IsRequired();
 
         // CompetitionLevelId property configuration.
         builder
@@ -82,9 +86,7 @@ internal sealed class UserDetailEntityConfiguration :
             .IsRequired();
 
         // CreatedBy property configuration.
-        builder
-            .Property(propertyExpression: userDetail => userDetail.CreatedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: userDetail => userDetail.CreatedBy).IsRequired();
 
         // UpdatedAt property configuration.
         builder
@@ -93,9 +95,7 @@ internal sealed class UserDetailEntityConfiguration :
             .IsRequired();
 
         // UpdatedBy property configuration.
-        builder
-            .Property(propertyExpression: userDetail => userDetail.UpdatedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: userDetail => userDetail.UpdatedBy).IsRequired();
 
         // RemovedAt property configuration.
         builder
@@ -104,9 +104,7 @@ internal sealed class UserDetailEntityConfiguration :
             .IsRequired();
 
         // RemovedBy property configuration.
-        builder
-            .Property(propertyExpression: userDetail => userDetail.RemovedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: userDetail => userDetail.RemovedBy).IsRequired();
 
         // Relationship configurations.
         // [UserDetails] - [UserPositions] (1 - N)
@@ -134,6 +132,5 @@ internal sealed class UserDetailEntityConfiguration :
             .WithOne(navigationExpression: footballMatch => footballMatch.UserDetail)
             .HasForeignKey(foreignKeyExpression: footballMatch => footballMatch.HostId)
             .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
-
     }
 }

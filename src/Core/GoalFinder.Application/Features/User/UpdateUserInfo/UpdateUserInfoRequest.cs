@@ -1,6 +1,6 @@
-﻿using GoalFinder.Application.Shared.Features;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.User.UpdateUserInfo;
 

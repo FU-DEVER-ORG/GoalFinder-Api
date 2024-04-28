@@ -1,22 +1,21 @@
 ﻿using GoalFinder.Data.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 using GoalFinder.MySqlRelationalDb.Commons;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 
 /// <summary>
 ///     Represents configuration of "RoleDetails" table.
 /// </summary>
-internal sealed class RoleDetailEntityConfiguration :
-    IEntityTypeConfiguration<RoleDetail>
+internal sealed class RoleDetailEntityConfiguration : IEntityTypeConfiguration<RoleDetail>
 {
     public void Configure(EntityTypeBuilder<RoleDetail> builder)
     {
         builder.ToTable(
             name: $"{nameof(RoleDetail)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain role detail records."));
+            buildAction: table => table.HasComment(comment: "Contain role detail records.")
+        );
 
         // Primary key configuration.
         builder.HasKey(keyExpression: roleDetail => roleDetail.RoleId);
@@ -28,9 +27,7 @@ internal sealed class RoleDetailEntityConfiguration :
             .IsRequired();
 
         // CreatedBy property configuration.
-        builder
-            .Property(propertyExpression: roleDetail => roleDetail.CreatedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: roleDetail => roleDetail.CreatedBy).IsRequired();
 
         // UpdatedAt property configuration.
         builder
@@ -39,9 +36,7 @@ internal sealed class RoleDetailEntityConfiguration :
             .IsRequired();
 
         // UpdatedBy property configuration.
-        builder
-            .Property(propertyExpression: roleDetail => roleDetail.UpdatedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: roleDetail => roleDetail.UpdatedBy).IsRequired();
 
         // RemovedAt property configuration.
         builder
@@ -50,9 +45,6 @@ internal sealed class RoleDetailEntityConfiguration :
             .IsRequired();
 
         // RemovedBy property configuration.
-        builder
-            .Property(propertyExpression: roleDetail => roleDetail.RemovedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: roleDetail => roleDetail.RemovedBy).IsRequired();
     }
 }
-

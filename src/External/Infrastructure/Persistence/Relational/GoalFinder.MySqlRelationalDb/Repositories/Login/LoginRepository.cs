@@ -1,7 +1,7 @@
-﻿using GoalFinder.MySqlRelationalDb.Data;
+﻿using GoalFinder.Data.Entities;
 using GoalFinder.Data.Repositories.Login;
+using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
-using GoalFinder.Data.Entities;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.Login;
 

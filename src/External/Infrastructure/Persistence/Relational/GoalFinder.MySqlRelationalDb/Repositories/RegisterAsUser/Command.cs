@@ -1,8 +1,8 @@
-﻿using GoalFinder.Data.Entities;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Threading;
-using Microsoft.EntityFrameworkCore;
+using GoalFinder.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
 
@@ -12,31 +12,32 @@ internal partial class RegisterAsUserRepository
         User newUser,
         string userPassword,
         UserManager<User> userManager,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var executedTransactionResult = false;
 
-        await _context.Database
-            .CreateExecutionStrategy()
+        await _context
+            .Database.CreateExecutionStrategy()
             .ExecuteAsync(operation: async () =>
             {
                 await using var dbTransaction = await _context.Database.BeginTransactionAsync(
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken
+                );
 
                 try
                 {
                     var result = await userManager.CreateAsync(
                         user: newUser,
-                        password: userPassword);
+                        password: userPassword
+                    );
 
                     if (!result.Succeeded)
                     {
                         throw new DbUpdateConcurrencyException();
                     }
 
-                    result = await userManager.AddToRoleAsync(
-                        user: newUser,
-                        role: "user");
+                    result = await userManager.AddToRoleAsync(user: newUser, role: "user");
 
                     if (!result.Succeeded)
                     {

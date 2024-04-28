@@ -1,5 +1,3 @@
 ﻿namespace GoalFinder.Application.Shared.Features;
 
-public interface IFeatureResponse
-{
-}
+public interface IFeatureResponse { }

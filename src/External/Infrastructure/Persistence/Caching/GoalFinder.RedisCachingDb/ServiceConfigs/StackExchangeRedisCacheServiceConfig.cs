@@ -11,7 +11,8 @@ internal static class StackExchangeRedisCacheServiceConfig
 {
     internal static void ConfigStackExchangeRedisCache(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         var option = configuration
             .GetRequiredSection(key: "Cache")

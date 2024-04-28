@@ -10,6 +10,4 @@ namespace GoalFinder.Data.Entities.Base;
 ///     following packages:
 ///         - AspNetCore Identity
 /// </remarks>
-public interface IBaseEntity
-{
-}
+public interface IBaseEntity { }

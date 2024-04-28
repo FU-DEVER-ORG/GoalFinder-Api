@@ -3,6 +3,4 @@
 /// <summary>
 ///     Interface for ForgotPassword Repository
 /// </summary>
-public partial interface IForgotPasswordRepository
-{
-}
+public partial interface IForgotPasswordRepository { }

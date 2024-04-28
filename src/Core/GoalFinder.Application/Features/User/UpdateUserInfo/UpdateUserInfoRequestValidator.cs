@@ -6,10 +6,8 @@ namespace GoalFinder.Application.Features.User.UpdateUserInfo;
 /// <summary>
 ///     Update user info request validator.
 /// </summary>
-public sealed class UpdateUserInfoRequestValidator :
-    FeatureRequestValidator<
-        UpdateUserInfoRequest,
-        UpdateUserInfoResponse>
+public sealed class UpdateUserInfoRequestValidator
+    : FeatureRequestValidator<UpdateUserInfoRequest, UpdateUserInfoResponse>
 {
     public UpdateUserInfoRequestValidator()
     {
@@ -51,7 +49,9 @@ public sealed class UpdateUserInfoRequestValidator :
         RuleFor(expression: request => request.BackgroundUrl)
             .Cascade(cascadeMode: CascadeMode.Stop)
             .NotEmpty()
-            .MinimumLength(minimumLength: Data.Entities.UserDetail.MetaData.BackgroundUrl.MinLength);
+            .MinimumLength(
+                minimumLength: Data.Entities.UserDetail.MetaData.BackgroundUrl.MinLength
+            );
 
         RuleFor(expression: request => request.ExperienceId)
             .Cascade(cascadeMode: CascadeMode.Stop)

@@ -1,5 +1,5 @@
-﻿using GoalFinder.Data.Entities.Base;
-using System;
+﻿using System;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 

@@ -1,25 +1,24 @@
-﻿using FastEndpoints;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
+﻿using System;
+using System.Security.Claims;
 using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.User.UpdateUserInfo;
-using System;
-using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Validation;
-using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Authorization;
-using System.Security.Claims;
-using Microsoft.IdentityModel.JsonWebTokens;
+using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Caching;
+using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace GoalFinder.WebApi.Endpoints.User.UserInfoUpdate;
 
 /// <summary>
 ///     Endpoint for updating user information.
 /// </summary>
-internal sealed class UpdateUserInfoEndpoint : Endpoint<
-    UpdateUserInfoRequest,
-    UpdateUserInfoHttpResponse>
+internal sealed class UpdateUserInfoEndpoint
+    : Endpoint<UpdateUserInfoRequest, UpdateUserInfoHttpResponse>
 {
     public override void Configure()
     {
@@ -35,7 +34,8 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
             builder.ClearDefaultProduces(
                 StatusCodes.Status400BadRequest,
                 StatusCodes.Status401Unauthorized,
-                StatusCodes.Status403Forbidden);
+                StatusCodes.Status403Forbidden
+            );
         });
         Summary(endpointSummary: summary =>
         {
@@ -59,20 +59,22 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
                 example: new()
                 {
                     HttpCode = StatusCodes.Status200OK,
-                    AppCode = UpdateUserInfoResponseStatusCode.UPDATE_SUCCESS.ToAppCode(),
-
-                });
+                    AppCode = UpdateUserInfoResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
+                }
+            );
         });
     }
 
     public override async Task<UpdateUserInfoHttpResponse> ExecuteAsync(
         UpdateUserInfoRequest req,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         req.SetUserId(
-            userId:Guid.Parse(
-                input: HttpContext.User.FindFirstValue(
-                    claimType: JwtRegisteredClaimNames.Sub)));
+            userId: Guid.Parse(
+                input: HttpContext.User.FindFirstValue(claimType: JwtRegisteredClaimNames.Sub)
+            )
+        );
 
         var appResponse = await req.ExecuteAsync(ct: ct);
 
@@ -87,7 +89,8 @@ internal sealed class UpdateUserInfoEndpoint : Endpoint<
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponseStatusCode,
-            cancellation: ct);
+            cancellation: ct
+        );
 
         httpResponse.HttpCode = httpResponseStatusCode;
 

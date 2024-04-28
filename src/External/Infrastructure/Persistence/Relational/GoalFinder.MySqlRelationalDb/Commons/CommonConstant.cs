@@ -38,18 +38,14 @@ internal static class CommonConstant
                 /// </remarks>
                 internal static string Get(int length)
                 {
-                    if (_storage.TryGetValue(
-                        key: length,
-                        value: out var value))
+                    if (_storage.TryGetValue(key: length, value: out var value))
                     {
                         return value;
                     }
 
                     var newValue = $"{varcharDataTypeName}({length})";
 
-                    _storage.Add(
-                        key: length,
-                        value: newValue);
+                    _storage.Add(key: length, value: newValue);
 
                     return newValue;
                 }

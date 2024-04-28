@@ -19,7 +19,8 @@ internal static class DependencyInjection
     /// </param>
     internal static void ConfigWebApi(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         services.ConfigAuthentication(configuration: configuration);
         services.ConfigAuthorization();

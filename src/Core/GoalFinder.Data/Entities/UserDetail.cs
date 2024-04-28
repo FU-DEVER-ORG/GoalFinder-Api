@@ -1,17 +1,13 @@
-﻿using GoalFinder.Data.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 
 /// <summary>
 ///     Represent the "UserDetails" table.
 /// </summary>
-public class UserDetail :
-    IBaseEntity,
-    ICreatedEntity,
-    IUpdatedEntity,
-    ITemporarilyRemovedEntity
+public class UserDetail : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITemporarilyRemovedEntity
 {
     // Primary keys.
     public Guid UserId { get; set; }
@@ -103,6 +99,7 @@ public class UserDetail :
         {
             public const int MinLength = 2;
         }
+
         public static class BackgroundUrl
         {
             public const int MinLength = 2;

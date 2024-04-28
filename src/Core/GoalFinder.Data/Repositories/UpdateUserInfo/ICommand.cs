@@ -1,8 +1,8 @@
-﻿using GoalFinder.Data.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GoalFinder.Data.Entities;
 
 namespace GoalFinder.Data.Repositories.UpdateUserInfo;
 
@@ -13,5 +13,6 @@ public partial interface IUpdateUserInfoRepository
         UserDetail currentUser,
         IEnumerable<Guid> currentPositionIds,
         IEnumerable<Guid> newPositionIds,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
 }

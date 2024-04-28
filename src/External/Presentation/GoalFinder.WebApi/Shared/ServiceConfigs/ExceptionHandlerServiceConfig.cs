@@ -10,8 +10,6 @@ internal static class ExceptionHandlerServiceConfig
 {
     internal static void ConfigExceptionHandler(this IServiceCollection services)
     {
-        services
-            .AddExceptionHandler<GlobalExceptionHandler>()
-            .AddProblemDetails();
+        services.AddExceptionHandler<GlobalExceptionHandler>().AddProblemDetails();
     }
 }

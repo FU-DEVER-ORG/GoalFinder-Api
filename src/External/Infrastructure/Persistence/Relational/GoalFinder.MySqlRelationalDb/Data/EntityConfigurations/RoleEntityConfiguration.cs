@@ -7,15 +7,14 @@ namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 /// <summary>
 ///     Represents configuration of "Roles" table.
 /// </summary>
-internal sealed class RoleEntityConfiguration :
-    IEntityTypeConfiguration<Role>
+internal sealed class RoleEntityConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.ToTable(
             name: $"{nameof(Role)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain role records."));
+            buildAction: table => table.HasComment(comment: "Contain role records.")
+        );
 
         // Table relationships configurations.
         // [Roles] - [UserRoles] (1 - N).

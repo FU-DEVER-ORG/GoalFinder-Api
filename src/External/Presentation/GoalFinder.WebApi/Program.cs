@@ -1,29 +1,27 @@
-using Microsoft.AspNetCore.Builder;
-using System.Text;
 using System;
+using System.Text;
+using System.Threading;
 using FastEndpoints;
-using GoalFinder.WebApi;
-using Microsoft.IdentityModel.JsonWebTokens;
-using GoalFinder.MySqlRelationalDb;
+using FastEndpoints.Swagger;
+using GoalFinder.AppJsonWebToken;
 using GoalFinder.Application;
 using GoalFinder.Application.Shared.FIleObjectStorage;
+using GoalFinder.AppOTP;
 using GoalFinder.Data.Entities;
+using GoalFinder.GoogleSmtpServerForMail;
+using GoalFinder.ImageCloudinary;
+using GoalFinder.MySqlRelationalDb;
+using GoalFinder.MySqlRelationalDb.Data;
+using GoalFinder.RedisCachingDb;
+using GoalFinder.WebApi;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Threading;
-using GoalFinder.MySqlRelationalDb.Data;
-using GoalFinder.ImageCloudinary;
-using GoalFinder.AppJsonWebToken;
-using FastEndpoints.Swagger;
-using GoalFinder.RedisCachingDb;
-using GoalFinder.GoogleSmtpServerForMail;
-using GoalFinder.AppOTP;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 // Default setting.
-AppContext.SetSwitch(
-    switchName: "Npgsql.DisableDateTimeInfinityConversions",
-    isEnabled: true);
+AppContext.SetSwitch(switchName: "Npgsql.DisableDateTimeInfinityConversions", isEnabled: true);
 Console.OutputEncoding = Encoding.UTF8;
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -64,7 +62,8 @@ await using (var scope = app.Services.CreateAsyncScope())
         userManager: scope.Resolve<UserManager<User>>(),
         roleManager: scope.Resolve<RoleManager<Role>>(),
         defaultUserAvatarAsUrlHandler: scope.Resolve<IDefaultUserAvatarAsUrlHandler>(),
-        cancellationToken: CancellationToken.None);
+        cancellationToken: CancellationToken.None
+    );
 
     // Data cannot be seed.
     if (!seedResult)
@@ -74,8 +73,7 @@ await using (var scope = app.Services.CreateAsyncScope())
 }
 
 // Configure the HTTP request pipeline.
-app
-    .UseExceptionHandler()
+app.UseExceptionHandler()
     .UseCors()
     .UseAuthentication()
     .UseAuthorization()

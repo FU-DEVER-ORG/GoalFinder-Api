@@ -1,22 +1,20 @@
-﻿using FastEndpoints;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.Match.GetAllMatches;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.Match.GetAllMatches.Common;
 using GoalFinder.WebApi.Endpoints.Match.GetAllMatches.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetAllMatches.Middlewares.Caching;
 
 /// <summary>
 ///     Post-processor for get all football matches caching.
 /// </summary>
-internal sealed class GetAllMatchesCachingPostProcessor : PostProcessor<
-    EmptyRequest,
-    GetAllMatchesStateBag,
-    GetAllMatchesHttpResponse>
+internal sealed class GetAllMatchesCachingPostProcessor
+    : PostProcessor<EmptyRequest, GetAllMatchesStateBag, GetAllMatchesHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -28,17 +26,24 @@ internal sealed class GetAllMatchesCachingPostProcessor : PostProcessor<
     public override async Task PostProcessAsync(
         IPostProcessorContext<EmptyRequest, GetAllMatchesHttpResponse> context,
         GetAllMatchesStateBag state,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        if (Equals(objA: context.Response, objB: default)) { return; }
+        if (Equals(objA: context.Response, objB: default))
+        {
+            return;
+        }
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
         // Set new cache if current app code is suitable.
-        if (context.Response.AppCode.Equals(value:
-            GetAllMatchesResponseStatusCode.OPERATION_SUCCESS.ToAppCode()))
+        if (
+            context.Response.AppCode.Equals(
+                value: GetAllMatchesResponseStatusCode.OPERATION_SUCCESS.ToAppCode()
+            )
+        )
         {
             // Caching the return value.
             await cacheHandler.SetAsync(
@@ -47,9 +52,11 @@ internal sealed class GetAllMatchesCachingPostProcessor : PostProcessor<
                 new()
                 {
                     AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(
-                        seconds: state.CacheDurationInSeconds)
+                        seconds: state.CacheDurationInSeconds
+                    )
                 },
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
         }
     }
 }

@@ -6,8 +6,8 @@ namespace GoalFinder.Application.Features.Auth.Register;
 /// <summary>
 ///     Register as user request validator.
 /// </summary>
-public sealed class RegisterAsUserRequestValidator :
-    FeatureRequestValidator<RegisterAsUserRequest, RegisterAsUserResponse>
+public sealed class RegisterAsUserRequestValidator
+    : FeatureRequestValidator<RegisterAsUserRequest, RegisterAsUserResponse>
 {
     public RegisterAsUserRequestValidator()
     {

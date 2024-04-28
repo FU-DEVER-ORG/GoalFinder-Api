@@ -12,11 +12,8 @@ internal sealed class GetAllMatchesHttpResponseManager
 {
     private readonly Dictionary<
         GetAllMatchesResponseStatusCode,
-        Func<
-            GetAllMatchesRequest,
-            GetAllMatchesResponse,
-            GetAllMatchesHttpResponse>>
-                _dictionary;
+        Func<GetAllMatchesRequest, GetAllMatchesResponse, GetAllMatchesHttpResponse>
+    > _dictionary;
 
     internal GetAllMatchesHttpResponseManager()
     {
@@ -24,27 +21,29 @@ internal sealed class GetAllMatchesHttpResponseManager
 
         _dictionary.Add(
             key: GetAllMatchesResponseStatusCode.DATABASE_OPERATION_FAIL,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status500InternalServerError,
-                AppCode = response.StatusCode.ToAppCode(),
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status500InternalServerError,
+                    AppCode = response.StatusCode.ToAppCode(),
+                }
+        );
 
         _dictionary.Add(
             key: GetAllMatchesResponseStatusCode.OPERATION_SUCCESS,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status200OK,
-                AppCode = response.StatusCode.ToAppCode(),
-                Body = response.ResponseBody
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status200OK,
+                    AppCode = response.StatusCode.ToAppCode(),
+                    Body = response.ResponseBody
+                }
+        );
     }
 
-    internal Func<
-        GetAllMatchesRequest,
-        GetAllMatchesResponse,
-        GetAllMatchesHttpResponse>
-            Resolve(GetAllMatchesResponseStatusCode statusCode)
+    internal Func<GetAllMatchesRequest, GetAllMatchesResponse, GetAllMatchesHttpResponse> Resolve(
+        GetAllMatchesResponseStatusCode statusCode
+    )
     {
         return _dictionary[statusCode];
     }

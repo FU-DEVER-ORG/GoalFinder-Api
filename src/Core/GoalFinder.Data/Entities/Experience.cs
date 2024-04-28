@@ -1,17 +1,13 @@
-﻿using GoalFinder.Data.Entities.Base;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 
 /// <summary>
 ///     Represent the "Experiences" table.
 /// </summary>
-public class Experience :
-    IBaseEntity,
-    ICreatedEntity,
-    IUpdatedEntity,
-    ITemporarilyRemovedEntity
+public class Experience : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITemporarilyRemovedEntity
 {
     // Primary keys.
     public Guid Id { get; set; }

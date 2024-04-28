@@ -15,9 +15,7 @@ public sealed class AppAuthorizationResult
     /// </summary>
     public bool IsForbidden { get; }
 
-    private AppAuthorizationResult(
-        bool isAuthorized,
-        bool isForbidden)
+    private AppAuthorizationResult(bool isAuthorized, bool isForbidden)
     {
         IsAuthorized = isAuthorized;
         IsForbidden = isForbidden;
@@ -31,9 +29,7 @@ public sealed class AppAuthorizationResult
     /// </returns>
     public static AppAuthorizationResult Forbidden()
     {
-        return new(
-            isAuthorized: false,
-            isForbidden: true);
+        return new(isAuthorized: false, isForbidden: true);
     }
 
     /// <summary>
@@ -44,9 +40,7 @@ public sealed class AppAuthorizationResult
     /// </returns>
     public static AppAuthorizationResult UnAuthorized()
     {
-        return new(
-            isAuthorized: false,
-            isForbidden: false);
+        return new(isAuthorized: false, isForbidden: false);
     }
 
     /// <summary>
@@ -57,8 +51,6 @@ public sealed class AppAuthorizationResult
     /// </returns>
     public static AppAuthorizationResult Authorized()
     {
-        return new(
-            isAuthorized: true,
-            isForbidden: false);
+        return new(isAuthorized: true, isForbidden: false);
     }
 }

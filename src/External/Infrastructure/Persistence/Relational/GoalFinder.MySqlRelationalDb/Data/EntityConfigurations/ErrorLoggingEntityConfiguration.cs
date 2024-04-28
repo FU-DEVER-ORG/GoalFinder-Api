@@ -8,15 +8,14 @@ namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 /// <summary>
 ///     Represents configuration of "ErrorLoggings" table.
 /// </summary>
-internal sealed class ErrorLoggingEntityConfiguration :
-    IEntityTypeConfiguration<ErrorLogging>
+internal sealed class ErrorLoggingEntityConfiguration : IEntityTypeConfiguration<ErrorLogging>
 {
     public void Configure(EntityTypeBuilder<ErrorLogging> builder)
     {
         builder.ToTable(
             name: $"{nameof(ErrorLogging)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain error logging records."));
+            buildAction: table => table.HasComment(comment: "Contain error logging records.")
+        );
 
         // Primary key configuration.
         builder.HasKey(keyExpression: errorLogging => errorLogging.Id);
