@@ -1,7 +1,6 @@
-﻿using GoalFinder.Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Threading;
+using GoalFinder.Data.Entities;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.Login;
 
@@ -9,37 +8,22 @@ internal partial class LoginRepository
 {
     public async Task<bool> CreateRefreshTokenCommandAsync(
         RefreshToken refreshToken,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-        var executedTransactionResult = false;
+        try
+        {
+            await _context
+                .Set<RefreshToken>()
+                .AddAsync(entity: refreshToken, cancellationToken: cancellationToken);
 
-        await _context.Database
-            .CreateExecutionStrategy()
-            .ExecuteAsync(operation: async () =>
-            {
-                await using var dbTransaction = await _context.Database.BeginTransactionAsync(
-                    cancellationToken: cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+        }
+        catch
+        {
+            return false;
+        }
 
-                try
-                {
-                    await _context
-                        .Set<RefreshToken>()
-                        .AddAsync(
-                            entity: refreshToken,
-                            cancellationToken: cancellationToken);
-
-                    await _context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                    await dbTransaction.CommitAsync(cancellationToken: cancellationToken);
-
-                    executedTransactionResult = true;
-                }
-                catch
-                {
-                    await dbTransaction.RollbackAsync(cancellationToken: cancellationToken);
-                }
-            });
-
-        return executedTransactionResult;
+        return true;
     }
 }
