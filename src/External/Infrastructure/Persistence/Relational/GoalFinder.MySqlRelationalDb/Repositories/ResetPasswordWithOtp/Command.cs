@@ -18,6 +18,7 @@ internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWit
     )
     {
         var executedTransactionResult = false;
+
         await _context
             .Database.CreateExecutionStrategy()
             .ExecuteAsync(operation: async () =>
@@ -29,7 +30,7 @@ internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWit
                 {
                     await _userTokens
                         .Where(predicate: userToken =>
-                            userToken.Value == otpCode
+                            userToken.Value.Equals(otpCode)
                             && userToken.Name.Equals("PasswordResetOtpCode")
                         )
                         .ExecuteDeleteAsync(cancellationToken: cancellationToken);

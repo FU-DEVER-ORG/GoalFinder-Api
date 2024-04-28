@@ -1,11 +1,11 @@
-﻿using FastEndpoints;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.Auth.ResetPasswordWithOtp;
 using GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp;
 
@@ -13,8 +13,8 @@ namespace GoalFinder.WebApi.Endpoints.Auth.ResetPasswordWithOtp;
 ///     Reset password with otp endpoint
 /// </summary>
 
-internal sealed class ResetPasswordWithOtpEndpoint :
-    Endpoint<ResetPasswordWithOtpRequest, ResetPasswordWithOtpHttpResponse>
+internal sealed class ResetPasswordWithOtpEndpoint
+    : Endpoint<ResetPasswordWithOtpRequest, ResetPasswordWithOtpHttpResponse>
 {
     public override void Configure()
     {
@@ -31,7 +31,8 @@ internal sealed class ResetPasswordWithOtpEndpoint :
         Summary(endpointSummary: sumary =>
         {
             sumary.Summary = "Endpoint for resetting password with OTP code";
-            sumary.Description = "This endpoint is use for resetting password with OTP code purpose!";
+            sumary.Description =
+                "This endpoint is use for resetting password with OTP code purpose!";
             sumary.ExampleRequest = new()
             {
                 OtpCode = "string",
@@ -45,15 +46,18 @@ internal sealed class ResetPasswordWithOtpEndpoint :
                     HttpCode = StatusCodes.Status200OK,
                     AppCode = ResetPasswordWithOtpResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
                     ErrorMessages = [$"Messaging errors!"]
-                });
+                }
+            );
         });
     }
+
     public override async Task<ResetPasswordWithOtpHttpResponse> ExecuteAsync(
         ResetPasswordWithOtpRequest req,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         // Get app feature response
-        var appResponse  = await req.ExecuteAsync(ct: ct);
+        var appResponse = await req.ExecuteAsync(ct: ct);
 
         //Convert app feature response to http response
         var httpResponse = LazyResetPasswordWithOtpHttpResponseMapper
@@ -71,10 +75,10 @@ internal sealed class ResetPasswordWithOtpEndpoint :
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponseStatusCode,
-            cancellation: ct);
+            cancellation: ct
+        );
         httpResponse.HttpCode = httpResponseStatusCode;
 
         return httpResponse;
     }
-
 }

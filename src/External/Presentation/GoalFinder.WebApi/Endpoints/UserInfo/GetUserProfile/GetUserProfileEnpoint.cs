@@ -10,9 +10,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile;
 
-internal sealed class GetUserProfileEndpoint : Endpoint<
-    GetUserProfileRequest,
-    GetUserProfileHttpResponse>
+internal sealed class GetUserProfileEndpoint
+    : Endpoint<GetUserProfileRequest, GetUserProfileHttpResponse>
 {
     public override void Configure()
     {
@@ -29,7 +28,8 @@ internal sealed class GetUserProfileEndpoint : Endpoint<
         Summary(endpointSummary: summary =>
         {
             summary.Summary = "Endpoint for user profile feature";
-            summary.Description = "This endpoint is used for get user profile purpose by username route.";
+            summary.Description =
+                "This endpoint is used for get user profile purpose by username route.";
             summary.Response<GetUserProfileHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
@@ -52,7 +52,7 @@ internal sealed class GetUserProfileEndpoint : Endpoint<
                         },
                         FootballMatches =
                         [
-                            new GetUserProfileResponse.Body.FootballMatch ()
+                            new GetUserProfileResponse.Body.FootballMatch()
                             {
                                 Id = Guid.NewGuid(),
                                 PitchAddress = "string",
@@ -65,13 +65,15 @@ internal sealed class GetUserProfileEndpoint : Endpoint<
                             }
                         ]
                     }
-                });
+                }
+            );
         });
     }
 
     public override async Task<GetUserProfileHttpResponse> ExecuteAsync(
         GetUserProfileRequest req,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         // Get app feature response.
         var appResponse = await req.ExecuteAsync(ct: ct);
@@ -93,7 +95,8 @@ internal sealed class GetUserProfileEndpoint : Endpoint<
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponseStatusCode,
-            cancellation: ct);
+            cancellation: ct
+        );
 
         // Set the http code of http response back to real one.
         httpResponse.HttpCode = httpResponseStatusCode;

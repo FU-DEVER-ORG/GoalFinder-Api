@@ -15,18 +15,6 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 
 internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWithOtpRepository
 {
-    public Task<bool> IsOtpCodeForResettingPasswordExpiredAsync(
-        string otpCode,
-        CancellationToken cancellationToken
-    )
-    {
-        return _userTokens.AnyAsync(
-            predicate: userToken =>
-                userToken.ExpiredAt < DateTime.UtcNow && userToken.LoginProvider.Equals(otpCode),
-            cancellationToken: cancellationToken
-        );
-    }
-
     public Task<bool> IsUserTemporarilyRemovedQueryAsync(
         Guid userId,
         CancellationToken cancellationToken
@@ -50,9 +38,7 @@ internal sealed partial class ResetPasswordWithOtpRepository : IResetPasswordWit
             .Where(userToken => userToken.LoginProvider == otpCode)
             .Select(userToken => new UserToken
             {
-                LoginProvider = userToken.LoginProvider,
                 ExpiredAt = userToken.ExpiredAt,
-                Name = userToken.Name,
                 Value = userToken.Value,
                 UserId = userToken.UserId
             })
