@@ -16,6 +16,8 @@ using GoalFinder.MySqlRelationalDb.Repositories.Login;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
 using GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
 using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
+using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
+using GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
 
 namespace GoalFinder.MySqlRelationalDb.MySqlUnitOfWork;
 
@@ -33,7 +35,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IResetPasswordWithOtpRepository _resetPasswordWithOtpRepository;
     private IGetUserProfileRepository _getUserProfileRepository;
     private IGetAllMatchesRepository _getAllMatchesRepository;
-    
+    private IRefreshAccessTokenRepository _refreshAccessTokenRepository;
+
     public UnitOfWork(GoalFinderContext context)
     {
         _context = context;
@@ -97,7 +100,7 @@ internal sealed class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IGetAllMatchesRepository GetAllMatchesRepository 
+    public IGetAllMatchesRepository GetAllMatchesRepository
     {
         get
         {
@@ -112,6 +115,15 @@ internal sealed class UnitOfWork : IUnitOfWork
             _resetPasswordWithOtpRepository ??= new ResetPasswordWithOtpRepository(context: _context);
 
             return _resetPasswordWithOtpRepository;
+        }
+    }
+
+    public IRefreshAccessTokenRepository RefreshAccessTokenRepository
+    {
+        get
+        {
+            _refreshAccessTokenRepository ??= new RefreshAccessTokenRepository(context: _context);
+            return _refreshAccessTokenRepository;
         }
     }
 }

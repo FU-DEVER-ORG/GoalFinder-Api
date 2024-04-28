@@ -3,6 +3,7 @@ using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
+using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.Data.Repositories.RegisterAsUser;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
@@ -51,5 +52,6 @@ public interface IUnitOfWork
     ///     Gets all matches repository
     /// </summary>
     IGetAllMatchesRepository GetAllMatchesRepository { get; }
+    IRefreshAccessTokenRepository RefreshAccessTokenRepository { get; }
 
 }
