@@ -1,16 +1,12 @@
-﻿using GoalFinder.Data.Entities.Base;
-using System;
+﻿using System;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 
 /// <summary>
 ///     Represent the "RoleDetails" table.
 /// </summary>
-public class RoleDetail :
-    IBaseEntity,
-    ICreatedEntity,
-    IUpdatedEntity,
-    ITemporarilyRemovedEntity
+public class RoleDetail : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITemporarilyRemovedEntity
 {
     // Primary keys.
     // Foreign keys.

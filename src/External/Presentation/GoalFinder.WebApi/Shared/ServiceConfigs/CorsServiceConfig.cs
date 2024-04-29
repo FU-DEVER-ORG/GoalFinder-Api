@@ -13,10 +13,7 @@ internal static class CorsServiceConfig
         {
             config.AddDefaultPolicy(configurePolicy: policy =>
             {
-                policy
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+                policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             });
         });
     }

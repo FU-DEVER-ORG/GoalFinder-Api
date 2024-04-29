@@ -20,7 +20,8 @@ public static class DependencyInjection
     /// </param>
     public static void ConfigGoogleSmtpMailNotification(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         services.ConfigCore(configuration: configuration);
     }

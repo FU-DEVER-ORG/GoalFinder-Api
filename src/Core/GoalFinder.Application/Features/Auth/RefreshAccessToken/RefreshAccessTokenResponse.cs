@@ -2,6 +2,9 @@
 
 namespace GoalFinder.Application.Features.Auth.RefreshAccessToken;
 
+/// <summary>
+///     Response for RefreshAccessToken
+/// </summary>
 public class RefreshAccessTokenResponse : IFeatureResponse
 {
     public RefreshAccessTokenResponseStatusCode StatusCode { get; set; }
@@ -13,6 +16,5 @@ public class RefreshAccessTokenResponse : IFeatureResponse
         public string AccessToken { get; init; }
 
         public string RefreshToken { get; init; }
-
     }
 }

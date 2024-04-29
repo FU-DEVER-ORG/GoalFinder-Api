@@ -1,19 +1,18 @@
-﻿using GoalFinder.Application.Shared.Features;
-using GoalFinder.Data.Entities;
-using GoalFinder.Data.UnitOfWork;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GoalFinder.Application.Shared.Features;
+using GoalFinder.Data.Entities;
+using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.User.UpdateUserInfo;
 
 /// <summary>
 ///     Update user request handler.
 /// </summary>
-internal sealed class UpdateUserInfoHandler : IFeatureHandler<
-    UpdateUserInfoRequest,
-    UpdateUserInfoResponse>
+internal sealed class UpdateUserInfoHandler
+    : IFeatureHandler<UpdateUserInfoRequest, UpdateUserInfoResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -24,59 +23,55 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
 
     public async Task<UpdateUserInfoResponse> ExecuteAsync(
         UpdateUserInfoRequest command,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         command.PositionIds = command.PositionIds.Distinct();
 
         #region Validations
         // Is experience name found.
-        var isExperienceFound = await _unitOfWork.UpdateUserInfoRepository
-            .IsExperienceFoundByIdQueryAsync(
+        var isExperienceFound =
+            await _unitOfWork.UpdateUserInfoRepository.IsExperienceFoundByIdQueryAsync(
                 experienceId: command.ExperienceId,
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
         if (!isExperienceFound)
         {
-            return new()
-            {
-                StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL
-            };
+            return new() { StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL };
         }
 
         // Is competition level name found.
-        var isCompetitionLevelFound = await _unitOfWork.UpdateUserInfoRepository
-            .IsCompetitionLevelFoundByIdQueryAsync(
+        var isCompetitionLevelFound =
+            await _unitOfWork.UpdateUserInfoRepository.IsCompetitionLevelFoundByIdQueryAsync(
                 competitionLevelId: command.CompetitionLevelId,
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
         if (!isCompetitionLevelFound)
         {
-            return new()
-            {
-                StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL
-            };
+            return new() { StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL };
         }
 
         // Are position names found.
-        var arePositionsFound = await _unitOfWork.UpdateUserInfoRepository
-            .ArePositionsFoundByIdsQueryAsync(
+        var arePositionsFound =
+            await _unitOfWork.UpdateUserInfoRepository.ArePositionsFoundByIdsQueryAsync(
                 positionIds: command.PositionIds,
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
         if (!arePositionsFound)
         {
-            return new()
-            {
-                StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL
-            };
+            return new() { StatusCode = UpdateUserInfoResponseStatusCode.INPUT_VALIDATION_FAIL };
         }
 
         #endregion
         // Is user temporarily removed.
-        var isUserTemporarilyRemoved = await _unitOfWork.UpdateUserInfoRepository
-            .IsUserTemporarilyRemovedQueryAsync(
+        var isUserTemporarilyRemoved =
+            await _unitOfWork.UpdateUserInfoRepository.IsUserTemporarilyRemovedQueryAsync(
                 userId: command.GetUserId(),
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
         // User is temporarily removed.
         if (isUserTemporarilyRemoved)
@@ -88,11 +83,12 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
         }
 
         // Is username already taken by other user.
-        var isUsernameAlreadyTaken = await _unitOfWork.UpdateUserInfoRepository
-            .IsUserNameAlreadyTakenQueryAsync(
+        var isUsernameAlreadyTaken =
+            await _unitOfWork.UpdateUserInfoRepository.IsUserNameAlreadyTakenQueryAsync(
                 currentUserId: command.GetUserId(),
                 userName: command.UserName,
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
 
         //Username has been already taken by other user.
         if (isUsernameAlreadyTaken)
@@ -103,42 +99,33 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
             };
         }
 
-        var foundUser = await _unitOfWork.UpdateUserInfoRepository
-            .GetUserDetailsQueryAsync(
-                userId: command.GetUserId(),
-                cancellationToken: ct);
+        var foundUser = await _unitOfWork.UpdateUserInfoRepository.GetUserDetailsQueryAsync(
+            userId: command.GetUserId(),
+            cancellationToken: ct
+        );
 
-        var dbResult = await _unitOfWork.UpdateUserInfoRepository
-            .UpdateUserCommandAsync(
-                updateUser: InitNewUpdateUser(command: command),
-                currentUser: foundUser,
-                currentPositionIds: foundUser.UserPositions.Select(
-                    selector: userPosition => userPosition.PositionId),
-                newPositionIds: command.PositionIds,
-                cancellationToken: ct);
+        var dbResult = await _unitOfWork.UpdateUserInfoRepository.UpdateUserCommandAsync(
+            updateUser: InitNewUpdateUser(command: command),
+            currentUser: foundUser,
+            currentPositionIds: foundUser.UserPositions.Select(selector: userPosition =>
+                userPosition.PositionId
+            ),
+            newPositionIds: command.PositionIds,
+            cancellationToken: ct
+        );
 
         //Cannot update user information
         if (!dbResult)
         {
-            return new()
-            {
-                StatusCode = UpdateUserInfoResponseStatusCode.DATABASE_OPERATION_FAIL
-            };
+            return new() { StatusCode = UpdateUserInfoResponseStatusCode.DATABASE_OPERATION_FAIL };
         }
 
-        return new()
-        {
-            StatusCode = UpdateUserInfoResponseStatusCode.UPDATE_SUCCESS
-        };
+        return new() { StatusCode = UpdateUserInfoResponseStatusCode.OPERATION_SUCCESS };
     }
 
     private UserDetail InitNewUpdateUser(UpdateUserInfoRequest command)
     {
-        UserDetail newUpdateUser = new()
-        {
-            UserId = command.GetUserId(),
-            User = new()
-        };
+        UserDetail newUpdateUser = new() { UserId = command.GetUserId(), User = new() };
 
         newUpdateUser.User.UserName = command.UserName;
         newUpdateUser.FirstName = command.FirstName;
@@ -146,6 +133,7 @@ internal sealed class UpdateUserInfoHandler : IFeatureHandler<
         newUpdateUser.Description = command.Description;
         newUpdateUser.Address = command.Address;
         newUpdateUser.AvatarUrl = command.AvatarUrl;
+        newUpdateUser.BackgroundUrl = command.BackgroundUrl;
         newUpdateUser.ExperienceId = command.ExperienceId;
         newUpdateUser.CompetitionLevelId = command.CompetitionLevelId;
         newUpdateUser.UpdatedAt = DateTime.UtcNow;

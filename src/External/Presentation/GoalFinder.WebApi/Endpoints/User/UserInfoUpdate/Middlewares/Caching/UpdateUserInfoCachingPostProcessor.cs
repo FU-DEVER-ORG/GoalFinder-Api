@@ -1,23 +1,21 @@
-﻿using FastEndpoints;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.Application.Features.User.UpdateUserInfo;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Common;
 using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Caching;
 
 /// <summary>
 ///     Caching post processor.
 /// </summary>
-internal sealed class UpdateUserInfoCachingPostProcessor : PostProcessor<
-    UpdateUserInfoRequest,
-    UpdateUserInfoStateBag,
-    UpdateUserInfoHttpResponse>
+internal sealed class UpdateUserInfoCachingPostProcessor
+    : PostProcessor<UpdateUserInfoRequest, UpdateUserInfoStateBag, UpdateUserInfoHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -26,13 +24,16 @@ internal sealed class UpdateUserInfoCachingPostProcessor : PostProcessor<
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public override async Task PostProcessAsync(IPostProcessorContext<
-        UpdateUserInfoRequest,
-        UpdateUserInfoHttpResponse> context,
+    public override async Task PostProcessAsync(
+        IPostProcessorContext<UpdateUserInfoRequest, UpdateUserInfoHttpResponse> context,
         UpdateUserInfoStateBag state,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        if (Equals(objA: context.Response, objB: default)) { return; }
+        if (Equals(objA: context.Response, objB: default))
+        {
+            return;
+        }
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
@@ -40,9 +41,12 @@ internal sealed class UpdateUserInfoCachingPostProcessor : PostProcessor<
 
         if (
             context.Response.AppCode.Equals(
-                value: UpdateUserInfoResponseStatusCode.USER_NOT_FOUND.ToAppCode()) ||
-            context.Response.AppCode.Equals(
-                value: UpdateUserInfoResponseStatusCode.USERNAME_IS_ALREADY_TAKEN.ToAppCode()))
+                value: UpdateUserInfoResponseStatusCode.USER_IS_NOT_FOUND.ToAppCode()
+            )
+            || context.Response.AppCode.Equals(
+                value: UpdateUserInfoResponseStatusCode.USERNAME_IS_ALREADY_TAKEN.ToAppCode()
+            )
+        )
         {
             await cacheHandler.SetAsync(
                 key: state.CacheKey,
@@ -50,9 +54,11 @@ internal sealed class UpdateUserInfoCachingPostProcessor : PostProcessor<
                 new()
                 {
                     AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(
-                        seconds: state.CacheDurationInSeconds)
+                        seconds: state.CacheDurationInSeconds
+                    )
                 },
-                cancellationToken: ct);
+                cancellationToken: ct
+            );
         }
     }
 }

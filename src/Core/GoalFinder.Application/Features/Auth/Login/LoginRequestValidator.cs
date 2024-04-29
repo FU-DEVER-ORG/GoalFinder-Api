@@ -6,8 +6,7 @@ namespace GoalFinder.Application.Features.Auth.Login;
 /// <summary>
 ///     Login request validator.
 /// </summary>
-public sealed class LoginRequestValidator :
-    FeatureRequestValidator<LoginRequest, LoginResponse>
+public sealed class LoginRequestValidator : FeatureRequestValidator<LoginRequest, LoginResponse>
 {
     public LoginRequestValidator()
     {

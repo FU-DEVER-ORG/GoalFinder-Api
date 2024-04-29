@@ -2,6 +2,7 @@
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
+
 namespace GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 
 /// <summary>

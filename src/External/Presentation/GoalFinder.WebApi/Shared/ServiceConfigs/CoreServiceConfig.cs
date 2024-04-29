@@ -10,7 +10,6 @@ internal static class CoreServiceConfig
 {
     internal static void ConfigCore(
         this IServiceCollection services,
-        IConfigurationManager configuration)
-    {
-    }
+        IConfigurationManager configuration
+    ) { }
 }

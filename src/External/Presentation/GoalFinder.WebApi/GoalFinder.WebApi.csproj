@@ -41,10 +41,4 @@
     <ProjectReference Include="..\..\Infrastructure\Persistence\Caching\GoalFinder.RedisCachingDb\GoalFinder.RedisCachingDb.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Relational\GoalFinder.MySqlRelationalDb\GoalFinder.MySqlRelationalDb.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endpoints\Auth\RefreshAccessToken\Middlewares\Caching\" />
-    <Folder Include="Endpoints\Auth\RefreshAccessToken\Middlewares\Autorization\" />
-    <Folder Include="Endpoints\Auth\RefreshAccessToken\Middlewares\Validation\" />
-  </ItemGroup>
 </Project>

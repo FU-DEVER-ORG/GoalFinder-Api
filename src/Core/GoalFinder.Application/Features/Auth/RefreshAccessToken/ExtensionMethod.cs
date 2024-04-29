@@ -6,7 +6,13 @@
 
 public static class ExtensionMethod
 {
-    public static string ToAppCode (this RefreshAccessTokenResponseStatusCode statusCode)
+    /// <summary>
+    /// Convert RefreshAccessTokenResponseStatusCode to AppCode
+    /// </summary>
+    /// <param name="statusCode"></param>
+    /// <returns></returns>
+
+    public static string ToAppCode(this RefreshAccessTokenResponseStatusCode statusCode)
     {
         return $"{nameof(Auth)}.{nameof(RefreshAccessToken)}.{statusCode}";
     }

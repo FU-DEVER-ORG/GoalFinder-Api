@@ -1,18 +1,19 @@
-﻿using FastEndpoints;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
 
 /// <summary>
 ///     Pre-processor for login caching.
 /// </summary>
-internal sealed class LoginCachingPreProcessor : PreProcessor<LoginRequest, LoginStateBag>
+internal sealed class LoginCachingPreProcessor 
+    : PreProcessor<LoginRequest, LoginStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -24,9 +25,13 @@ internal sealed class LoginCachingPreProcessor : PreProcessor<LoginRequest, Logi
     public override async Task PreProcessAsync(
         IPreProcessorContext<LoginRequest> context,
         LoginStateBag state,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        if (context.HttpContext.ResponseStarted()) { return; }
+        if (context.HttpContext.ResponseStarted())
+        {
+            return;
+        }
 
         state.CacheKey = $"{nameof(LoginHttpResponse)}_username_{context.Request.Username}";
 
@@ -37,17 +42,20 @@ internal sealed class LoginCachingPreProcessor : PreProcessor<LoginRequest, Logi
         // Retrieve from cache.
         var cacheModel = await cacheHandler.GetAsync<LoginHttpResponse>(
             key: state.CacheKey,
-            cancellationToken: ct);
+            cancellationToken: ct
+        );
 
         // Cache value does not exist.
-        if (!Equals(
-                objA: cacheModel,
-                objB: AppCacheModel<LoginHttpResponse>.NotFound))
+        if (!Equals(objA: cacheModel, objB: AppCacheModel<LoginHttpResponse>.NotFound))
         {
+            var httpCode = cacheModel.Value.HttpCode;
+            cacheModel.Value.HttpCode = default;
+
             await context.HttpContext.Response.SendAsync(
                 response: cacheModel.Value,
-                statusCode: cacheModel.Value.HttpCode,
-                cancellation: ct);
+                statusCode: httpCode,
+                cancellation: ct
+            );
 
             context.HttpContext.MarkResponseStart();
         }

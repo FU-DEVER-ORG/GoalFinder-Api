@@ -1,21 +1,20 @@
 ﻿using GoalFinder.Data.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 
 /// <summary>
 ///     Represents configuration of "Users" table.
 /// </summary>
-internal sealed class UserEntityConfiguration :
-    IEntityTypeConfiguration<User>
+internal sealed class UserEntityConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable(
             name: $"{nameof(User)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain user records."));
+            buildAction: table => table.HasComment(comment: "Contain user records.")
+        );
 
         // Table relationships configurations.
         // [Users] - [UserRoles] (1 - N).
@@ -31,7 +30,6 @@ internal sealed class UserEntityConfiguration :
             .WithOne(navigationExpression: userToken => userToken.User)
             .HasForeignKey(foreignKeyExpression: userToken => userToken.UserId)
             .IsRequired();
-
         // [Users] - [UserDetails] (1 - 1).
         builder
             .HasOne(navigationExpression: user => user.UserDetail)

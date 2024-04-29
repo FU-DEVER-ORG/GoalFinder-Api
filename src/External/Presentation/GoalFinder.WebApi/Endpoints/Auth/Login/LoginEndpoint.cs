@@ -1,11 +1,11 @@
-﻿using FastEndpoints;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoalFinder.WebApi.Endpoints.Auth.Login;
 
@@ -46,19 +46,17 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
                     {
                         AccessToken = "string",
                         RefreshToken = "string",
-                        User = new()
-                        {
-                            Email = "string",
-                            AvatarUrl = "string"
-                        }
+                        User = new() { Email = "string", AvatarUrl = "string" }
                     }
-                });
+                }
+            );
         });
     }
 
     public override async Task<LoginHttpResponse> ExecuteAsync(
         LoginRequest req,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         // Get app feature response.
         var appResponse = await req.ExecuteAsync(ct: ct);
@@ -70,9 +68,9 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
             .Invoke(arg1: req, arg2: appResponse);
 
         /*
-         * Store the real http code of http response into a temporary variable.
-         * Set the http code of http response to default for not serializing.
-         */
+        * Store the real http code of http response into a temporary variable.
+        * Set the http code of http response to default for not serializing.
+        */
         var httpResponseStatusCode = httpResponse.HttpCode;
         httpResponse.HttpCode = default;
 
@@ -80,7 +78,8 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
         await SendAsync(
             response: httpResponse,
             statusCode: httpResponseStatusCode,
-            cancellation: ct);
+            cancellation: ct
+        );
 
         // Set the http code of http response back to real one.
         httpResponse.HttpCode = httpResponseStatusCode;

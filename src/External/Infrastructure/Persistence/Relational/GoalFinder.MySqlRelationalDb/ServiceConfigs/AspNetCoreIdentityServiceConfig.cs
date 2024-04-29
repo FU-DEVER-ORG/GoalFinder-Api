@@ -1,10 +1,10 @@
-﻿using GoalFinder.Configuration.Infrastructure.Persistence.AspNetCoreIdentity;
+﻿using System;
+using GoalFinder.Configuration.Infrastructure.Persistence.AspNetCoreIdentity;
 using GoalFinder.Data.Entities;
 using GoalFinder.MySqlRelationalDb.Data;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.MySqlRelationalDb.ServiceConfigs;
 
@@ -15,7 +15,8 @@ internal static class AspNetCoreIdentityServiceConfig
 {
     internal static void ConfigAspNetCoreIdentity(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         services
             .AddIdentity<User, Role>(setupAction: config =>
@@ -31,8 +32,9 @@ internal static class AspNetCoreIdentityServiceConfig
                 config.Password.RequiredLength = option.Password.RequiredLength;
                 config.Password.RequiredUniqueChars = option.Password.RequiredUniqueChars;
 
-                config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(value:
-                    option.Lockout.DefaultLockoutTimeSpanInSecond);
+                config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(
+                    value: option.Lockout.DefaultLockoutTimeSpanInSecond
+                );
                 config.Lockout.MaxFailedAccessAttempts = option.Lockout.MaxFailedAccessAttempts;
                 config.Lockout.AllowedForNewUsers = option.Lockout.AllowedForNewUsers;
 
@@ -40,7 +42,9 @@ internal static class AspNetCoreIdentityServiceConfig
                 config.User.RequireUniqueEmail = option.User.RequireUniqueEmail;
 
                 config.SignIn.RequireConfirmedEmail = option.SignIn.RequireConfirmedEmail;
-                config.SignIn.RequireConfirmedPhoneNumber = option.SignIn.RequireConfirmedPhoneNumber;
+                config.SignIn.RequireConfirmedPhoneNumber = option
+                    .SignIn
+                    .RequireConfirmedPhoneNumber;
             })
             .AddEntityFrameworkStores<GoalFinderContext>()
             .AddDefaultTokenProviders();

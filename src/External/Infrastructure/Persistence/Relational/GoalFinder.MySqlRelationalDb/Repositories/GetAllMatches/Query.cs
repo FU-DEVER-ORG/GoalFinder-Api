@@ -14,13 +14,16 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 /// </summary>
 internal sealed partial class GetAllMatchesRepository
 {
-    public async Task<IEnumerable<FootballMatch>> GetAllMatchesQueryAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<FootballMatch>> GetAllMatchesQueryAsync(
+        CancellationToken cancellationToken
+    )
     {
         return await _footballMatch
             .AsNoTracking()
-            .Where(predicate:
-                match => match.RemovedBy == CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID &&
-                match.RemovedAt == DateTime.MinValue)
+            .Where(predicate: match =>
+                match.RemovedBy == CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                && match.RemovedAt == DateTime.MinValue
+            )
             .OrderBy(keySelector: match => match.CreatedAt)
             .Select(match => new FootballMatch()
             {
@@ -38,7 +41,8 @@ internal sealed partial class GetAllMatchesRepository
                 },
                 CreatedAt = match.CreatedAt,
                 HostId = match.HostId,
-                UserDetail = new UserDetail {
+                UserDetail = new UserDetail
+                {
                     FirstName = match.UserDetail.FirstName,
                     LastName = match.UserDetail.LastName,
                 }

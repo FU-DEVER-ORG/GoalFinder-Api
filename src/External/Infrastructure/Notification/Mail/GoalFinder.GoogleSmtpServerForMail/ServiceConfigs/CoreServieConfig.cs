@@ -13,13 +13,16 @@ internal static class CoreServiceConfig
 {
     internal static void ConfigCore(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         services
             .AddSingleton<ISendingMailHandler, GoogleSendingMailHandler>()
-            .AddSingleton(configuration
-                .GetRequiredSection(key: "SmtpServer")
-                .GetRequiredSection(key: "GoogleGmail")
-                .Get<GoogleGmailSendingOption>());
+            .AddSingleton(
+                configuration
+                    .GetRequiredSection(key: "SmtpServer")
+                    .GetRequiredSection(key: "GoogleGmail")
+                    .Get<GoogleGmailSendingOption>()
+            );
     }
 }

@@ -1,22 +1,21 @@
 ﻿using GoalFinder.Data.Entities;
 using GoalFinder.MySqlRelationalDb.Commons;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 
 /// <summary>
 ///     Represents configuration of "Experiences" table.
 /// </summary>
-internal sealed class PositionEntityConfiguration :
-    IEntityTypeConfiguration<Position>
+internal sealed class PositionEntityConfiguration : IEntityTypeConfiguration<Position>
 {
     public void Configure(EntityTypeBuilder<Position> builder)
     {
         builder.ToTable(
             name: $"{nameof(Position)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain position records."));
+            buildAction: table => table.HasComment(comment: "Contain position records.")
+        );
 
         // Primary key configuration.
         builder.HasKey(keyExpression: position => position.Id);
@@ -24,9 +23,12 @@ internal sealed class PositionEntityConfiguration :
         // FullName property configuration
         builder
             .Property(propertyExpression: position => position.FullName)
-                .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                    length: Position.MetaData.FullName.MaxLength))
-                .IsRequired();
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: Position.MetaData.FullName.MaxLength
+                )
+            )
+            .IsRequired();
 
         // CreatedAt property configuration.
         builder
@@ -35,9 +37,7 @@ internal sealed class PositionEntityConfiguration :
             .IsRequired();
 
         // CreatedBy property configuration.
-        builder
-            .Property(propertyExpression: position => position.CreatedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: position => position.CreatedBy).IsRequired();
 
         // UpdatedAt property configuration.
         builder
@@ -46,9 +46,7 @@ internal sealed class PositionEntityConfiguration :
             .IsRequired();
 
         // UpdatedBy property configuration.
-        builder
-            .Property(propertyExpression: position => position.UpdatedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: position => position.UpdatedBy).IsRequired();
 
         // RemovedAt property configuration.
         builder
@@ -57,9 +55,7 @@ internal sealed class PositionEntityConfiguration :
             .IsRequired();
 
         // RemovedBy property configuration.
-        builder
-            .Property(propertyExpression: position => position.RemovedBy)
-            .IsRequired();
+        builder.Property(propertyExpression: position => position.RemovedBy).IsRequired();
 
         // Relationship configurations.
         // [Positions] - [UserPositions] (1 - N)

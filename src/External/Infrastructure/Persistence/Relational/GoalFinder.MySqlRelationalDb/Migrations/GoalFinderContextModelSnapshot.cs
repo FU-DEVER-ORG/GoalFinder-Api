@@ -176,14 +176,11 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("UserDetailUserId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CompetitionLevelId");
 
-                    b.HasIndex("UserDetailUserId");
+                    b.HasIndex("HostId");
 
                     b.ToTable("FootballMatches", null, t =>
                         {
@@ -264,7 +261,12 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("AccessTokenId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens", null, t =>
                         {
@@ -411,6 +413,10 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         .HasColumnType("VARCHAR(200)");
 
                     b.Property<string>("AvatarUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BackgroundUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -633,8 +639,10 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         .IsRequired();
 
                     b.HasOne("GoalFinder.Data.Entities.UserDetail", "UserDetail")
-                        .WithMany()
-                        .HasForeignKey("UserDetailUserId");
+                        .WithMany("FootballMatches")
+                        .HasForeignKey("HostId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("CompetitionLevel");
 
@@ -656,6 +664,17 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         .IsRequired();
 
                     b.Navigation("FootballMatch");
+
+                    b.Navigation("UserDetail");
+                });
+
+            modelBuilder.Entity("GoalFinder.Data.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("GoalFinder.Data.Entities.UserDetail", "UserDetail")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("UserDetail");
                 });
@@ -812,7 +831,11 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
 
             modelBuilder.Entity("GoalFinder.Data.Entities.UserDetail", b =>
                 {
+                    b.Navigation("FootballMatches");
+
                     b.Navigation("MatchPlayers");
+
+                    b.Navigation("RefreshTokens");
 
                     b.Navigation("UserPositions");
                 });

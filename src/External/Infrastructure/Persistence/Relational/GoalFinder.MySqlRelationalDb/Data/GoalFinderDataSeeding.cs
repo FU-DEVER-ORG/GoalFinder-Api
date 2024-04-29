@@ -1,18 +1,20 @@
-﻿using GoalFinder.Data.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using GoalFinder.Application.Shared.Commons;
+using GoalFinder.Application.Shared.FIleObjectStorage;
+using GoalFinder.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using GoalFinder.Application.Shared.FIleObjectStorage;
-using GoalFinder.Application.Shared.Commons;
 
 namespace GoalFinder.MySqlRelationalDb.Data;
 
 public static class GoalFinderDataSeeding
 {
-    private static readonly Guid AdminId = Guid.Parse(input: "1a6c3e77-4097-40e2-b447-f00d1f82cf78");
+    private static readonly Guid AdminId = Guid.Parse(
+        input: "1a6c3e77-4097-40e2-b447-f00d1f82cf78"
+    );
 
     /// <summary>
     ///     Seed data.
@@ -39,7 +41,8 @@ public static class GoalFinderDataSeeding
         UserManager<User> userManager,
         RoleManager<Role> roleManager,
         IDefaultUserAvatarAsUrlHandler defaultUserAvatarAsUrlHandler,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var experiences = context.Set<Experience>();
         var competitionLevels = context.Set<CompetitionLevel>();
@@ -54,7 +57,8 @@ public static class GoalFinderDataSeeding
             positions: positions,
             userDetails: userDetails,
             roles: roles,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken
+        );
 
         if (!isTableEmpty)
         {
@@ -75,54 +79,56 @@ public static class GoalFinderDataSeeding
 
         //// Init admin.
         var admin = InitAdmin(
-            competitionLevelId: newCompetitionLevels.Find(match: competitionLevel =>
-                competitionLevel.FullName.Equals(value: "Vui vẻ")).Id,
-            experienceId: newExperiences.Find(match: experience =>
-                experience.FullName.Equals(value: "Chuyên nghiệp")).Id,
-            defaultUserAvatarAsUrlHandler: defaultUserAvatarAsUrlHandler);
+            competitionLevelId: newCompetitionLevels
+                .Find(match: competitionLevel => competitionLevel.FullName.Equals(value: "Vui vẻ"))
+                .Id,
+            experienceId: newExperiences
+                .Find(match: experience => experience.FullName.Equals(value: "Chuyên nghiệp"))
+                .Id,
+            defaultUserAvatarAsUrlHandler: defaultUserAvatarAsUrlHandler
+        );
 
         #region Transaction
         var executedTransactionResult = false;
 
-        await context.Database
-            .CreateExecutionStrategy()
+        await context
+            .Database.CreateExecutionStrategy()
             .ExecuteAsync(operation: async () =>
             {
                 await using var dbTransaction = await context.Database.BeginTransactionAsync(
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken
+                );
 
                 try
                 {
                     await experiences.AddRangeAsync(
                         entities: newExperiences,
-                        cancellationToken: cancellationToken);
+                        cancellationToken: cancellationToken
+                    );
 
                     await competitionLevels.AddRangeAsync(
                         entities: newCompetitionLevels,
-                        cancellationToken: cancellationToken);
+                        cancellationToken: cancellationToken
+                    );
 
                     await positions.AddRangeAsync(
                         entities: newPositions,
-                        cancellationToken: cancellationToken);
+                        cancellationToken: cancellationToken
+                    );
 
                     foreach (var newRole in newRoles)
                     {
                         await roleManager.CreateAsync(role: newRole);
                     }
 
-                    await userManager.CreateAsync(
-                        user: admin,
-                        password: "Admin123@");
+                    await userManager.CreateAsync(user: admin, password: "Admin123@");
 
-                    await userManager.AddToRoleAsync(
-                        user: admin,
-                        role: "admin");
+                    await userManager.AddToRoleAsync(user: admin, role: "admin");
 
-                    var emailConfirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user: admin);
+                    var emailConfirmationToken =
+                        await userManager.GenerateEmailConfirmationTokenAsync(user: admin);
 
-                    await userManager.ConfirmEmailAsync(
-                        user: admin,
-                        token: emailConfirmationToken);
+                    await userManager.ConfirmEmailAsync(user: admin, token: emailConfirmationToken);
 
                     await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
@@ -157,9 +163,9 @@ public static class GoalFinderDataSeeding
         DbSet<Position> positions,
         DbSet<UserDetail> userDetails,
         DbSet<Role> roles,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-
         // Is experiences table empty.
         var isTableNotEmpty = await experiences.AnyAsync(cancellationToken: cancellationToken);
 
@@ -215,31 +221,36 @@ public static class GoalFinderDataSeeding
 
         newExperienceNames.Add(
             key: CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-            value: string.Empty);
+            value: string.Empty
+        );
 
         newExperienceNames.Add(
             key: Guid.Parse(input: "8e9bd942-4472-4c19-bdd4-8bab0d6346e2"),
-            value: "Chuyên nghiệp");
+            value: "Chuyên nghiệp"
+        );
 
         newExperienceNames.Add(
             key: Guid.Parse(input: "c99b2f00-cf5a-468f-a0ae-31cd95fecce6"),
-            value: "Nghiệp dư");
+            value: "Nghiệp dư"
+        );
 
         List<Experience> newExperiences = [];
 
         foreach (var newExperienceName in newExperienceNames)
         {
-            newExperiences.Add(item: new()
-            {
-                Id = newExperienceName.Key,
-                FullName = newExperienceName.Value,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = AdminId,
-                UpdatedAt = DateTime.MinValue,
-                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                RemovedAt = DateTime.MinValue,
-                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
-            });
+            newExperiences.Add(
+                item: new()
+                {
+                    Id = newExperienceName.Key,
+                    FullName = newExperienceName.Value,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = AdminId,
+                    UpdatedAt = DateTime.MinValue,
+                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    RemovedAt = DateTime.MinValue,
+                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                }
+            );
         }
 
         return newExperiences;
@@ -257,35 +268,41 @@ public static class GoalFinderDataSeeding
 
         newCompetitionLevelNames.Add(
             key: CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-            value: string.Empty);
+            value: string.Empty
+        );
 
         newCompetitionLevelNames.Add(
             key: Guid.Parse(input: "02569b52-d331-4b39-a89b-737cc0c55b13"),
-            value: "Vui vẻ");
+            value: "Vui vẻ"
+        );
 
         newCompetitionLevelNames.Add(
             key: Guid.Parse(input: "0a0a9174-e2ab-49ca-943f-dc62c26eb032"),
-            value: "Vừa phải");
+            value: "Vừa phải"
+        );
 
         newCompetitionLevelNames.Add(
             key: Guid.Parse("67c22803-9fef-45e4-9f93-184db1a15458"),
-            value: "Nghiêm túc");
+            value: "Nghiêm túc"
+        );
 
         List<CompetitionLevel> newCompetitionLevels = [];
 
         foreach (var newCompetitionLevelName in newCompetitionLevelNames)
         {
-            newCompetitionLevels.Add(new()
-            {
-                Id = newCompetitionLevelName.Key,
-                FullName = newCompetitionLevelName.Value,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = AdminId,
-                UpdatedAt = DateTime.MinValue,
-                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                RemovedAt = DateTime.MinValue,
-                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
-            });
+            newCompetitionLevels.Add(
+                new()
+                {
+                    Id = newCompetitionLevelName.Key,
+                    FullName = newCompetitionLevelName.Value,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = AdminId,
+                    UpdatedAt = DateTime.MinValue,
+                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    RemovedAt = DateTime.MinValue,
+                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                }
+            );
         }
 
         return newCompetitionLevels;
@@ -303,31 +320,34 @@ public static class GoalFinderDataSeeding
 
         newRoleNames.Add(
             key: Guid.Parse(input: "c39aa1ac-8ded-46be-870c-115b200b09fc"),
-            value: "user");
+            value: "user"
+        );
 
         newRoleNames.Add(
             key: Guid.Parse(input: "c8500b46-b134-4b60-85b7-8e6af1187e0c"),
-            value: "admin");
+            value: "admin"
+        );
 
         List<Role> newRoles = [];
 
         foreach (var newRoleName in newRoleNames)
         {
-            Role newRole = new()
-            {
-                Id = newRoleName.Key,
-                Name = newRoleName.Value,
-                RoleDetail = new()
+            Role newRole =
+                new()
                 {
-                    RoleId = newRoleName.Key,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = AdminId,
-                    UpdatedAt = DateTime.MinValue,
-                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                    RemovedAt = DateTime.MinValue,
-                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
-                }
-            };
+                    Id = newRoleName.Key,
+                    Name = newRoleName.Value,
+                    RoleDetail = new()
+                    {
+                        RoleId = newRoleName.Key,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = AdminId,
+                        UpdatedAt = DateTime.MinValue,
+                        UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                        RemovedAt = DateTime.MinValue,
+                        RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                    }
+                };
 
             newRoles.Add(item: newRole);
         }
@@ -347,35 +367,41 @@ public static class GoalFinderDataSeeding
 
         newPositionNames.Add(
             key: Guid.Parse(input: "126aad71-81e0-4e56-8d74-c1d3f3e9b8c0"),
-            value: "TIền đạo");
+            value: "TIền đạo"
+        );
 
         newPositionNames.Add(
             key: Guid.Parse(input: "7bfadb87-4950-4627-aa93-c0312ff492a5"),
-            value: "Hậu vệ");
+            value: "Hậu vệ"
+        );
 
         newPositionNames.Add(
             key: Guid.Parse(input: "1e057224-2d18-459d-af0d-146c4c7d3a65"),
-            value: "Tiền vệ");
+            value: "Tiền vệ"
+        );
 
         newPositionNames.Add(
-            key: Guid.Parse(input: "7bfadb87-4950-4627-aa93-c0312ff492a5"),
-            value: "Hậu vệ");
+            key: Guid.Parse(input: "697ed101-07cb-4745-a80f-488e695c830a"),
+            value: "Hậu vệ"
+        );
 
         List<Position> newPositions = [];
 
         foreach (var newPositionName in newPositionNames)
         {
-            newPositions.Add(new()
-            {
-                Id = newPositionName.Key,
-                FullName = newPositionName.Value,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = AdminId,
-                UpdatedAt = DateTime.MinValue,
-                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                RemovedAt = DateTime.MinValue,
-                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
-            });
+            newPositions.Add(
+                new()
+                {
+                    Id = newPositionName.Key,
+                    FullName = newPositionName.Value,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = AdminId,
+                    UpdatedAt = DateTime.MinValue,
+                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    RemovedAt = DateTime.MinValue,
+                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                }
+            );
         }
 
         return newPositions;
@@ -393,32 +419,35 @@ public static class GoalFinderDataSeeding
     private static User InitAdmin(
         Guid competitionLevelId,
         Guid experienceId,
-        IDefaultUserAvatarAsUrlHandler defaultUserAvatarAsUrlHandler)
+        IDefaultUserAvatarAsUrlHandler defaultUserAvatarAsUrlHandler
+    )
     {
-        User admin = new()
-        {
-            Id = AdminId,
-            UserName = "ledinhdangkhoa10a9@gmail.com",
-            Email = "ledinhdangkhoa10a9@gmail.com",
-            UserDetail = new()
+        User admin =
+            new()
             {
-                UserId = AdminId,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = AdminId,
-                RemovedAt = DateTime.MinValue,
-                RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                UpdatedAt = DateTime.MinValue,
-                UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
-                Address = "Thanh pho da nang - Quan son tra",
-                CompetitionLevelId = competitionLevelId,
-                FirstName = "Khoa",
-                LastName = "Le",
-                Description = "Hi my name is khoa, admin of this website.",
-                ExperienceId = experienceId,
-                PrestigeScore = 100,
-                AvatarUrl = defaultUserAvatarAsUrlHandler.Get()
-            }
-        };
+                Id = AdminId,
+                UserName = "ledinhdangkhoa10a9@gmail.com",
+                Email = "ledinhdangkhoa10a9@gmail.com",
+                UserDetail = new()
+                {
+                    UserId = AdminId,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = AdminId,
+                    RemovedAt = DateTime.MinValue,
+                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    UpdatedAt = DateTime.MinValue,
+                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    Address = "Thanh pho da nang - Quan son tra",
+                    CompetitionLevelId = competitionLevelId,
+                    FirstName = "Khoa",
+                    LastName = "Le",
+                    Description = "Hi my name is khoa, admin of this website.",
+                    ExperienceId = experienceId,
+                    PrestigeScore = 100,
+                    BackgroundUrl = string.Empty,
+                    AvatarUrl = defaultUserAvatarAsUrlHandler.Get()
+                }
+            };
 
         return admin;
     }

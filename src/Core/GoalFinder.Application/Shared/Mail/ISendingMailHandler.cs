@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Threading;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace GoalFinder.Application.Shared.Mail;
 
@@ -32,7 +32,8 @@ public interface ISendingMailHandler
         string to,
         string subject,
         string mainVerifyLink,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
 
     /// <summary>
     ///     Get user account confirmation mail content.
@@ -58,7 +59,8 @@ public interface ISendingMailHandler
         string to,
         string subject,
         string resetPasswordToken,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
 
     /// <summary>
     ///     Sending an email to the specified user.
@@ -74,7 +76,5 @@ public interface ISendingMailHandler
     /// <returns>
     ///     Task containing boolean result.
     /// </returns>
-    Task<bool> SendAsync(
-        AppMailContent mailContent,
-        CancellationToken cancellationToken);
+    Task<bool> SendAsync(AppMailContent mailContent, CancellationToken cancellationToken);
 }

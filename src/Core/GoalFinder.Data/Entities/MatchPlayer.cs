@@ -1,5 +1,5 @@
-﻿using GoalFinder.Data.Entities.Base;
-using System;
+﻿using System;
+using GoalFinder.Data.Entities.Base;
 
 namespace GoalFinder.Data.Entities;
 
@@ -13,7 +13,7 @@ public class MatchPlayer : IBaseEntity
     public Guid MatchId { get; set; }
 
     public Guid PlayerId { get; set; }
-    
+
     public int NumberOfReports { get; set; }
 
     // Navigation properties.

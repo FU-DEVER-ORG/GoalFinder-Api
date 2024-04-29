@@ -3,6 +3,4 @@
 /// <summary>
 ///     Interface for Get User Profile Repository.
 /// </summary>
-public partial interface IGetUserProfileRepository
-{
-}
+public partial interface IGetUserProfileRepository { }

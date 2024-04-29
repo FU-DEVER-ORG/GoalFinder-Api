@@ -3,6 +3,4 @@
 /// <summary>
 ///     Insert ErrorLog Repository
 /// </summary>
-public partial interface IInsertErrorLogRepository
-{
-}
+public partial interface IInsertErrorLogRepository { }

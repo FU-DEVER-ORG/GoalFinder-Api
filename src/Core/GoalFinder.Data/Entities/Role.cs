@@ -1,16 +1,14 @@
-using GoalFinder.Data.Entities.Base;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using GoalFinder.Data.Entities.Base;
+using Microsoft.AspNetCore.Identity;
 
 namespace GoalFinder.Data.Entities;
 
 /// <summary>
 ///     Represent the "Roles" table.
 /// </summary>
-public class Role :
-    IdentityRole<Guid>,
-    IBaseEntity
+public class Role : IdentityRole<Guid>, IBaseEntity
 {
     // Navigation properties.
     public RoleDetail RoleDetail { get; set; }

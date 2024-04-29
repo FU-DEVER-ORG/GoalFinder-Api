@@ -1,7 +1,7 @@
-﻿
-using GoalFinder.Application.Shared.Features;
+﻿using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
+
 /// <summary>
 ///     Get User Profile Request
 /// </summary>

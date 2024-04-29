@@ -11,6 +11,9 @@ internal static class CoreServiceConfig
 {
     internal static void ConfigCore(this IServiceCollection services)
     {
-        services.AddSingleton<IDefaultUserAvatarAsUrlHandler, DefaultUserAvatarAsUrlSourceHandler>();
+        services.AddSingleton<
+            IDefaultUserAvatarAsUrlHandler,
+            DefaultUserAvatarAsUrlSourceHandler
+        >();
     }
 }

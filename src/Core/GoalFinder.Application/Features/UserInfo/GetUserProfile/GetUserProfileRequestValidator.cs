@@ -1,13 +1,13 @@
-﻿using GoalFinder.Application.Shared.Features;
-using FluentValidation;
+﻿using FluentValidation;
+using GoalFinder.Application.Shared.Features;
+
 namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
 
 /// <summary>
 ///     Get User Profile Request Validator
 /// </summary>
-public sealed class GetUserProfileRequestValidator : FeatureRequestValidator<
-    GetUserProfileRequest,
-    GetUserProfileResponse>
+public sealed class GetUserProfileRequestValidator
+    : FeatureRequestValidator<GetUserProfileRequest, GetUserProfileResponse>
 {
     public GetUserProfileRequestValidator()
     {

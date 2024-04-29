@@ -1,14 +1,13 @@
-﻿using GoalFinder.Application.Shared.Features;
-using FluentValidation;
+﻿using FluentValidation;
+using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.Auth.ForgotPassword;
 
 /// <summary>
 ///     Forgot Password Request Validator
 /// </summary>
-public sealed class ForgotPasswordRequestValidator : FeatureRequestValidator<
-    ForgotPasswordRequest,
-    ForgotPasswordResponse>
+public sealed class ForgotPasswordRequestValidator
+    : FeatureRequestValidator<ForgotPasswordRequest, ForgotPasswordResponse>
 {
     public ForgotPasswordRequestValidator()
     {

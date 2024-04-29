@@ -5,8 +5,8 @@
 /// </summary>
 public enum UpdateUserInfoResponseStatusCode
 {
-    UPDATE_SUCCESS,
-    USER_NOT_FOUND,
+    OPERATION_SUCCESS,
+    USER_IS_NOT_FOUND,
     DATABASE_OPERATION_FAIL,
     USERNAME_IS_ALREADY_TAKEN,
     INPUT_VALIDATION_FAIL,

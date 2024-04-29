@@ -1,6 +1,6 @@
-﻿using GoalFinder.Application.Shared.Features;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.User.UpdateUserInfo;
 
@@ -20,6 +20,8 @@ public sealed class UpdateUserInfoRequest : IFeatureRequest<UpdateUserInfoRespon
     public string Description { get; init; }
 
     public string Address { get; init; }
+
+    public string BackgroundUrl { get; init; }
 
     public string AvatarUrl { get; init; }
 

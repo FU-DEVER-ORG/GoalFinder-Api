@@ -1,12 +1,12 @@
-using FastEndpoints.Security;
-using GoalFinder.Application.Shared.Tokens.AccessToken;
-using GoalFinder.Configuration.Presentation.WebApi.Authentication;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using FastEndpoints.Security;
+using GoalFinder.Application.Shared.Tokens.AccessToken;
+using GoalFinder.Configuration.Presentation.WebApi.Authentication;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GoalFinder.AppJsonWebToken.Handler;
 
@@ -25,12 +25,11 @@ internal sealed class AccessTokenHandler : IAccessTokenHandler
     public string GenerateSigningToken(IEnumerable<Claim> claims)
     {
         // Validate set of user claims.
-        if (claims.Equals(obj: Enumerable.Empty<Claim>()) ||
-            Equals(objA: claims, objB: default))
+        if (claims.Equals(obj: Enumerable.Empty<Claim>()) || Equals(objA: claims, objB: default))
         {
             return string.Empty;
         }
-        
+
         return JwtBearer.CreateToken(options: option =>
         {
             option.SigningKey = _jwtAuthenticationOption.Jwt.IssuerSigningKey;
@@ -40,9 +39,12 @@ internal sealed class AccessTokenHandler : IAccessTokenHandler
             option.Issuer = _jwtAuthenticationOption.Jwt.ValidIssuer;
             option.SymmetricKeyAlgorithm = SecurityAlgorithms.HmacSha256;
             option.CompressionAlgorithm = CompressionAlgorithms.Deflate;
-            option.User.Claims.Add(item: new(
-                type: JwtRegisteredClaimNames.Iat,
-                value: DateTime.UtcNow.ToLongTimeString()));
+            option.User.Claims.Add(
+                item: new(
+                    type: JwtRegisteredClaimNames.Iat,
+                    value: DateTime.UtcNow.ToLongTimeString()
+                )
+            );
         });
     }
 }

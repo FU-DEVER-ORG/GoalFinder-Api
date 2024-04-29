@@ -40,7 +40,7 @@ public sealed class GetAllMatchesResponse : IFeatureResponse
             public int TimeAgo { get; init; }
 
             public Guid HostId { get; init; }
-            
+
             public string HostName { get; init; }
         }
     }

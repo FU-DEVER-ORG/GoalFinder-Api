@@ -1,10 +1,10 @@
-﻿using GoalFinder.Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GoalFinder.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
@@ -16,32 +16,32 @@ internal partial class UpdateUserInfoRepository
         UserDetail currentUser,
         IEnumerable<Guid> currentPositionIds,
         IEnumerable<Guid> newPositionIds,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var updateTransactionResult = false;
 
-        await _context.Database
-            .CreateExecutionStrategy()
+        await _context
+            .Database.CreateExecutionStrategy()
             .ExecuteAsync(operation: async () =>
             {
                 // User table database operation.
                 #region UserTable
                 if (!currentUser.User.UserName.Equals(updateUser.User.UserName))
                 {
-                    User user = new()
-                    {
-                        Id = updateUser.UserId,
-                        UserName = updateUser.User.UserName,
-                        ConcurrencyStamp = currentUser.User.ConcurrencyStamp
-                    };
+                    User user =
+                        new()
+                        {
+                            Id = updateUser.UserId,
+                            UserName = updateUser.User.UserName,
+                            ConcurrencyStamp = currentUser.User.ConcurrencyStamp
+                        };
 
                     var entry = _users.Entry(entity: user);
 
                     entry.State = EntityState.Unchanged;
 
-                    entry
-                        .Property(propertyExpression: entry => entry.UserName)
-                        .IsModified = true;
+                    entry.Property(propertyExpression: entry => entry.UserName).IsModified = true;
                 }
                 #endregion
 
@@ -53,8 +53,9 @@ internal partial class UpdateUserInfoRepository
                 {
                     await _userPositions
                         .Where(userPosition =>
-                            userPosition.UserId == currentUser.UserId &&
-                            removedPositionIds.Contains(userPosition.PositionId))
+                            userPosition.UserId == currentUser.UserId
+                            && removedPositionIds.Contains(userPosition.PositionId)
+                        )
                         .ExecuteDeleteAsync(cancellationToken: cancellationToken);
                 }
 
@@ -68,7 +69,8 @@ internal partial class UpdateUserInfoRepository
 
                 await _userPositions.AddRangeAsync(
                     entities: addedPositions,
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken
+                );
                 #endregion
 
                 // User detail table database operation.
@@ -80,12 +82,15 @@ internal partial class UpdateUserInfoRepository
 
                 foreach (var property in updateUserEntry.Properties)
                 {
-                    if (!property.Metadata.IsPrimaryKey() &&
-                        !Equals(
+                    if (
+                        !property.Metadata.IsPrimaryKey()
+                        && !Equals(
                             objA: property.CurrentValue,
                             objB: currentUserEntry
                                 .Property(propertyName: property.Metadata.Name)
-                                .CurrentValue))
+                                .CurrentValue
+                        )
+                    )
                     {
                         property.IsModified = true;
                     }
@@ -93,7 +98,8 @@ internal partial class UpdateUserInfoRepository
                 #endregion
 
                 await using var dbTransaction = await _context.Database.BeginTransactionAsync(
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken
+                );
 
                 try
                 {
@@ -106,7 +112,6 @@ internal partial class UpdateUserInfoRepository
                 catch
                 {
                     await dbTransaction.RollbackAsync(cancellationToken: cancellationToken);
-
                 }
             });
 

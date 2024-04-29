@@ -1,4 +1,3 @@
-
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Data;
@@ -13,7 +12,7 @@ internal sealed partial class GetUserProfileRepository : IGetUserProfileReposito
     private readonly DbSet<MatchPlayer> _matchPlayer;
     private readonly DbSet<User> _users;
 
-    internal GetUserProfileRepository(GoalFinderContext context )
+    internal GetUserProfileRepository(GoalFinderContext context)
     {
         _context = context;
         _userDetails = _context.Set<UserDetail>();

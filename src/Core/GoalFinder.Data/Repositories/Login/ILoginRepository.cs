@@ -3,6 +3,4 @@
 /// <summary>
 ///     Interface for Login Repository.
 /// </summary>
-public partial interface ILoginRepository
-{
-}
+public partial interface ILoginRepository { }

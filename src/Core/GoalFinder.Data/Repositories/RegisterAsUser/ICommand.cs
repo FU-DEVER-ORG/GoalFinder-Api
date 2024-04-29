@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Threading;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using GoalFinder.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,5 +11,6 @@ public partial interface IRegisterAsUserRepository
         User newUser,
         string userPassword,
         UserManager<User> userManager,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
 }

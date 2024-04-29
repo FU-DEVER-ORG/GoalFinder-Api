@@ -22,7 +22,8 @@ public static class DependencyInjection
     /// </param>
     public static void ConfigMySqlRelationalDatabase(
         this IServiceCollection services,
-        IConfigurationManager configuration)
+        IConfigurationManager configuration
+    )
     {
         services.ConfigMySqlDbContextPool(configuration: configuration);
         services.ConfigCore();

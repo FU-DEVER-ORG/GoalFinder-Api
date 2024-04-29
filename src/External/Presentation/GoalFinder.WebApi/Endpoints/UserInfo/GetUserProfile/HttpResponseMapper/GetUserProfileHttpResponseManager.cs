@@ -12,11 +12,8 @@ internal sealed class GetUserProfileHttpResponseManager
 {
     private readonly Dictionary<
         GetUserProfileResponseStatusCode,
-        Func<
-            GetUserProfileRequest,
-            GetUserProfileResponse,
-            GetUserProfileHttpResponse>>
-                _dictionary;
+        Func<GetUserProfileRequest, GetUserProfileResponse, GetUserProfileHttpResponse>
+    > _dictionary;
 
     internal GetUserProfileHttpResponseManager()
     {
@@ -24,59 +21,71 @@ internal sealed class GetUserProfileHttpResponseManager
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.DATABASE_OPERATION_FAIL,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status500InternalServerError,
-                AppCode = response.StatusCode.ToAppCode(),
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status500InternalServerError,
+                    AppCode = response.StatusCode.ToAppCode(),
+                }
+        );
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.INPUT_VALIDATION_FAIL,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode()
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status400BadRequest,
+                    AppCode = response.StatusCode.ToAppCode()
+                }
+        );
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.OPERATION_SUCCESS,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status200OK,
-                AppCode = response.StatusCode.ToAppCode(),
-                Body = response.ResponseBody
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status200OK,
+                    AppCode = response.StatusCode.ToAppCode(),
+                    Body = response.ResponseBody
+                }
+        );
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.USER_IS_NOT_FOUND,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status404NotFound,
-                AppCode = response.StatusCode.ToAppCode()
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status404NotFound,
+                    AppCode = response.StatusCode.ToAppCode()
+                }
+        );
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status400BadRequest,
-                AppCode = response.StatusCode.ToAppCode()
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status400BadRequest,
+                    AppCode = response.StatusCode.ToAppCode()
+                }
+        );
 
         _dictionary.Add(
             key: GetUserProfileResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
-            value: (_, response) => new()
-            {
-                HttpCode = StatusCodes.Status417ExpectationFailed,
-                AppCode = response.StatusCode.ToAppCode()
-            });
+            value: (_, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status417ExpectationFailed,
+                    AppCode = response.StatusCode.ToAppCode()
+                }
+        );
     }
 
     internal Func<
         GetUserProfileRequest,
         GetUserProfileResponse,
-        GetUserProfileHttpResponse>
-            Resolve(GetUserProfileResponseStatusCode statusCode)
+        GetUserProfileHttpResponse
+    > Resolve(GetUserProfileResponseStatusCode statusCode)
     {
         return _dictionary[statusCode];
     }

@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using GoalFinder.Data.Entities;
-using System.Collections.Generic;
 
 namespace GoalFinder.Data.Repositories.GetAllMatches;
 
@@ -10,6 +10,5 @@ namespace GoalFinder.Data.Repositories.GetAllMatches;
 /// </summary>
 public partial interface IGetAllMatchesRepository
 {
-    Task<IEnumerable<FootballMatch>> GetAllMatchesQueryAsync(
-        CancellationToken cancellationToken);
+    Task<IEnumerable<FootballMatch>> GetAllMatchesQueryAsync(CancellationToken cancellationToken);
 }

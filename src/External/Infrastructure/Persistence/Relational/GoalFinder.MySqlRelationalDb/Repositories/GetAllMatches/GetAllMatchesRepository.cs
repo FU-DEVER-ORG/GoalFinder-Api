@@ -1,4 +1,3 @@
-
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Data;
@@ -19,5 +18,4 @@ internal sealed partial class GetAllMatchesRepository : IGetAllMatchesRepository
         _context = context;
         _footballMatch = _context.Set<FootballMatch>();
     }
-
 }

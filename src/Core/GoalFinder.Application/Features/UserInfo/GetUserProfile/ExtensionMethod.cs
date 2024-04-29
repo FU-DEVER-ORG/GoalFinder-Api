@@ -1,5 +1,5 @@
-﻿
-namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
+﻿namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
+
 /// <summary>
 ///     Extension Method for get user profile features.
 /// </summary>

@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Caching.Distributed;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace GoalFinder.Application.Shared.Caching;
 
@@ -26,9 +26,7 @@ public interface ICacheHandler
     /// <returns>
     ///     The task containing the cache model.
     /// </returns>
-    Task<AppCacheModel<TSource>> GetAsync<TSource>(
-        string key,
-        CancellationToken cancellationToken);
+    Task<AppCacheModel<TSource>> GetAsync<TSource>(string key, CancellationToken cancellationToken);
 
     /// <summary>
     ///     Set the new key-value pair.
@@ -57,7 +55,8 @@ public interface ICacheHandler
         string key,
         TSource value,
         DistributedCacheEntryOptions distributedCacheEntryOptions,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
 
     /// <summary>
     ///     Remove the value by given key.
@@ -73,7 +72,5 @@ public interface ICacheHandler
     ///     to cancel the current operation when user stop
     ///     the request.
     /// </param>
-    Task RemoveAsync(
-        string key,
-        CancellationToken cancellationToken);
+    Task RemoveAsync(string key, CancellationToken cancellationToken);
 }

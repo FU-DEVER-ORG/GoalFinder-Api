@@ -1,22 +1,21 @@
 ﻿using GoalFinder.Data.Entities;
 using GoalFinder.MySqlRelationalDb.Commons;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 
 /// <summary>
 ///     Represents configuration of "FootballMatches" table.
 /// </summary>
-internal sealed class FootballMatchEntityConfiguration :
-    IEntityTypeConfiguration<FootballMatch>
+internal sealed class FootballMatchEntityConfiguration : IEntityTypeConfiguration<FootballMatch>
 {
     public void Configure(EntityTypeBuilder<FootballMatch> builder)
     {
         builder.ToTable(
             name: $"{nameof(FootballMatch)}es",
-            buildAction: table => table.HasComment(
-                comment: "Contain football match records."));
+            buildAction: table => table.HasComment(comment: "Contain football match records.")
+        );
 
         // Primary key configuration.
         builder.HasKey(keyExpression: footballMatch => footballMatch.Id);
@@ -24,9 +23,12 @@ internal sealed class FootballMatchEntityConfiguration :
         // PitchAddress property configuration
         builder
             .Property(propertyExpression: footballMatch => footballMatch.PitchAddress)
-                .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                    length: FootballMatch.MetaData.PitchAddress.MaxLength))
-                .IsRequired();
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: FootballMatch.MetaData.PitchAddress.MaxLength
+                )
+            )
+            .IsRequired();
 
         // MaxMatchPlayersNeed property configuration.
         builder
@@ -52,8 +54,11 @@ internal sealed class FootballMatchEntityConfiguration :
         // Address property configuration.
         builder
             .Property(propertyExpression: footballMatch => footballMatch.Address)
-            .HasColumnType(typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
-                length: FootballMatch.MetaData.Address.MaxLength))
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: FootballMatch.MetaData.Address.MaxLength
+                )
+            )
             .IsRequired();
 
         // StartTime property configuration.
@@ -103,9 +108,7 @@ internal sealed class FootballMatchEntityConfiguration :
 
         // Foreign key configuration.
         // HostId property configuration.
-        builder
-            .Property(propertyExpression: footballMatch => footballMatch.HostId)
-            .IsRequired();
+        builder.Property(propertyExpression: footballMatch => footballMatch.HostId).IsRequired();
 
         // CompetitionLevelId property configuration.
         builder
@@ -121,4 +124,3 @@ internal sealed class FootballMatchEntityConfiguration :
             .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
     }
 }
-

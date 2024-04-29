@@ -5,16 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoalFinder.MySqlRelationalDb.Data.EntityConfigurations;
 
-internal sealed class UserTokenEntityConfiguration :
-    IEntityTypeConfiguration<UserToken>
-
+internal sealed class UserTokenEntityConfiguration : IEntityTypeConfiguration<UserToken>
 {
     public void Configure(EntityTypeBuilder<UserToken> builder)
     {
         builder.ToTable(
             name: $"{nameof(UserToken)}s",
-            buildAction: table => table.HasComment(
-                comment: "Contain user token records."));
+            buildAction: table => table.HasComment(comment: "Contain user token records.")
+        );
 
         builder
             .Property(propertyExpression: userToken => userToken.ExpiredAt)
