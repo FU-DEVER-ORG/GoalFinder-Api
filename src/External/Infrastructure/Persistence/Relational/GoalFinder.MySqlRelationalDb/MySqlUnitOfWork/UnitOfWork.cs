@@ -4,6 +4,7 @@ using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
+using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.Data.Repositories.RegisterAsUser;
 using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
@@ -16,6 +17,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
+using GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
 using GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
@@ -37,6 +39,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IResetPasswordWithOtpRepository _resetPasswordWithOtpRepository;
     private IGetUserProfileRepository _getUserProfileRepository;
     private IGetAllMatchesRepository _getAllMatchesRepository;
+    private IRefreshAccessTokenRepository _refreshAccessTokenRepository;
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
     private IReportUserAfterMatchRepository _reportUserAfterMatchRepository;
 
@@ -123,6 +126,14 @@ internal sealed class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IRefreshAccessTokenRepository RefreshAccessTokenRepository
+    {
+        get
+        {
+            _refreshAccessTokenRepository ??= new RefreshAccessTokenRepository(context: _context);
+            return _refreshAccessTokenRepository;
+        }
+    }
     public IGetUserInfoOnSidebarRepository GetUserInfoOnSidebarRepository
     {
         get

@@ -1,30 +1,31 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
-using GoalFinder.Application.Features.Auth.Login;
+using GoalFinder.Application.Features.Auth.RefreshAccessToken;
 using GoalFinder.Application.Shared.Caching;
-using GoalFinder.WebApi.Endpoints.Auth.Login.Common;
-using GoalFinder.WebApi.Endpoints.Auth.Login.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Common;
+using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
+namespace GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Caching;
 
 /// <summary>
-///     Pre-processor for login caching.
+///     Caching pre processor for refresh access token
 /// </summary>
-internal sealed class LoginCachingPreProcessor 
-    : PreProcessor<LoginRequest, LoginStateBag>
+
+internal sealed class RefreshAccessTokenCachingPreProcessor
+    : PreProcessor<RefreshAccessTokenRequest, RefreshAccessTokenStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public LoginCachingPreProcessor(IServiceScopeFactory serviceScopeFactory)
+    public RefreshAccessTokenCachingPreProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
     public override async Task PreProcessAsync(
-        IPreProcessorContext<LoginRequest> context,
-        LoginStateBag state,
+        IPreProcessorContext<RefreshAccessTokenRequest> context,
+        RefreshAccessTokenStateBag state,
         CancellationToken ct
     )
     {
@@ -32,31 +33,27 @@ internal sealed class LoginCachingPreProcessor
         {
             return;
         }
-
-        state.CacheKey = $"{nameof(LoginHttpResponse)}_username_{context.Request.Username}";
+        state.CacheKey = $"{nameof(RefreshAccessTokenHttpResponse)}.{context.Request.RefreshToken}";
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
-        // Retrieve from cache.
-        var cacheModel = await cacheHandler.GetAsync<LoginHttpResponse>(
+        var cacheModel = await cacheHandler.GetAsync<RefreshAccessTokenHttpResponse>(
             key: state.CacheKey,
             cancellationToken: ct
         );
 
-        // Cache value does not exist.
-        if (!Equals(objA: cacheModel, objB: AppCacheModel<LoginHttpResponse>.NotFound))
+        if (!Equals(objA: cacheModel, objB: AppCacheModel<RefreshAccessTokenHttpResponse>.NotFound))
         {
             var httpCode = cacheModel.Value.HttpCode;
-            cacheModel.Value.HttpCode = default;
 
+            cacheModel.Value.HttpCode = default;
             await context.HttpContext.Response.SendAsync(
                 response: cacheModel.Value,
                 statusCode: httpCode,
                 cancellation: ct
             );
-
             context.HttpContext.MarkResponseStart();
         }
     }
