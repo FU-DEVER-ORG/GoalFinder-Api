@@ -35,8 +35,8 @@ internal sealed class RefreshAccessTokenEndpoint
         });
         Summary(endpointSummary: summary =>
         {
-            summary.Summary = "Endpoint for login/signin feature";
-            summary.Description = "This endpoint is used for login/signin purpose.";
+            summary.Summary = "Endpoint for refreshing access token";
+            summary.Description = "This endpoint is used for refreshing access token purpose.";
             summary.ExampleRequest = new() { RefreshToken = "string" };
             summary.Response<RefreshAccessTokenHttpResponse>(
                 description: "Represent successful operation response.",
