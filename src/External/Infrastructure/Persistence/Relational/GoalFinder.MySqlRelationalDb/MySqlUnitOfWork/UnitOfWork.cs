@@ -5,6 +5,7 @@ using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 using GoalFinder.Data.UnitOfWork;
@@ -16,6 +17,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
+using GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 using GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
 
@@ -36,6 +38,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetUserProfileRepository _getUserProfileRepository;
     private IGetAllMatchesRepository _getAllMatchesRepository;
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
+    private IReportUserAfterMatchRepository _reportUserAfterMatchRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -129,6 +132,18 @@ internal sealed class UnitOfWork : IUnitOfWork
             );
 
             return _getUserInfoOnSidebarRepository;
+        }
+    }
+
+    public IReportUserAfterMatchRepository ReportUserAfterMatchRepository
+    {
+        get
+        {
+            _reportUserAfterMatchRepository ??= new ReportUserAfterMatchRepository(
+                context: _context
+            );
+
+            return _reportUserAfterMatchRepository;
         }
     }
 }

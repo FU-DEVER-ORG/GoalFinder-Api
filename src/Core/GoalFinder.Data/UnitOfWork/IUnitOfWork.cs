@@ -5,6 +5,7 @@ using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 
@@ -60,4 +61,9 @@ public interface IUnitOfWork
     ///     Gets the get user info on sidebar repository
     /// </summary>
     IGetUserInfoOnSidebarRepository GetUserInfoOnSidebarRepository { get; }
+
+    /// <summary>
+    ///     Gets the get user info on sidebar repository
+    /// </summary>
+    IReportUserAfterMatchRepository ReportUserAfterMatchRepository { get; }
 }
