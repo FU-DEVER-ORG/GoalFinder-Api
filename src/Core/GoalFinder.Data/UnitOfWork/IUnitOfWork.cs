@@ -1,4 +1,5 @@
-﻿using GoalFinder.Data.Repositories.ForgotPassword;
+﻿using GoalFinder.Data.Repositories.CreateMatch;
+using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
@@ -60,4 +61,9 @@ public interface IUnitOfWork
     ///     Gets the get user info on sidebar repository
     /// </summary>
     IGetUserInfoOnSidebarRepository GetUserInfoOnSidebarRepository { get; }
+
+    /// <summary>
+    ///     Gets the create new match repository
+    /// </summary>
+    ICreateMatchRepository CreateMatchRepository { get; }
 }
