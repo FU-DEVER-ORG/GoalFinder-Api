@@ -68,9 +68,9 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
             .Invoke(arg1: req, arg2: appResponse);
 
         /*
-         * Store the real http code of http response into a temporary variable.
-         * Set the http code of http response to default for not serializing.
-         */
+        * Store the real http code of http response into a temporary variable.
+        * Set the http code of http response to default for not serializing.
+        */
         var httpResponseStatusCode = httpResponse.HttpCode;
         httpResponse.HttpCode = default;
 
