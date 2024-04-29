@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Shared.Caching;
+using GoalFinder.RedisCachingDb.Common;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace GoalFinder.RedisCachingDb.Handler;
@@ -33,7 +34,7 @@ internal sealed class CacheHandler : ICacheHandler
             return AppCacheModel<TSource>.NotFound;
         }
 
-        return new() { Value = JsonSerializer.Deserialize<TSource>(json: cachedValue) };
+        return new() { Value = JsonSerializer.Deserialize<TSource>(json: cachedValue, CommonObject.Option) };
     }
 
     public Task RemoveAsync(string key, CancellationToken cancellationToken)
@@ -50,7 +51,7 @@ internal sealed class CacheHandler : ICacheHandler
     {
         return _distributedCache.SetStringAsync(
             key: key,
-            value: JsonSerializer.Serialize(value: value),
+            value: JsonSerializer.Serialize(value: value, CommonObject.Option),
             options: distributedCacheEntryOptions,
             token: cancellationToken
         );
