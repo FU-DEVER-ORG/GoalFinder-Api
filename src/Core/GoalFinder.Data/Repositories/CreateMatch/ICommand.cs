@@ -13,6 +13,7 @@ public partial interface ICreateMatchRepository
     Task<bool> CreateMatchCommandAsync(
         Guid userId,
         FootballMatch footballMatch,
+        MatchPlayer matchPlayer,
         CancellationToken cancellationToken
     );
 }

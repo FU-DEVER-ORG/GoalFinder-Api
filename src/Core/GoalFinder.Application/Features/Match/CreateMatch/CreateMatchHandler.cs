@@ -101,10 +101,12 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
             return new() { StatusCode = CreateMatchResponseStatusCode.PRESTIGE_IS_NOT_ENOUGH };
         }
 
-        // Create new match
+        var footballMatch = InitNewFootballMatch(createMatchRequest: command);
+
         var dbResult = await _unitOfWork.CreateMatchRepository.CreateMatchCommandAsync(
             userId: command.GetHostId(),
-            footballMatch: InitNewFootballMatch(createMatchRequest: command),
+            footballMatch: footballMatch,
+            matchPlayer: InitNewMatchPlayer(matchId: footballMatch.Id, userId: command.GetHostId()),
             cancellationToken: ct
         );
 
@@ -141,6 +143,16 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
             };
 
         return footballMatch;
+    }
+
+    private MatchPlayer InitNewMatchPlayer(Guid matchId, Guid userId)
+    {
+        return new()
+        {
+            MatchId = matchId,
+            PlayerId = userId,
+            NumberOfReports = default,
+        };
     }
 
     private bool IsNotValidStartTime(DateTime startTime)

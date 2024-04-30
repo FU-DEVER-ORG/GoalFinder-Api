@@ -11,6 +11,7 @@ internal sealed partial class CreateMatchRepository
     public async Task<bool> CreateMatchCommandAsync(
         Guid userId,
         FootballMatch footballMatch,
+        MatchPlayer matchPlayer,
         CancellationToken cancellationToken
     )
     {
@@ -27,7 +28,7 @@ internal sealed partial class CreateMatchRepository
                 try
                 {
                     _footballMatches.Add(footballMatch);
-
+                    _matchPlayers.Add(matchPlayer);
                     await _context.SaveChangesAsync(cancellationToken: cancellationToken);
                     await dbTransaction.CommitAsync(cancellationToken: cancellationToken);
                     createTransactionResult = true;

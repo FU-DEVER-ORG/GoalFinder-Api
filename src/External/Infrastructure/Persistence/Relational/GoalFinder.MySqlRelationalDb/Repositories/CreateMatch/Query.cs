@@ -31,7 +31,6 @@ internal sealed partial class CreateMatchRepository
     )
     {
         return _userDetails
-            .AsNoTracking()
             .Where(userDetail => userDetail.UserId == userId)
             .SelectMany(userDetail => userDetail.FootballMatches)
             .AnyAsync(
