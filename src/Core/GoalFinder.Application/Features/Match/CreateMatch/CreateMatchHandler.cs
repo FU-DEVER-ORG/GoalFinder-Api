@@ -65,23 +65,6 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
             cancellationToken: ct
         );
 
-        if (Equals(objA: userDetail, objB: default))
-        {
-            return new() { StatusCode = CreateMatchResponseStatusCode.USER_ID_IS_NOT_FOUND };
-        }
-
-        // Is user temporarily removed.
-        var isUserTemporarilyRemoved =
-            await _unitOfWork.CreateMatchRepository.IsUserTemporarilyRemovedQueryAsync(
-                userId: command.GetHostId(),
-                cancellationToken: ct
-            );
-
-        if (isUserTemporarilyRemoved)
-        {
-            return new() { StatusCode = CreateMatchResponseStatusCode.USER_IS_TEMPORARILY_REMOVED };
-        }
-
         // Has the user created match in this day
         var isUserCreatedMatchToday =
             await _unitOfWork.CreateMatchRepository.IsUserCreatedMatchThisDayQueryAsync(

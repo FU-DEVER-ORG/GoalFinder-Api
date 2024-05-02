@@ -47,7 +47,7 @@ internal sealed partial class CreateMatchRepository
         return _userDetails
             .Where(predicate: userDetail => userDetail.UserId == userId)
             .Select(userDetail => new UserDetail { PrestigeScore = userDetail.PrestigeScore, })
-            .FirstAsync(cancellationToken: cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
     public Task<bool> IsUserTemporarilyRemovedQueryAsync(
