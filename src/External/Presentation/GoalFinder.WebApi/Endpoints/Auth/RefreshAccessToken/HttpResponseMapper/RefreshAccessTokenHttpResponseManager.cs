@@ -52,7 +52,7 @@ internal sealed class RefreshAccessTokenHttpResponseManager
         );
 
         _dictionary.Add(
-            key: RefreshAccessTokenResponseStatusCode.INPUT_VALIDATION_FAILED,
+            key: RefreshAccessTokenResponseStatusCode.INPUT_VALIDATION_FAIL,
             value: (_, response) =>
                 new()
                 {

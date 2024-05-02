@@ -50,9 +50,6 @@ internal sealed class RefreshAccessTokenCachingPostProcessor
             || context.Response.AppCode.Equals(
                 value: RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_EXPIRED.ToAppCode()
             )
-            || context.Response.AppCode.Equals(
-                value: RefreshAccessTokenResponseStatusCode.OPERATION_SUCCESS.ToAppCode()
-            )
         )
         {
             await cacheHandler.SetAsync(

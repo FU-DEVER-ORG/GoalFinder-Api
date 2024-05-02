@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GoalFinder.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
@@ -13,34 +12,9 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository
 
 internal partial class RefreshAccessTokenRepository
 {
-    /// <summary>
-    ///    This is an auto generated class.
-    /// </summary>
-    /// <param name="refreshToken"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<bool> CreateRefreshTokenCommandAsync(
-        RefreshToken refreshToken,
-        CancellationToken cancellationToken
-    )
-    {
-        try
-        {
-            await _refreshTokens.AddAsync(
-                entity: refreshToken,
-                cancellationToken: cancellationToken
-            );
-            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public async Task<bool> DeleteRefreshTokenCommandAsync(
+    public async Task<bool> UpdateRefreshTokenCommandAsync(
         Guid accessTokenId,
+        string refreshTokenValue,
         CancellationToken cancellationToken
     )
     {
@@ -59,9 +33,19 @@ internal partial class RefreshAccessTokenRepository
                         .Where(predicate: refreshToken =>
                             refreshToken.AccessTokenId == accessTokenId
                         )
-                        .ExecuteDeleteAsync(cancellationToken: cancellationToken);
-
-                    await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+                        .ExecuteUpdateAsync(
+                            setPropertyCalls: builder =>
+                                builder
+                                    .SetProperty(
+                                        refreshToken => refreshToken.AccessTokenId,
+                                        accessTokenId
+                                    )
+                                    .SetProperty(
+                                        refreshToken => refreshToken.RefreshTokenValue,
+                                        refreshTokenValue
+                                    ),
+                            cancellationToken: cancellationToken
+                        );
 
                     await dbTransaction.CommitAsync(cancellationToken: cancellationToken);
 
@@ -72,6 +56,7 @@ internal partial class RefreshAccessTokenRepository
                     await dbTransaction.RollbackAsync(cancellationToken: cancellationToken);
                 }
             });
+
         return executedTransactionResult;
     }
 }

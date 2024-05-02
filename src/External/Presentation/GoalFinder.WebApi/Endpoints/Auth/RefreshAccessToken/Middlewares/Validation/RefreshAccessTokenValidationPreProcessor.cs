@@ -22,51 +22,23 @@ internal sealed class RefreshAccessTokenValidationPreProcessor
     {
         if (context.HasValidationFailures)
         {
-            RefreshAccessTokenHttpResponse httpResponse;
-            if (
-                !Equals(
-                    objA: context.ValidationFailures.Find(match: failure =>
-                        failure.PropertyName.Equals(value: "SerializerErrors")
-                    ),
-                    objB: default
-                )
-            )
-            {
-                httpResponse = LazyRefreshAccessTokenHttpResponseMapper
-                    .Get()
-                    .Resolve(
-                        statusCode: RefreshAccessTokenResponseStatusCode.INPUT_NOT_UNDERSTANDABLE
-                    )
-                    .Invoke(
-                        arg1: context.Request,
-                        arg2: new()
-                        {
-                            StatusCode =
-                                RefreshAccessTokenResponseStatusCode.INPUT_NOT_UNDERSTANDABLE
-                        }
-                    );
-            }
-            else
-            {
-                httpResponse = LazyRefreshAccessTokenHttpResponseMapper
-                    .Get()
-                    .Resolve(
-                        statusCode: RefreshAccessTokenResponseStatusCode.INPUT_VALIDATION_FAILED
-                    )
-                    .Invoke(
-                        arg1: context.Request,
-                        arg2: new()
-                        {
-                            StatusCode =
-                                RefreshAccessTokenResponseStatusCode.INPUT_VALIDATION_FAILED
-                        }
-                    );
-            }
+            var httpResponse = LazyRefreshAccessTokenHttpResponseMapper
+                .Get()
+                .Resolve(statusCode: RefreshAccessTokenResponseStatusCode.INPUT_VALIDATION_FAIL)
+                .Invoke(
+                    arg1: context.Request,
+                    arg2: new()
+                    {
+                        StatusCode = RefreshAccessTokenResponseStatusCode.INPUT_VALIDATION_FAIL
+                    }
+                );
+
             await context.HttpContext.Response.SendAsync(
                 response: httpResponse,
                 statusCode: httpResponse.HttpCode,
                 cancellation: ct
             );
+
             context.HttpContext.MarkResponseStart();
         }
     }
