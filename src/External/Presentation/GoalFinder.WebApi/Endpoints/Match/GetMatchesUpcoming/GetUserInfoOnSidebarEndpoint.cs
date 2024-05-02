@@ -9,7 +9,7 @@ using GoalFinder.WebApi.Endpoints.Match.GetMatchesUpcoming.Middlewares.Caching;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 
-namespace GoalFinder.WebApi.Endpoints.Match.GetMatchesUpcoming;
+namespace GoalFinder.WebApi.Endpoints.User.GetMatchesUpcoming;
 
 /// <summary>
 ///     Endpoint for updating user information.
@@ -19,7 +19,7 @@ internal sealed class GetMatchesUpcomingEndpoint
 {
     public override void Configure()
     {
-        Get(routePatterns: "match/sidebar");
+        Get(routePatterns: "user/sidebar");
         AuthSchemes(authSchemeNames: JwtBearerDefaults.AuthenticationScheme);
         DontThrowIfValidationFails();
         PreProcessor<GetMatchesUpcomingAuthorizationPreProcessor>();
@@ -46,7 +46,7 @@ internal sealed class GetMatchesUpcomingEndpoint
                     AppCode = GetMatchesUpcomingResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
                     Body = new GetMatchesUpcomingResponse.ResponseBody
                     {
-                       MatchesUpcoming = [],
+                       MatchesUpcoming = []
                     }
                 }
             );
