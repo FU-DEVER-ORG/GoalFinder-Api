@@ -26,5 +26,6 @@ internal sealed partial class CreateMatchRepository : ICreateMatchRepository
         _userDetails = _context.Set<UserDetail>();
         _competitionLevels = _context.Set<CompetitionLevel>();
         _matchPlayers = _context.Set<MatchPlayer>();
+        _refreshTokens = _context.Set<RefreshToken>();
     }
 }
