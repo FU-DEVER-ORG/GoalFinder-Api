@@ -46,13 +46,10 @@ internal partial class RefreshAccessTokenRepository
     {
         return _refreshTokens
             .Where(refreshToken => refreshToken.RefreshTokenValue.Equals(refreshTokenValue))
-            .Select(refreshToken => new RefreshToken()
+            .Select(refreshToken => new RefreshToken
             {
-                RefreshTokenValue = refreshToken.RefreshTokenValue,
-                AccessTokenId = refreshToken.AccessTokenId,
                 ExpiredDate = refreshToken.ExpiredDate,
-                UserId = refreshToken.UserId,
-                CreatedAt = refreshToken.CreatedAt
+                UserId = refreshToken.UserId
             })
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }

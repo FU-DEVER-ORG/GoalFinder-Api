@@ -3,27 +3,27 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
-using GoalFinder.Application.Features.User.UpdateUserInfo;
+using GoalFinder.Application.Features.Match.CreateMatch;
 using GoalFinder.Data.UnitOfWork;
-using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Common;
-using GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.Match.CreateMatch.Common;
+using GoalFinder.WebApi.Endpoints.Match.CreateMatch.HttpResponseMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace GoalFinder.WebApi.Endpoints.User.UserInfoUpdate.Middlewares.Authorization;
+namespace GoalFinder.WebApi.Endpoints.Match.CreateMatch.Middlewares.Authorization;
 
 /// <summary>
-///     Pre-processor for <see cref="UpdateUserInfoRequest"/>
+///     Pre-processor for <see cref="CreateMatchRequest"/>
 /// </summary>
-internal sealed class UpdateUserInfoAuthorizationPreProcessor
-    : PreProcessor<UpdateUserInfoRequest, UpdateUserInfoStateBag>
+internal sealed class CreateMatchAuthorizationPreProcessor
+    : PreProcessor<CreateMatchRequest, CreateMatchStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly TokenValidationParameters _tokenValidationParameters;
 
-    public UpdateUserInfoAuthorizationPreProcessor(
+    public CreateMatchAuthorizationPreProcessor(
         IServiceScopeFactory serviceScopeFactory,
         TokenValidationParameters tokenValidationParameters
     )
@@ -33,8 +33,8 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
     }
 
     public override async Task PreProcessAsync(
-        IPreProcessorContext<UpdateUserInfoRequest> context,
-        UpdateUserInfoStateBag state,
+        IPreProcessorContext<CreateMatchRequest> context,
+        CreateMatchStateBag state,
         CancellationToken ct
     )
     {
@@ -42,18 +42,15 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
 
         // Validate access token.
         var validateTokenResult = await jsonWebTokenHandler.ValidateTokenAsync(
-            token: context.HttpContext.Request.Headers.Authorization[0].Split(separator: " ")[1],
+            token: context.HttpContext.Request.Headers.Authorization[0]?.Split(separator: " ")[1],
             validationParameters: _tokenValidationParameters
         );
 
         // Token is not valid.
-        if (
-            !validateTokenResult.IsValid
-            || validateTokenResult.SecurityToken.ValidTo < DateTime.UtcNow
-        )
+        if (!validateTokenResult.IsValid)
         {
             await SendResponseAsync(
-                statusCode: UpdateUserInfoResponseStatusCode.FORBIDDEN,
+                statusCode: CreateMatchResponseStatusCode.FORBIDDEN,
                 context: context,
                 ct: ct
             );
@@ -70,7 +67,7 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
 
         // Does refresh token exist by access token id.
         var isRefreshTokenFound =
-            await unitOfWork.UpdateUserInfoRepository.IsRefreshTokenFoundByAccessTokenIdQueryAsync(
+            await unitOfWork.CreateMatchRepository.IsRefreshTokenFoundByAccessTokenIdQueryAsync(
                 accessTokenId: Guid.Parse(input: jtiClaim),
                 cancellationToken: ct
             );
@@ -79,7 +76,7 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
         if (!isRefreshTokenFound)
         {
             await SendResponseAsync(
-                statusCode: UpdateUserInfoResponseStatusCode.FORBIDDEN,
+                statusCode: CreateMatchResponseStatusCode.FORBIDDEN,
                 context: context,
                 ct: ct
             );
@@ -101,7 +98,7 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
         if (Equals(objA: foundUser, objB: default))
         {
             await SendResponseAsync(
-                statusCode: UpdateUserInfoResponseStatusCode.FORBIDDEN,
+                statusCode: CreateMatchResponseStatusCode.FORBIDDEN,
                 context: context,
                 ct: ct
             );
@@ -109,7 +106,7 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
 
         // Is user temporarily removed.
         var isUserTemporarilyRemoved =
-            await unitOfWork.UpdateUserInfoRepository.IsUserTemporarilyRemovedQueryAsync(
+            await unitOfWork.CreateMatchRepository.IsUserTemporarilyRemovedQueryAsync(
                 userId: foundUser.Id,
                 cancellationToken: ct
             );
@@ -118,7 +115,7 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
         if (isUserTemporarilyRemoved)
         {
             await SendResponseAsync(
-                statusCode: UpdateUserInfoResponseStatusCode.FORBIDDEN,
+                statusCode: CreateMatchResponseStatusCode.FORBIDDEN,
                 context: context,
                 ct: ct
             );
@@ -134,7 +131,7 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
         if (!isUserInRole)
         {
             await SendResponseAsync(
-                statusCode: UpdateUserInfoResponseStatusCode.FORBIDDEN,
+                statusCode: CreateMatchResponseStatusCode.FORBIDDEN,
                 context: context,
                 ct: ct
             );
@@ -142,12 +139,12 @@ internal sealed class UpdateUserInfoAuthorizationPreProcessor
     }
 
     private static Task SendResponseAsync(
-        UpdateUserInfoResponseStatusCode statusCode,
-        IPreProcessorContext<UpdateUserInfoRequest> context,
+        CreateMatchResponseStatusCode statusCode,
+        IPreProcessorContext<CreateMatchRequest> context,
         CancellationToken ct
     )
     {
-        var httpResponse = LazyUpdateUserInfoHttpResponseMapper
+        var httpResponse = LazyCreateMatchHttpResponseMapper
             .Get()
             .Resolve(statusCode: statusCode)
             .Invoke(arg1: context.Request, arg2: new() { StatusCode = statusCode });

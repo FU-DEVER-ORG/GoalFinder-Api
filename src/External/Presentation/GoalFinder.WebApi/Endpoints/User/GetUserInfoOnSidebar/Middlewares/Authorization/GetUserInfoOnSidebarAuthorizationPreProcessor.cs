@@ -47,7 +47,10 @@ internal sealed class GetUserInfoOnSidebarAuthorizationPreProcessor
         );
 
         // Token is not valid.
-        if (!validateTokenResult.IsValid)
+        if (
+            !validateTokenResult.IsValid
+            || validateTokenResult.SecurityToken.ValidTo < DateTime.UtcNow
+        )
         {
             await SendResponseAsync(
                 statusCode: GetUserInfoOnSidebarResponseStatusCode.FORBIDDEN,

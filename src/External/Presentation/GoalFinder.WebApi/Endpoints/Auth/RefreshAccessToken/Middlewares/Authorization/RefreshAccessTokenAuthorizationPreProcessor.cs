@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Autorization;
+namespace GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Authorization;
 
 /// <summary>
 ///     Pre processor for refresh access token
@@ -45,8 +45,12 @@ internal sealed class RefreshAccessTokenAuthorizationPreProcessor
             token: context.HttpContext.Request.Headers.Authorization[0].Split(separator: " ")[1],
             validationParameters: _tokenValidationParameters
         );
-        // if token is invalid send response
-        if (!validateTokenResult.IsValid)
+
+        // if token is invalid, send response
+        if (
+            !validateTokenResult.IsValid
+            || validateTokenResult.SecurityToken.ValidTo >= DateTime.UtcNow
+        )
         {
             await SendResponseAsync(
                 statusCode: RefreshAccessTokenResponseStatusCode.FORBIDDEN,
@@ -54,6 +58,7 @@ internal sealed class RefreshAccessTokenAuthorizationPreProcessor
                 ct: ct
             );
         }
+
         // get jti claim
         var jtiClaim = context.HttpContext.User.FindFirstValue(
             claimType: JwtRegisteredClaimNames.Jti
@@ -72,6 +77,7 @@ internal sealed class RefreshAccessTokenAuthorizationPreProcessor
                 accessTokenId: Guid.Parse(input: jtiClaim),
                 cancellationToken: ct
             );
+
         // if not found send response
         if (!isRefreshTokenFound)
         {
@@ -81,14 +87,17 @@ internal sealed class RefreshAccessTokenAuthorizationPreProcessor
                 ct: ct
             );
         }
+
         // get sub claim
         var subClaim = context.HttpContext.User.FindFirstValue(
             claimType: JwtRegisteredClaimNames.Sub
         );
+
         // find user by id
         var foundUser = await userManager.FindByIdAsync(
             userId: Guid.Parse(input: subClaim).ToString()
         );
+
         if (Equals(objA: foundUser, objB: default))
         {
             await SendResponseAsync(
@@ -103,6 +112,7 @@ internal sealed class RefreshAccessTokenAuthorizationPreProcessor
                 userId: foundUser.Id,
                 cancellationToken: ct
             );
+
         if (isUserTempopraryRemoved)
         {
             await SendResponseAsync(

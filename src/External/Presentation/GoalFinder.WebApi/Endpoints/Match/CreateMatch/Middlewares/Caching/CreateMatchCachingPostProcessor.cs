@@ -2,35 +2,31 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
-using GoalFinder.Application.Features.Auth.RefreshAccessToken;
+using GoalFinder.Application.Features.Match.CreateMatch;
+using GoalFinder.Application.Features.Match.GetAllMatches;
 using GoalFinder.Application.Shared.Caching;
-using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Common;
-using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.Match.CreateMatch.Common;
+using GoalFinder.WebApi.Endpoints.Match.CreateMatch.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Caching;
+namespace GoalFinder.WebApi.Endpoints.Match.CreateMatch.Middlewares.Caching;
 
 /// <summary>
-///     Caching post processor for refresh access token
+///     Caching post processor.
 /// </summary>
-
-internal sealed class RefreshAccessTokenCachingPostProcessor
-    : PostProcessor<
-        RefreshAccessTokenRequest,
-        RefreshAccessTokenStateBag,
-        RefreshAccessTokenHttpResponse
-    >
+internal sealed class CreateMatchCachingPostProcessor
+    : PostProcessor<CreateMatchRequest, CreateMatchStateBag, CreateMatchHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public RefreshAccessTokenCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
+    public CreateMatchCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
     public override async Task PostProcessAsync(
-        IPostProcessorContext<RefreshAccessTokenRequest, RefreshAccessTokenHttpResponse> context,
-        RefreshAccessTokenStateBag state,
+        IPostProcessorContext<CreateMatchRequest, CreateMatchHttpResponse> context,
+        CreateMatchStateBag state,
         CancellationToken ct
     )
     {
@@ -45,10 +41,10 @@ internal sealed class RefreshAccessTokenCachingPostProcessor
 
         if (
             context.Response.AppCode.Equals(
-                value: RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_NOT_FOUND.ToAppCode()
+                value: CreateMatchResponseStatusCode.USER_ID_IS_NOT_FOUND.ToAppCode()
             )
             || context.Response.AppCode.Equals(
-                value: RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_EXPIRED.ToAppCode()
+                value: CreateMatchResponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()
             )
         )
         {
@@ -61,6 +57,17 @@ internal sealed class RefreshAccessTokenCachingPostProcessor
                         seconds: state.CacheDurationInSeconds
                     )
                 },
+                cancellationToken: ct
+            );
+        }
+        else if (
+            context.Response.AppCode.Equals(
+                value: CreateMatchResponseStatusCode.OPERATION_SUCCESS.ToAppCode()
+            )
+        )
+        {
+            await cacheHandler.RemoveAsync(
+                key: $"{nameof(GetAllMatchesRequest)}_matches",
                 cancellationToken: ct
             );
         }
