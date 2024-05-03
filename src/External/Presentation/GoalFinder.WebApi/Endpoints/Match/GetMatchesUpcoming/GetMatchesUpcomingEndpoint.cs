@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Http;
 namespace GoalFinder.WebApi.Endpoints.User.GetMatchesUpcoming;
 
 /// <summary>
-///     Endpoint for updating user information.
+///     Endpoint for get matches upcoming.
 /// </summary>
 internal sealed class GetMatchesUpcomingEndpoint
     : Endpoint<EmptyRequest, GetMatchesUpcomingHttpResponse>
 {
     public override void Configure()
     {
-        Get(routePatterns: "user/sidebar");
+        Get(routePatterns: "match/sidebar");
         AuthSchemes(authSchemeNames: JwtBearerDefaults.AuthenticationScheme);
         DontThrowIfValidationFails();
         PreProcessor<GetMatchesUpcomingAuthorizationPreProcessor>();
