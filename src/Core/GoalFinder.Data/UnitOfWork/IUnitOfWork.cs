@@ -1,5 +1,6 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetDropdownAvatar;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
@@ -66,4 +67,9 @@ public interface IUnitOfWork
     ///     Gets the get user info on sidebar repository
     /// </summary>
     IGetUserInfoOnSidebarRepository GetUserInfoOnSidebarRepository { get; }
+
+    /// <summary>
+    ///     Gets the dropdown avatar repository
+    /// </summary>
+    IGetDropdownAvatarRepository GetDropdownAvatarRepository { get; }
 }

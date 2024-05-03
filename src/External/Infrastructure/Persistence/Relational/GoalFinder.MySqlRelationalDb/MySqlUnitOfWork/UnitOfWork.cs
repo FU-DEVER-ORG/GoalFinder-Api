@@ -1,5 +1,6 @@
 ﻿using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetDropdownAvatar;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
@@ -12,6 +13,7 @@ using GoalFinder.Data.UnitOfWork;
 using GoalFinder.MySqlRelationalDb.Data;
 using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
+using GoalFinder.MySqlRelationalDb.Repositories.GetDropdownAvatar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
@@ -39,6 +41,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetAllMatchesRepository _getAllMatchesRepository;
     private IRefreshAccessTokenRepository _refreshAccessTokenRepository;
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
+    private IGetDropdownAvatarRepository _getDropdownAvatarRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -142,4 +145,17 @@ internal sealed class UnitOfWork : IUnitOfWork
             return _getUserInfoOnSidebarRepository;
         }
     }
+
+    public IGetDropdownAvatarRepository GetDropdownAvatarRepository
+    {
+        get
+        {
+            _getDropdownAvatarRepository ??= new GetDropdownAvatarRepository(
+                context: _context
+            );
+
+            return _getDropdownAvatarRepository;
+        }
+    }
+
 }

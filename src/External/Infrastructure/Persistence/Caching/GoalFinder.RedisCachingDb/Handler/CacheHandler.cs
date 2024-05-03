@@ -34,7 +34,10 @@ internal sealed class CacheHandler : ICacheHandler
             return AppCacheModel<TSource>.NotFound;
         }
 
-        return new() { Value = JsonSerializer.Deserialize<TSource>(json: cachedValue, CommonObject.Option) };
+        return new()
+        {
+            Value = JsonSerializer.Deserialize<TSource>(json: cachedValue, CommonObject.Option)
+        };
     }
 
     public Task RemoveAsync(string key, CancellationToken cancellationToken)
