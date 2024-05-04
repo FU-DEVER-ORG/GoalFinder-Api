@@ -1,4 +1,5 @@
-﻿using GoalFinder.Data.Repositories.ForgotPassword;
+﻿using GoalFinder.Data.Repositories.CreateMatch;
+using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
@@ -11,6 +12,7 @@ using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 using GoalFinder.Data.UnitOfWork;
 using GoalFinder.MySqlRelationalDb.Data;
+using GoalFinder.MySqlRelationalDb.Repositories.CreateMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
@@ -41,6 +43,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetAllMatchesRepository _getAllMatchesRepository;
     private IRefreshAccessTokenRepository _refreshAccessTokenRepository;
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
+    private ICreateMatchRepository _createMatchRepository;
     private IReportUserAfterMatchRepository _reportUserAfterMatchRepository;
 
     public UnitOfWork(GoalFinderContext context)
@@ -143,6 +146,16 @@ internal sealed class UnitOfWork : IUnitOfWork
             );
 
             return _getUserInfoOnSidebarRepository;
+        }
+    }
+
+    public ICreateMatchRepository CreateMatchRepository 
+    {
+        get 
+        {
+            _createMatchRepository ??= new CreateMatchRepository(context: _context);
+
+            return _createMatchRepository;
         }
     }
 

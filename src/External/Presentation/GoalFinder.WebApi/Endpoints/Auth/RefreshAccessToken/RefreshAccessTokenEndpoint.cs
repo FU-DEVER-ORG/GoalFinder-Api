@@ -4,7 +4,7 @@ using FastEndpoints;
 using GoalFinder.Application.Features.Auth.Login;
 using GoalFinder.Application.Features.Auth.RefreshAccessToken;
 using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.HttpResponseMapper;
-using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Autorization;
+using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Authorization;
 using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.Auth.RefreshAccessToken.Middlewares.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -63,7 +63,6 @@ internal sealed class RefreshAccessTokenEndpoint
         var appResponse = await req.ExecuteAsync(ct: ct);
 
         //Convert to http response
-
         var httpResponse = LazyRefreshAccessTokenHttpResponseMapper
             .Get()
             .Resolve(statusCode: appResponse.StatusCode)
