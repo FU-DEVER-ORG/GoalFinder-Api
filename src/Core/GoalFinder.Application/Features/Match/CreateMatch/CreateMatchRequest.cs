@@ -35,5 +35,4 @@ public sealed class CreateMatchRequest : IFeatureRequest<CreateMatchResponse>
     {
         return _hostId;
     }
-
 }

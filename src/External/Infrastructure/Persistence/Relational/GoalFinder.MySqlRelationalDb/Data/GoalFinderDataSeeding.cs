@@ -382,7 +382,7 @@ public static class GoalFinderDataSeeding
 
         newPositionNames.Add(
             key: Guid.Parse(input: "697ed101-07cb-4745-a80f-488e695c830a"),
-            value: "Hậu vệ"
+            value: "Thủ môn"
         );
 
         List<Position> newPositions = [];

@@ -3,12 +3,13 @@ using GoalFinder.AppOTP.Handler;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.AppOTP.ServiceConfigs;
+
 /// <summary>
 /// Core Service Config
 /// </summary>
 internal static class CoreServiceConfig
 {
-    internal static void ConfigCore ( this IServiceCollection services)
+    internal static void ConfigCore(this IServiceCollection services)
     {
         services.AddSingleton<IOtpHandler, OtpGenerator>();
     }

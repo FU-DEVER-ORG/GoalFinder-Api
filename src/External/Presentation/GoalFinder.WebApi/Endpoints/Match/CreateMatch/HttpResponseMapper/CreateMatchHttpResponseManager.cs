@@ -110,7 +110,7 @@ internal sealed class CreateMatchHttpResponseManager
                 }
         );
 
-         _dictionary.Add(
+        _dictionary.Add(
             key: CreateMatchResponseStatusCode.PRESTIGE_IS_NOT_ENOUGH,
             value: (_, response) =>
                 new()
@@ -121,11 +121,9 @@ internal sealed class CreateMatchHttpResponseManager
         );
     }
 
-    internal Func<
-        CreateMatchRequest,
-        CreateMatchResponse,
-        CreateMatchHttpResponse
-    > Resolve(CreateMatchResponseStatusCode statusCode)
+    internal Func<CreateMatchRequest, CreateMatchResponse, CreateMatchHttpResponse> Resolve(
+        CreateMatchResponseStatusCode statusCode
+    )
     {
         return _dictionary[statusCode];
     }

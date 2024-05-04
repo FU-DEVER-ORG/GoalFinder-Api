@@ -146,9 +146,9 @@ internal sealed class UnitOfWork : IUnitOfWork
         }
     }
 
-    public ICreateMatchRepository CreateMatchRepository 
+    public ICreateMatchRepository CreateMatchRepository
     {
-        get 
+        get
         {
             _createMatchRepository ??= new CreateMatchRepository(context: _context);
 

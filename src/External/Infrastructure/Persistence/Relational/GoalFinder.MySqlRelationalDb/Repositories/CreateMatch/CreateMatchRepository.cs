@@ -19,6 +19,7 @@ internal sealed partial class CreateMatchRepository : ICreateMatchRepository
     private readonly DbSet<CompetitionLevel> _competitionLevels;
     private readonly DbSet<RefreshToken> _refreshTokens;
     private readonly DbSet<MatchPlayer> _matchPlayers;
+
     internal CreateMatchRepository(GoalFinderContext context)
     {
         _context = context;
