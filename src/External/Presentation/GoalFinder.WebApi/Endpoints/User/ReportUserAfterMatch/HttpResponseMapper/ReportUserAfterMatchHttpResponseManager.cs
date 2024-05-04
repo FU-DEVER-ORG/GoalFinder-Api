@@ -27,7 +27,8 @@ internal sealed class ReportUserAfterMatchHttpResponseManager
                 new()
                 {
                     HttpCode = StatusCodes.Status200OK,
-                    AppCode = response.StatusCode.ToAppCode()
+                    AppCode = response.StatusCode.ToAppCode(),
+                    Body = response.Body
                 }
         );
 
@@ -37,16 +38,6 @@ internal sealed class ReportUserAfterMatchHttpResponseManager
                 new()
                 {
                     HttpCode = StatusCodes.Status404NotFound,
-                    AppCode = response.StatusCode.ToAppCode()
-                }
-        );
-
-        _dictionary.Add(
-            key: ReportUserAfterMatchResponseStatusCode.USER_IS_TEMPORARILY_REMOVED,
-            value: (_, response) =>
-                new()
-                {
-                    HttpCode = StatusCodes.Status417ExpectationFailed,
                     AppCode = response.StatusCode.ToAppCode()
                 }
         );

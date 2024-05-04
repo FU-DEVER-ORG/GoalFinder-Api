@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using GoalFinder.Application.Features.User.GetUserInfoOnSidebar;
 using GoalFinder.Application.Features.User.ReportUserAfterMatch;
 using GoalFinder.Application.Features.User.UpdateUserInfo;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Common;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Middleware.Authorization;
@@ -45,7 +45,11 @@ internal sealed class ReportUserAfterMatchEndpoint
             summary.ExampleRequest = new() { 
                 FootballMatchId = Guid.Empty,
                 UserId = Guid.Empty,
-                PlayerScores = [],
+                PlayerScores = new List<PlayerPrestigeScore>
+                {
+                    new PlayerPrestigeScore { PlayerId = Guid.Empty, BonusScore = 20 },
+                    new PlayerPrestigeScore { PlayerId = Guid.Empty, BonusScore = -20 }
+                },
                 CurrentTime = DateTime.UtcNow,
             };
             summary.Response<ReportUserAfterMatchHttpResponse>(

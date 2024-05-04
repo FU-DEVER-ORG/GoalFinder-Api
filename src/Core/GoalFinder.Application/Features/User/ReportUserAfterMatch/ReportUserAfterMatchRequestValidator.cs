@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using GoalFinder.Application.Shared.Features;
+﻿using GoalFinder.Application.Shared.Features;
+using FluentValidation;
 
 namespace GoalFinder.Application.Features.User.ReportUserAfterMatch;
 
@@ -11,5 +11,14 @@ public sealed class ReportUserAfterMatchRequestValidator
 {
     public ReportUserAfterMatchRequestValidator()
     {
+        ClassLevelCascadeMode = CascadeMode.Stop;
+
+        RuleFor(expression: request => request.UserId)
+            .Cascade(CascadeMode.Stop)
+            .NotEmpty();
+
+        RuleFor(expression: request => request.FootballMatchId)
+            .Cascade(CascadeMode.Stop)
+            .NotEmpty();
     }
 }

@@ -36,21 +36,6 @@ internal sealed class ReportUserAfterMatchHandler
             return new() { StatusCode = ReportUserAfterMatchResponseStatusCode.USER_IS_NOT_FOUND };
         }
 
-        // Is user temporarily removed.
-        var isUserTemporarilyRemoved =
-            await _unitOfWork.ReportUserAfterMatchRepository.IsUserTemporarilyRemovedQueryAsync(
-                userId: command.UserId,
-                cancellationToken: ct
-            );
-
-        if (isUserTemporarilyRemoved)
-        {
-            return new()
-            {
-                StatusCode = ReportUserAfterMatchResponseStatusCode.USER_IS_TEMPORARILY_REMOVED
-            };
-        }
-
         // Is football match found by id
         var IsFootballMatchFoundById =
             await _unitOfWork.ReportUserAfterMatchRepository.IsFootballMatchFoundByIdQueryAsync(
@@ -120,7 +105,7 @@ internal sealed class ReportUserAfterMatchHandler
                 cancellationToken: ct
             );
 
-        if (!dbResult)
+        if (dbResult.Count == 0)
         {
             return new()
             {
@@ -128,6 +113,14 @@ internal sealed class ReportUserAfterMatchHandler
             };
         }
 
-        return new() { StatusCode = ReportUserAfterMatchResponseStatusCode.OPERATION_SUCCESS };
+        
+
+        return new() { 
+            StatusCode = ReportUserAfterMatchResponseStatusCode.OPERATION_SUCCESS,
+            Body = new()
+            {
+                UsersUpdatedPrestigeScore = dbResult
+            }
+        };
     }
 }

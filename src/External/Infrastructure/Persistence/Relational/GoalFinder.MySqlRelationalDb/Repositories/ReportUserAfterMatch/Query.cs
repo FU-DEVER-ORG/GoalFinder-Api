@@ -92,4 +92,17 @@ internal partial class ReportUserAfterMatchRepository
                 cancellationToken: cancellationToken
             );
     }
+
+    public Task<UserDetail> GetUserDetailByIdQueryAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return _userDetails
+           .AsNoTracking()
+           .Where(userDetail => userDetail.UserId == userId)
+           .Select(userDetail => new UserDetail
+           {
+               User = new() { UserName = userDetail.User.UserName },
+               PrestigeScore = userDetail.PrestigeScore
+           })
+           .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+    }
 }

@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Features.User.ReportUserAfterMatch;
+using GoalFinder.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 
 internal partial class ReportUserAfterMatchRepository
 {
-    public async Task<bool> ReportUserAfterMatchCommandAsync(
+    public async Task<List<UserDetail>> ReportUserAfterMatchCommandAsync(
         List<PlayerPrestigeScore> playerScores,
         CancellationToken ct
     )
     {
         var updateTransactionResult = false;
+
+        List<UserDetail> updatedUsers = new List<UserDetail>();
 
         await _context
             .Database.CreateExecutionStrategy()
@@ -31,7 +34,8 @@ internal partial class ReportUserAfterMatchRepository
                         var userDetail = await _userDetails.FindAsync(playerScore.PlayerId);
                         if(userDetail != null) 
                         { 
-                            userDetail.PrestigeScore += playerScore.bonusScore;
+                            userDetail.PrestigeScore += playerScore.BonusScore;
+                            updatedUsers.Add(userDetail);
                         }
                     }
 
@@ -43,9 +47,11 @@ internal partial class ReportUserAfterMatchRepository
                 catch
                 {
                     await dbTransaction.RollbackAsync(cancellationToken: ct);
+                    // Clear list if failed
+                    updatedUsers.Clear();
                 }
             });
 
-        return updateTransactionResult;
+        return updatedUsers;
     }
 }

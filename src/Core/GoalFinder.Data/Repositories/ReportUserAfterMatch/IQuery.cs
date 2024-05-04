@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoalFinder.Data.Entities;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,4 +41,6 @@ public partial interface IReportUserAfterMatchRepository
         DateTime currentTime,
         CancellationToken cancellationToken
     );
+
+    Task<UserDetail> GetUserDetailByIdQueryAsync(Guid userId, CancellationToken cancellationToken);
 }
