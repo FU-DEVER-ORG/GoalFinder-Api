@@ -15,7 +15,7 @@ namespace GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Middleware.Cachi
 ///     Caching post processor
 /// </summary>
 internal sealed class ReportUserAfterMatchCachingPostProcessor
-    : PostProcessor<EmptyRequest, ReportUserAfterMatchStateBag, ReportUserAfterMatchHttpResponse>
+    : PostProcessor<ReportUserAfterMatchRequest, ReportUserAfterMatchStateBag, ReportUserAfterMatchHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -25,7 +25,7 @@ internal sealed class ReportUserAfterMatchCachingPostProcessor
     }
 
     public override async Task PostProcessAsync(
-        IPostProcessorContext<EmptyRequest, ReportUserAfterMatchHttpResponse> context,
+        IPostProcessorContext<ReportUserAfterMatchRequest, ReportUserAfterMatchHttpResponse> context,
         ReportUserAfterMatchStateBag state,
         CancellationToken ct
     )

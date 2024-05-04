@@ -1,13 +1,10 @@
 ﻿using FastEndpoints;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.Common;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.IdentityModel.JsonWebTokens;
-using GoalFinder.Application.Features.User.GetUserInfoOnSidebar;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.HttpResponseMapper;
 using GoalFinder.Application.Features.User.ReportUserAfterMatch;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.HttpResponseMapper;
 using GoalFinder.Data.UnitOfWork;
@@ -17,8 +14,12 @@ using System;
 
 namespace GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Middleware.Authorization;
 
+
+/// <summary>
+///     Pre processor for report user after match authorization.
+/// </summary>
 internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
-    : PreProcessor<EmptyRequest, ReportUserAfterMatchStateBag>
+    : PreProcessor<ReportUserAfterMatchRequest, ReportUserAfterMatchStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly TokenValidationParameters _tokenValidationParameters;
@@ -33,7 +34,7 @@ internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
     }
 
     public override async Task PreProcessAsync(
-        IPreProcessorContext<EmptyRequest> context,
+        IPreProcessorContext<ReportUserAfterMatchRequest> context,
         ReportUserAfterMatchStateBag state,
         CancellationToken ct
     )
@@ -51,7 +52,6 @@ internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
         {
             await SendResponseAsync(
                 statusCode: ReportUserAfterMatchResponseStatusCode.FORBIDDEN,
-                stateBag: state,
                 context: context,
                 ct: ct
             );
@@ -80,7 +80,6 @@ internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
         {
             await SendResponseAsync(
                 statusCode: ReportUserAfterMatchResponseStatusCode.FORBIDDEN,
-                stateBag: state,
                 context: context,
                 ct: ct
             );
@@ -105,7 +104,6 @@ internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
         {
             await SendResponseAsync(
                 statusCode: ReportUserAfterMatchResponseStatusCode.FORBIDDEN,
-                stateBag: state,
                 context: context,
                 ct: ct
             );
@@ -116,7 +114,7 @@ internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
         // Is user temporarily removed.
         var isUserTemporarilyRemoved =
             await unitOfWork.ReportUserAfterMatchRepository.IsUserTemporarilyRemovedQueryAsync(
-                playerId: foundUser.Id,
+                userId: foundUser.Id,
                 cancellationToken: ct
             );
 
@@ -125,29 +123,24 @@ internal sealed class ReportUserAfterMatchAuthorizationPreProcessor
         {
             await SendResponseAsync(
                 statusCode: ReportUserAfterMatchResponseStatusCode.FORBIDDEN,
-                stateBag: state,
                 context: context,
                 ct: ct
             );
 
             return;
         }
-
-
-
     }
 
     private static Task SendResponseAsync(
         ReportUserAfterMatchResponseStatusCode statusCode,
-        ReportUserAfterMatchStateBag stateBag,
-        IPreProcessorContext<EmptyRequest> context,
+        IPreProcessorContext<ReportUserAfterMatchRequest> context,
         CancellationToken ct
     )
     {
         var httpResponse = LazyReportUserAfterMatchHttpResponseMapper
             .Get()
             .Resolve(statusCode: statusCode)
-            .Invoke(arg1: stateBag.AppRequest, arg2: new() { StatusCode = statusCode });
+            .Invoke(arg1: context.Request, arg2: new() { StatusCode = statusCode });
 
         context.HttpContext.MarkResponseStart();
 

@@ -90,6 +90,16 @@ internal sealed class ReportUserAfterMatchHttpResponseManager
                     AppCode = response.StatusCode.ToAppCode()
                 }
         );
+
+        _dictionary.Add(
+            key: ReportUserAfterMatchResponseStatusCode.FORM_HAS_EXPIRED,
+            value: (request, response) =>
+                new()
+                {
+                    HttpCode = StatusCodes.Status400BadRequest,
+                    AppCode = response.StatusCode.ToAppCode()
+                }
+        );
     }
 
     internal Func<

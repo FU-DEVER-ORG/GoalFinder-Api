@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GoalFinder.Data.Entities;
 
 namespace GoalFinder.Data.Repositories.ReportUserAfterMatch;
 
 public partial interface IReportUserAfterMatchRepository
 {
-    Task<bool> IsUserFoundByIdQueryAsync(Guid playerId, CancellationToken cancellationToken);
+    Task<bool> IsUserFoundByIdQueryAsync(Guid userId, CancellationToken cancellationToken);
 
     Task<bool> IsUserTemporarilyRemovedQueryAsync(
-        Guid playerId,
+        Guid userId,
         CancellationToken cancellationToken
     );
 
@@ -21,7 +20,7 @@ public partial interface IReportUserAfterMatchRepository
 
     Task<bool> IsPlayerExistInFootballMatchQueryAsync(
         Guid footballMatchId,
-        Guid playerId,
+        Guid userId,
         CancellationToken cancellationToken
     );
 
@@ -33,6 +32,12 @@ public partial interface IReportUserAfterMatchRepository
 
     Task<bool> IsRefreshTokenFoundByAccessTokenIdQueryAsync(
         Guid accessTokenId,
+        CancellationToken cancellationToken
+    );
+
+    Task<bool> IsFormWithin24HoursQueryAsync(
+        Guid footballMatchId,
+        DateTime currentTime,
         CancellationToken cancellationToken
     );
 }

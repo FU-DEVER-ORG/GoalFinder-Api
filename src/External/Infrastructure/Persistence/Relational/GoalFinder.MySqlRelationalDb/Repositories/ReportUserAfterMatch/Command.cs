@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GoalFinder.Application.Features.User.ReportUserAfterMatch;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
@@ -8,8 +10,7 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 internal partial class ReportUserAfterMatchRepository
 {
     public async Task<bool> ReportUserAfterMatchCommandAsync(
-        int bonusAfterMatch,
-        Guid playerId,
+        List<PlayerPrestigeScore> playerScores,
         CancellationToken ct
     )
     {
@@ -25,11 +26,13 @@ internal partial class ReportUserAfterMatchRepository
 
                 try
                 {
-                    var userDetails = await _userDetails.FindAsync(playerId);
-
-                    if (userDetails != null)
+                    foreach (var playerScore in playerScores)
                     {
-                        userDetails.PrestigeScore += bonusAfterMatch;
+                        var userDetail = await _userDetails.FindAsync(playerScore.PlayerId);
+                        if(userDetail != null) 
+                        { 
+                            userDetail.PrestigeScore += playerScore.bonusScore;
+                        }
                     }
 
                     await _context.SaveChangesAsync(cancellationToken: ct);

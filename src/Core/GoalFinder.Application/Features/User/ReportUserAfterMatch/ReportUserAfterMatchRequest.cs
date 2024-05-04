@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.User.ReportUserAfterMatch;
@@ -8,31 +9,12 @@ namespace GoalFinder.Application.Features.User.ReportUserAfterMatch;
 /// </summary>
 public sealed class ReportUserAfterMatchRequest : IFeatureRequest<ReportUserAfterMatchResponse>
 {
-    public Guid _footballMatchId;
+    public Guid FootballMatchId { get; init; }
 
-    public Guid _playerId;
+    public Guid UserId { get; init; }
 
-    public int PrestigeScore;
+    public List<PlayerPrestigeScore> PlayerScores { get; set; } = new List<PlayerPrestigeScore>();
 
-    public DateTime currentTime;
+    public DateTime CurrentTime { get; init; }
 
-    public void SetFootballMatchId(Guid footballMatchId)
-    {
-        _footballMatchId = footballMatchId;
-    }
-
-    public Guid GetFootballMatchId()
-    {
-        return _footballMatchId;
-    }
-
-    public void SetPlayerId(Guid playerId)
-    {
-        _playerId = playerId;
-    }
-
-    public Guid GetPlayerId()
-    {
-        return _playerId;
-    }
 }

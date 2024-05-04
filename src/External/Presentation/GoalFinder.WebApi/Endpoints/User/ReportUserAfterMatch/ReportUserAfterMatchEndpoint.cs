@@ -1,7 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using GoalFinder.Application.Features.User.GetUserInfoOnSidebar;
+using GoalFinder.Application.Features.User.ReportUserAfterMatch;
+using GoalFinder.Application.Features.User.UpdateUserInfo;
 using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Common;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.HttpResponseMapper;
@@ -16,7 +19,7 @@ namespace GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch;
 ///     Endpoint for report user after match
 /// </summary>
 internal sealed class ReportUserAfterMatchEndpoint
-    : Endpoint<EmptyRequest, ReportUserAfterMatchHttpResponse>
+    : Endpoint<ReportUserAfterMatchRequest, ReportUserAfterMatchHttpResponse>
 {
     public override void Configure()
     {
@@ -39,26 +42,25 @@ internal sealed class ReportUserAfterMatchEndpoint
             summary.Summary = "Endpoint for update prestige score after each match.";
             summary.Description =
                 "This endpoint is used for update prestige score after each match.";
-            summary.ExampleRequest = new() { };
-            summary.Response<GetUserInfoOnSidebarHttpResponse>(
+            summary.ExampleRequest = new() { 
+                FootballMatchId = Guid.Empty,
+                UserId = Guid.Empty,
+                PlayerScores = [],
+                CurrentTime = DateTime.UtcNow,
+            };
+            summary.Response<ReportUserAfterMatchHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
                 {
                     HttpCode = StatusCodes.Status200OK,
-                    AppCode = GetUserInfoOnSidebarResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
-                    Body = new GetUserInfoOnSidebarResponse.ResponseBody
-                    {
-                        Area = "string",
-                        UserName = "string",
-                        PrestigeScore = default
-                    }
+                    AppCode = ReportUserAfterMatchResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
                 }
             );
         });
     }
 
     public override async Task<ReportUserAfterMatchHttpResponse> ExecuteAsync(
-        EmptyRequest req,
+        ReportUserAfterMatchRequest req,
         CancellationToken ct
     )
     {

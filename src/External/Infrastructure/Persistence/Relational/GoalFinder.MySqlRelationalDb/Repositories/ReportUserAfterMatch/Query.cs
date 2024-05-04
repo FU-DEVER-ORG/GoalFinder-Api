@@ -10,22 +10,22 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 
 internal partial class ReportUserAfterMatchRepository
 {
-    public Task<bool> IsUserFoundByIdQueryAsync(Guid playerId, CancellationToken cancellationToken)
+    public Task<bool> IsUserFoundByIdQueryAsync(Guid userId, CancellationToken cancellationToken)
     {
         return _userDetails.AnyAsync(
-            predicate: userDetail => userDetail.UserId == playerId,
+            predicate: userDetail => userDetail.UserId == userId,
             cancellationToken: cancellationToken
         );
     }
 
     public Task<bool> IsUserTemporarilyRemovedQueryAsync(
-        Guid playerId,
+        Guid userId,
         CancellationToken cancellationToken
     )
     {
         return _userDetails
             .Where(predicate: userDetail =>
-                userDetail.UserId == playerId
+                userDetail.UserId == userId
                 && userDetail.RemovedBy != CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
                 && userDetail.RemovedAt != DateTime.MinValue
             )
@@ -45,13 +45,13 @@ internal partial class ReportUserAfterMatchRepository
 
     public Task<bool> IsPlayerExistInFootballMatchQueryAsync(
         Guid footballMatchId,
-        Guid playerId,
+        Guid userId,
         CancellationToken cancellationToken
     )
     {
         return _matchPlayer.AnyAsync(
             predicate: matchPlayer =>
-                matchPlayer.MatchId == footballMatchId && matchPlayer.UserDetail.UserId == playerId,
+                matchPlayer.MatchId == footballMatchId && matchPlayer.UserDetail.UserId == userId,
             cancellationToken: cancellationToken
         );
     }
@@ -77,5 +77,19 @@ internal partial class ReportUserAfterMatchRepository
             predicate: refreshToken => refreshToken.AccessTokenId == accessTokenId,
             cancellationToken: cancellationToken
         );
+    }
+
+    public Task<bool> IsFormWithin24HoursQueryAsync(
+        Guid footballMatchId,
+        DateTime currentTime,
+        CancellationToken cancellationToken
+    )
+    {
+        return _footballMatch.AnyAsync(
+                predicate: footballMatch => footballMatch.Id == footballMatchId &&
+                                            footballMatch.EndTime <= currentTime &&
+                                            footballMatch.EndTime > currentTime.AddDays(-1),
+                cancellationToken: cancellationToken
+            );
     }
 }

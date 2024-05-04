@@ -27,7 +27,7 @@ internal sealed class ReportUserAfterMatchHandler
         // Is user found by id
         var isUserFound =
             await _unitOfWork.ReportUserAfterMatchRepository.IsUserFoundByIdQueryAsync(
-                playerId: command.GetPlayerId(),
+                userId: command.UserId,
                 cancellationToken: ct
             );
 
@@ -39,7 +39,7 @@ internal sealed class ReportUserAfterMatchHandler
         // Is user temporarily removed.
         var isUserTemporarilyRemoved =
             await _unitOfWork.ReportUserAfterMatchRepository.IsUserTemporarilyRemovedQueryAsync(
-                playerId: command.GetPlayerId(),
+                userId: command.UserId,
                 cancellationToken: ct
             );
 
@@ -54,7 +54,7 @@ internal sealed class ReportUserAfterMatchHandler
         // Is football match found by id
         var IsFootballMatchFoundById =
             await _unitOfWork.ReportUserAfterMatchRepository.IsFootballMatchFoundByIdQueryAsync(
-                footballMatchId: command.GetFootballMatchId(),
+                footballMatchId: command.FootballMatchId,
                 cancellationToken: ct
             );
 
@@ -69,8 +69,8 @@ internal sealed class ReportUserAfterMatchHandler
         // Is player exist in football match
         var IsPlayerExistInFootballMatch =
             await _unitOfWork.ReportUserAfterMatchRepository.IsPlayerExistInFootballMatchQueryAsync(
-                footballMatchId: command.GetFootballMatchId(),
-                playerId: command.GetPlayerId(),
+                footballMatchId: command.FootballMatchId,
+                userId: command.UserId,
                 cancellationToken: ct
             );
 
@@ -85,8 +85,8 @@ internal sealed class ReportUserAfterMatchHandler
 
         var IsEndTimeFootballMatchDone =
             await _unitOfWork.ReportUserAfterMatchRepository.IsEndTimeFootballMatchDoneQueryAsync(
-                footballMatchId: command.GetFootballMatchId(),
-                currentTime: command.currentTime,
+                footballMatchId: command.FootballMatchId,
+                currentTime: command.CurrentTime,
                 cancellationToken: ct
             );
 
@@ -99,10 +99,24 @@ internal sealed class ReportUserAfterMatchHandler
             };
         }
 
+        var IsFormWithin24Hours =
+            await _unitOfWork.ReportUserAfterMatchRepository.IsFormWithin24HoursQueryAsync(
+                footballMatchId: command.FootballMatchId,
+                currentTime: command.CurrentTime,
+                cancellationToken: ct
+            );
+
+        if (!IsFormWithin24Hours)
+        {
+            return new() 
+            { 
+                StatusCode = ReportUserAfterMatchResponseStatusCode.FORM_HAS_EXPIRED 
+            };
+        }
+
         var dbResult =
             await _unitOfWork.ReportUserAfterMatchRepository.ReportUserAfterMatchCommandAsync(
-                bonusAfterMatch: command.PrestigeScore,
-                playerId: command.GetPlayerId(),
+                playerScores: command.PlayerScores,
                 cancellationToken: ct
             );
 

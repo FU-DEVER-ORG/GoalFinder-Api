@@ -11,12 +11,5 @@ public sealed class ReportUserAfterMatchRequestValidator
 {
     public ReportUserAfterMatchRequestValidator()
     {
-        ClassLevelCascadeMode = CascadeMode.Stop;
-
-        RuleFor(expression: request => request.PrestigeScore)
-                .Cascade(cascadeMode: CascadeMode.Stop)
-                .NotEmpty()
-                .LessThanOrEqualTo(Data.Entities.UserDetail.MetaData.PrestigeScore.MaxValue)
-                .GreaterThanOrEqualTo(Data.Entities.UserDetail.MetaData.PrestigeScore.MinValue);
     }
 }

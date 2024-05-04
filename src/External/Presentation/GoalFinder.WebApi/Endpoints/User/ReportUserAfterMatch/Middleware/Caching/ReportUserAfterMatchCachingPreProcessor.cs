@@ -5,7 +5,6 @@ using GoalFinder.Application.Features.User.ReportUserAfterMatch;
 using GoalFinder.Application.Shared.Caching;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Common;
 using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.HttpResponseMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Middleware.Caching;
@@ -14,7 +13,7 @@ namespace GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Middleware.Cachi
 ///     Caching pre processor
 /// </summary>
 internal sealed class ReportUserAfterMatchCachingPreProcessor
-    : PreProcessor<EmptyRequest, ReportUserAfterMatchStateBag>
+    : PreProcessor<ReportUserAfterMatchRequest, ReportUserAfterMatchStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -24,7 +23,7 @@ internal sealed class ReportUserAfterMatchCachingPreProcessor
     }
 
     public override async Task PreProcessAsync(
-        IPreProcessorContext<EmptyRequest> context,
+        IPreProcessorContext<ReportUserAfterMatchRequest> context,
         ReportUserAfterMatchStateBag state,
         CancellationToken ct
     )
@@ -35,7 +34,7 @@ internal sealed class ReportUserAfterMatchCachingPreProcessor
         }
 
         state.CacheKey =
-            $"{nameof(ReportUserAfterMatchRequest)}_matchId_{state.AppRequest.GetFootballMatchId()}_playerId_{state.AppRequest.GetPlayerId()}";
+            $"{nameof(ReportUserAfterMatchRequest)}_matchId_{context.Request.FootballMatchId}_userId_{context.Request.UserId}";
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
