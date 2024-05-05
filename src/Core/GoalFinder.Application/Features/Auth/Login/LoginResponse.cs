@@ -24,6 +24,12 @@ public sealed class LoginResponse : IFeatureResponse
             public string Email { get; init; }
 
             public string AvatarUrl { get; init; }
+
+            public string FirstName { get; init; }
+
+            public string LastName { get; init; }
+
+            public string UserName { get; init; }
         }
     }
 }
