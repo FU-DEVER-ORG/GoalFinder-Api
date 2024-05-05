@@ -7,6 +7,7 @@ using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 
@@ -72,4 +73,9 @@ public interface IUnitOfWork
     ///     Gets the create new match repository
     /// </summary>
     ICreateMatchRepository CreateMatchRepository { get; }
+
+    /// <summary>
+    ///     Gets the get user info on sidebar repository
+    /// </summary>
+    IReportUserAfterMatchRepository ReportUserAfterMatchRepository { get; }
 }

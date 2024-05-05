@@ -7,6 +7,7 @@ using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 using GoalFinder.Data.UnitOfWork;
@@ -20,6 +21,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
 using GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
+using GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 using GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
 
@@ -42,6 +44,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IRefreshAccessTokenRepository _refreshAccessTokenRepository;
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
     private ICreateMatchRepository _createMatchRepository;
+    private IReportUserAfterMatchRepository _reportUserAfterMatchRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -153,6 +156,18 @@ internal sealed class UnitOfWork : IUnitOfWork
             _createMatchRepository ??= new CreateMatchRepository(context: _context);
 
             return _createMatchRepository;
+        }
+    }
+
+    public IReportUserAfterMatchRepository ReportUserAfterMatchRepository
+    {
+        get
+        {
+            _reportUserAfterMatchRepository ??= new ReportUserAfterMatchRepository(
+                context: _context
+            );
+
+            return _reportUserAfterMatchRepository;
         }
     }
 }

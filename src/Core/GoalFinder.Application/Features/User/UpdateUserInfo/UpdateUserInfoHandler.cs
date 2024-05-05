@@ -66,12 +66,12 @@ internal sealed class UpdateUserInfoHandler
         }
 
         #endregion
-        // Is user temporarily removed.
-        var isUserTemporarilyRemoved =
-            await _unitOfWork.UpdateUserInfoRepository.IsUserTemporarilyRemovedQueryAsync(
-                userId: command.GetUserId(),
-                cancellationToken: ct
-            );
+            // Is user temporarily removed.
+            var isUserTemporarilyRemoved =
+                await _unitOfWork.UpdateUserInfoRepository.IsUserTemporarilyRemovedQueryAsync(
+                    userId: command.GetUserId(),
+                    cancellationToken: ct
+                );
 
         // User is temporarily removed.
         if (isUserTemporarilyRemoved)
