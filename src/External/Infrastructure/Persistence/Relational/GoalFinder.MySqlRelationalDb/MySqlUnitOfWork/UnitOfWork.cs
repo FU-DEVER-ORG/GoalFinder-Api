@@ -1,6 +1,7 @@
 ﻿using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetAllReports;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
@@ -15,6 +16,7 @@ using GoalFinder.MySqlRelationalDb.Data;
 using GoalFinder.MySqlRelationalDb.Repositories.CreateMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
+using GoalFinder.MySqlRelationalDb.Repositories.GetAllReports;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
@@ -45,6 +47,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
     private ICreateMatchRepository _createMatchRepository;
     private IReportUserAfterMatchRepository _reportUserAfterMatchRepository;
+    private IGetAllReportsRepository _getAllReportsRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -149,9 +152,9 @@ internal sealed class UnitOfWork : IUnitOfWork
         }
     }
 
-    public ICreateMatchRepository CreateMatchRepository 
+    public ICreateMatchRepository CreateMatchRepository
     {
-        get 
+        get
         {
             _createMatchRepository ??= new CreateMatchRepository(context: _context);
 
@@ -168,6 +171,18 @@ internal sealed class UnitOfWork : IUnitOfWork
             );
 
             return _reportUserAfterMatchRepository;
+        }
+    }
+
+    public IGetAllReportsRepository GetAllReportsRepository
+    {
+        get
+        {
+            _getAllReportsRepository ??= new GetAllReportsRepository(
+                context: _context
+            );
+
+            return _getAllReportsRepository;    
         }
     }
 }
