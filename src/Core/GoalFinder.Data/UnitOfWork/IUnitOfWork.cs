@@ -1,6 +1,7 @@
 ﻿using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.InsertErrorLog;
@@ -72,4 +73,9 @@ public interface IUnitOfWork
     ///     Gets the create new match repository
     /// </summary>
     ICreateMatchRepository CreateMatchRepository { get; }
+
+    /// <summary>
+    ///     Gets all positions repository
+    /// </summary>
+    IGetAllPositionsRepository GetAllPositionsRepository { get; }
 }
