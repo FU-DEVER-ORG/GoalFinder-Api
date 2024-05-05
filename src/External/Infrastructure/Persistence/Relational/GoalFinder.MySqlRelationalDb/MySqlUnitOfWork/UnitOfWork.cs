@@ -1,5 +1,7 @@
 ﻿using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.GetAllCompetitionLevels;
+using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
@@ -14,6 +16,8 @@ using GoalFinder.Data.UnitOfWork;
 using GoalFinder.MySqlRelationalDb.Data;
 using GoalFinder.MySqlRelationalDb.Repositories.CreateMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
+using GoalFinder.MySqlRelationalDb.Repositories.GetAllCompetitionLevels;
+using GoalFinder.MySqlRelationalDb.Repositories.GetAllExperiences;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllPositions;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
@@ -45,6 +49,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
     private ICreateMatchRepository _createMatchRepository;
     private IGetAllPositionsRepository _getAllPositionsRepository;
+    private IGetAllCompetitionLevelsRepository _getAllCompetitionLevelsRepository;
+    private IGetAllExperiencesRepository _getAllExperiencesRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -166,6 +172,26 @@ internal sealed class UnitOfWork : IUnitOfWork
             _getAllPositionsRepository ??= new GetAllPositionsRepository(context: _context);
 
             return _getAllPositionsRepository;
+        }
+    }
+
+    public IGetAllCompetitionLevelsRepository GetAllCompetitionLevelsRepository
+    {
+        get
+        {
+            _getAllCompetitionLevelsRepository ??= new GetAllCompetitionLevelsRepository(
+                context: _context
+            );
+            return _getAllCompetitionLevelsRepository;
+        }
+    }
+
+    public IGetAllExperiencesRepository GetAllExperiencesRepository
+    {
+        get
+        {
+            _getAllExperiencesRepository ??= new GetAllExperiencesRepository(context: _context);
+            return _getAllExperiencesRepository;
         }
     }
 }

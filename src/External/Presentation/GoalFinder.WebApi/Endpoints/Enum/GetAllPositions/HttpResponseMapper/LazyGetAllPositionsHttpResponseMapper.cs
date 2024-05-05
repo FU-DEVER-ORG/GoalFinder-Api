@@ -2,10 +2,10 @@
 
 internal static class LazyGetAllPositionsHttpResponseMapper
 {
-    private static GetAllPositionsHttpResponseManager _updateUserInfoHttpResponseManager;
+    private static GetAllPositionsHttpResponseManager _getAllPositionHttpResponseManager;
 
     internal static GetAllPositionsHttpResponseManager Get()
     {
-        return _updateUserInfoHttpResponseManager ??= new();
+        return _getAllPositionHttpResponseManager ??= new();
     }
 }
