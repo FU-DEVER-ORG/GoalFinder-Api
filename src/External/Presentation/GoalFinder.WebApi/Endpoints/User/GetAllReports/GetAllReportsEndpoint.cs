@@ -1,12 +1,11 @@
-﻿using FastEndpoints;
-using System;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using FastEndpoints;
 using GoalFinder.Application.Features.User.GetAllReports;
 using GoalFinder.WebApi.Endpoints.User.GetAllReports.HttpResponseMapper;
 using GoalFinder.WebApi.Endpoints.User.GetAllReports.Middleware.Caching;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using System.Threading;
-using GoalFinder.WebApi.Endpoints.Match.GetAllMatches.HttpResponseMapper;
 
 namespace GoalFinder.WebApi.Endpoints.User.GetAllReports;
 
@@ -14,7 +13,7 @@ internal sealed class GetAllReportsEndpoint : Endpoint<EmptyRequest, GetAllRepor
 {
     public override void Configure()
     {
-        Get(routePatterns: "/reports");
+        Get(routePatterns: "/report/{match-id}");
         AllowAnonymous();
         DontThrowIfValidationFails();
         PreProcessor<GetAllReportsCachingPreProcessor>();
@@ -37,14 +36,24 @@ internal sealed class GetAllReportsEndpoint : Endpoint<EmptyRequest, GetAllRepor
                     AppCode = GetAllReportsStatusCode.OPERATION_SUCCESS.ToAppCode(),
                     Body = new GetAllReportsResponse.Body()
                     {
+                        FootballMatch = new GetAllReportsResponse.Body.Match()
+                        {
+                            PitchAddress = "string",
+                            MaxMatchPlayersNeed = 0,
+                            PitchPrice = 0.00m,
+                            Description = "string",
+                            StartTime = "2024-04-25 10:00 AM",
+                            EndTime = "2024-04-25 10:00 AM",
+                            Address = "string",
+                            CompetitionLevel = "string"
+                        },
+
                         MatchPlayers =
                         [
-                            new GetAllReportsResponse.Body.MatchPlayer(){
-                                MatchId = Guid.NewGuid(),
+                            new GetAllReportsResponse.Body.MatchPlayerDetails()
+                            {
                                 PlayerId = Guid.NewGuid(),
-                                PlayerName = "string",
                                 NumberOfReports = default,
-
                             }
                         ]
                     }
@@ -54,7 +63,8 @@ internal sealed class GetAllReportsEndpoint : Endpoint<EmptyRequest, GetAllRepor
     }
 
     public override async Task<GetAllReportsHttpResponse> ExecuteAsync(
-        EmptyRequest emptyRequest, CancellationToken ct
+        EmptyRequest emptyRequest,
+        CancellationToken ct
     )
     {
         //get command request
@@ -87,6 +97,5 @@ internal sealed class GetAllReportsEndpoint : Endpoint<EmptyRequest, GetAllRepor
         httpResponse.HttpCode = httpResponseStatusCode;
 
         return httpResponse;
-
     }
 }

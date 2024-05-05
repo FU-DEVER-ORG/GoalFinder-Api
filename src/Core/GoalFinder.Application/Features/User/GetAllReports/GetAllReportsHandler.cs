@@ -1,10 +1,12 @@
-﻿using System.Threading;
-using GoalFinder.Application.Features.Match.GetAllMatches;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using GoalFinder.Application.Features.Match.GetAllMatches;
 using GoalFinder.Application.Shared.Features;
+using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 using Microsoft.Extensions.Primitives;
-using System.Linq;
+using static GoalFinder.Data.Entities.FootballMatch.MetaData;
 
 namespace GoalFinder.Application.Features.User.GetAllReports;
 
@@ -40,8 +42,19 @@ internal sealed class GetAllReportsHandler
         CancellationToken ct
     )
     {
-        //Get all reports
-        var reports = await _unitOfWork.GetAllReportsRepository.GetAllReportsQueryAsync(
+        var foundMatch = await _unitOfWork.GetAllReportsRepository.GetFootballMatchByIdQueryAsync(
+            matchId: command.MatchId,
+            cancellationToken: ct
+        );
+
+        if (Equals(objA: foundMatch, objB: default))
+        {
+            return new() { StatusCode = GetAllReportsStatusCode.MATCH_ID_NOT_FOUND };
+        }
+
+        //Get match players
+        var matchPlayers = await _unitOfWork.GetAllReportsRepository.GetMatchPlayerByMatchIdAsync(
+            matchId: command.MatchId,
             cancellationToken: ct
         );
 
@@ -50,19 +63,28 @@ internal sealed class GetAllReportsHandler
             StatusCode = GetAllReportsStatusCode.OPERATION_SUCCESS,
             ResponseBody = new()
             {
-                MatchPlayers = reports.Select(
-                    report => new GetAllReportsResponse.Body.MatchPlayer
-                    {
-                        MatchId = report.MatchId,
-                        PlayerId = report.PlayerId,
-                        PlayerName = $"{report.UserDetail?.FirstName} {report.UserDetail?.LastName}",
-                        NumberOfReports = report.NumberOfReports,
+                FootballMatch = new GetAllReportsResponse.Body.Match
+                {
+                    PitchAddress = foundMatch.PitchAddress,
+                    MaxMatchPlayersNeed = foundMatch.MaxMatchPlayersNeed,
+                    PitchPrice = foundMatch.PitchPrice,
+                    Description = foundMatch.Description,
+                    StartTime = foundMatch.StartTime.ToString(),
+                    EndTime = foundMatch.EndTime.ToString(),
+                    Address = foundMatch.Address,
+                    CompetitionLevel = foundMatch.CompetitionLevel?.FullName
+                },
 
-                    }
+                MatchPlayers = await Task.WhenAll(
+                    matchPlayers.Select(
+                        async player => new GetAllReportsResponse.Body.MatchPlayerDetails
+                        {
+                            PlayerId = player.PlayerId,
+                            NumberOfReports = player.NumberOfReports,
+                        }
+                    )
                 )
             }
         };
-
-        
     }
 }

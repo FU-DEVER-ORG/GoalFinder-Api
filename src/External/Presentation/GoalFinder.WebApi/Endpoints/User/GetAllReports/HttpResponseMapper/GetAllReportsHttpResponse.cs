@@ -1,7 +1,7 @@
-﻿using GoalFinder.Application.Features.User.GetAllReports;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using GoalFinder.Application.Features.User.GetAllReports;
 
 namespace GoalFinder.WebApi.Endpoints.User.GetAllReports.HttpResponseMapper;
 
@@ -13,10 +13,7 @@ public class GetAllReportsHttpResponse
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int HttpCode { get; set; }
 
-    public string AppCode { get; init; } = 
-        GetAllReportsStatusCode
-        .OPERATION_SUCCESS
-        .ToAppCode();
+    public string AppCode { get; init; } = GetAllReportsStatusCode.OPERATION_SUCCESS.ToAppCode();
 
     public DateTime ResponseTime { get; init; } =
         TimeZoneInfo.ConvertTimeFromUtc(

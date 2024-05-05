@@ -5,11 +5,10 @@
 /// </summary>
 internal static class LazyGetAllReportsHttpResponseMapper
 {
-    private static GetAllReportsHttpResponseMapper _GetAllReportsHttpResponseMapper;
+    private static GetAllReportsHttpResponseManager _GetAllReportsHttpResponseMapper;
 
-    internal static GetAllReportsHttpResponseMapper Get()
+    internal static GetAllReportsHttpResponseManager Get()
     {
         return _GetAllReportsHttpResponseMapper ??= new();
     }
-
 }

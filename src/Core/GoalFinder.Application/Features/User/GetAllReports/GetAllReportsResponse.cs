@@ -15,16 +15,32 @@ public sealed class GetAllReportsResponse : IFeatureResponse
 
     public sealed class Body
     {
-        public IEnumerable<MatchPlayer> MatchPlayers { get; init; }
+        public Match FootballMatch { get; init; }
+        public IEnumerable<MatchPlayerDetails> MatchPlayers { get; init; }
 
-        public sealed class MatchPlayer
+        public sealed class MatchPlayerDetails
         {
-            public Guid MatchId { get; init; }
             public Guid PlayerId { get; init; }
 
-            public string PlayerName { get; init; }
-
             public int NumberOfReports { get; init; }
+        }
+
+        public sealed class Match
+        {
+            public string PitchAddress { get; init; }
+
+            public int MaxMatchPlayersNeed { get; init; }
+
+            public decimal PitchPrice { get; init; }
+
+            public string Description { get; init; }
+
+            public string StartTime { get; init; }
+            public string EndTime { get; init; }
+
+            public string Address { get; set; }
+
+            public string CompetitionLevel { get; init; }
         }
     }
 }

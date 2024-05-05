@@ -6,5 +6,6 @@
 public enum GetAllReportsStatusCode
 {
     OPERATION_SUCCESS,
-    DATABASE_OPERATION_FAIL
+    DATABASE_OPERATION_FAIL,
+    MATCH_ID_NOT_FOUND
 }
