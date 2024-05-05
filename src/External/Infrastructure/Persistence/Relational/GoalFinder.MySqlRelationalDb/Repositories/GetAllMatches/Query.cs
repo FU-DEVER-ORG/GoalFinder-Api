@@ -31,6 +31,7 @@ internal sealed partial class GetAllMatchesRepository
                 PitchAddress = match.PitchAddress,
                 MaxMatchPlayersNeed = match.MaxMatchPlayersNeed,
                 PitchPrice = match.PitchPrice,
+                Title = match.Title,
                 Description = match.Description,
                 MinPrestigeScore = match.MinPrestigeScore,
                 StartTime = match.StartTime,

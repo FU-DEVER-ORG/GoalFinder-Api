@@ -11,14 +11,15 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
 
 internal partial class UpdateUserInfoRepository
 {
-    public Task<bool> IsUserNameAlreadyTakenQueryAsync(
+    public Task<bool> IsNickNameAlreadyTakenQueryAsync(
         Guid currentUserId,
-        string userName,
+        string nickName,
         CancellationToken cancellationToken
     )
     {
-        return _users.AnyAsync(
-            predicate: user => user.Id != currentUserId && user.UserName.Equals(userName),
+        return _userDetails.AnyAsync(
+            predicate: userDetail =>
+                userDetail.UserId != currentUserId && userDetail.NickName.Equals(nickName),
             cancellationToken: cancellationToken
         );
     }

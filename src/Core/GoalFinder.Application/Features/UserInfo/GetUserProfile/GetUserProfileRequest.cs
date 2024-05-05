@@ -1,4 +1,5 @@
-﻿using GoalFinder.Application.Shared.Features;
+﻿using FastEndpoints;
+using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
 
@@ -7,5 +8,6 @@ namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
 /// </summary>
 public sealed class GetUserProfileRequest : IFeatureRequest<GetUserProfileResponse>
 {
-    public string UserName { get; init; }
+    [BindFrom("nickname")]
+    public string NickName { get; init; }
 }

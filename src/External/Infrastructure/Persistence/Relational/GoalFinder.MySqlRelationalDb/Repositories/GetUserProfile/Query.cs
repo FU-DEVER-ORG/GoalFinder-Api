@@ -32,6 +32,7 @@ internal sealed partial class GetUserProfileRepository
             .Where(predicate: userDetail => userDetail.UserId == userId)
             .Select(selector: userDetail => new UserDetail
             {
+                NickName = userDetail.NickName,
                 FirstName = userDetail.FirstName,
                 LastName = userDetail.LastName,
                 Description = userDetail.Description,
@@ -70,14 +71,14 @@ internal sealed partial class GetUserProfileRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public Task<User> GetUserByUsernameQueryAsync(
-        string userName,
+    public Task<UserDetail> GetUserByNickNameQueryAsync(
+        string nickName,
         CancellationToken cancellationToken
     )
     {
-        return _users
-            .Where(user => user.NormalizedUserName.Equals(userName.ToUpper()))
-            .Select(user => new User { Id = user.Id })
+        return _userDetails
+            .Where(userDetail => userDetail.NickName.Equals(nickName))
+            .Select(userDetail => new UserDetail { UserId = userDetail.UserId })
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 }

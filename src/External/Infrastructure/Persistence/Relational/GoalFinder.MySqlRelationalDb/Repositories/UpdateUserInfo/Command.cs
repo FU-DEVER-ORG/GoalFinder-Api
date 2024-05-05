@@ -25,26 +25,6 @@ internal partial class UpdateUserInfoRepository
             .Database.CreateExecutionStrategy()
             .ExecuteAsync(operation: async () =>
             {
-                // User table database operation.
-                #region UserTable
-                if (!currentUser.User.UserName.Equals(updateUser.User.UserName))
-                {
-                    User user =
-                        new()
-                        {
-                            Id = updateUser.UserId,
-                            UserName = updateUser.User.UserName,
-                            ConcurrencyStamp = currentUser.User.ConcurrencyStamp
-                        };
-
-                    var entry = _users.Entry(entity: user);
-
-                    entry.State = EntityState.Unchanged;
-
-                    entry.Property(propertyExpression: entry => entry.UserName).IsModified = true;
-                }
-                #endregion
-
                 // User position table database operation.
                 #region UserPositiontable
                 var removedPositionIds = currentPositionIds.Except(second: newPositionIds);

@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.MySqlRelationalDb.Data;

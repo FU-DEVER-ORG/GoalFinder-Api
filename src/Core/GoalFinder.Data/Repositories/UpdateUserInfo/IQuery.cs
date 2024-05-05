@@ -8,9 +8,9 @@ namespace GoalFinder.Data.Repositories.UpdateUserInfo;
 
 public partial interface IUpdateUserInfoRepository
 {
-    Task<bool> IsUserNameAlreadyTakenQueryAsync(
+    Task<bool> IsNickNameAlreadyTakenQueryAsync(
         Guid currentUserId,
-        string userName,
+        string nickName,
         CancellationToken cancellationToken
     );
 

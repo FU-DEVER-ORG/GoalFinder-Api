@@ -1,8 +1,10 @@
 ﻿using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetMatchDetailRepository;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
+using GoalFinder.Data.Repositories.GetUserProfileByUserId;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
@@ -72,4 +74,14 @@ public interface IUnitOfWork
     ///     Gets the create new match repository
     /// </summary>
     ICreateMatchRepository CreateMatchRepository { get; }
+
+    /// <summary>
+    ///     Gets the get match detail repository
+    /// </summary>
+    IGetMatchDetailRepository GetMatchDetailRepository { get; }
+
+    /// <summary>
+    ///     Gets the get user profile by user id repository
+    /// </summary>
+    IGetUserProfileByUserIdRepository GetUserProfileByUserIdRepository { get; }
 }

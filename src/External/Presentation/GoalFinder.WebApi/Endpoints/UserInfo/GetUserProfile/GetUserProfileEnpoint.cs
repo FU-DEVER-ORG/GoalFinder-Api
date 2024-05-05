@@ -15,7 +15,7 @@ internal sealed class GetUserProfileEndpoint
 {
     public override void Configure()
     {
-        Get(routePatterns: "user/{username}");
+        Get(routePatterns: "user/profile/{nickname}");
         AllowAnonymous();
         DontThrowIfValidationFails();
         PreProcessor<GetUserProfileValidationPreProcessor>();
@@ -29,7 +29,7 @@ internal sealed class GetUserProfileEndpoint
         {
             summary.Summary = "Endpoint for user profile feature";
             summary.Description =
-                "This endpoint is used for get user profile purpose by username route.";
+                "This endpoint is used for get user profile purpose by user id route parameter.";
             summary.Response<GetUserProfileHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
@@ -40,6 +40,7 @@ internal sealed class GetUserProfileEndpoint
                     {
                         UserDetail = new GetUserProfileResponse.Body.User
                         {
+                            NickName = "string",
                             LastName = "string",
                             FirstName = "string",
                             Description = "string",
@@ -85,9 +86,9 @@ internal sealed class GetUserProfileEndpoint
             .Invoke(arg1: req, arg2: appResponse);
 
         /*
-         * Store the real http code of http response into a temporary variable.
-         * Set the http code of http response to default for not serializing.
-         */
+        * Store the real http code of http response into a temporary variable.
+        * Set the http code of http response to default for not serializing.
+        */
         var httpResponseStatusCode = httpResponse.HttpCode;
         httpResponse.HttpCode = default;
 

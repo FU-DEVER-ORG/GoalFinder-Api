@@ -41,6 +41,10 @@ public sealed class CreateMatchRequestValidator
             .MinimumLength(
                 minimumLength: Data.Entities.FootballMatch.MetaData.Description.MinLength
             );
+        RuleFor(expression: request => request.Title)
+            .Cascade(cascadeMode: CascadeMode.Stop)
+            .NotEmpty()
+            .MinimumLength(minimumLength: Data.Entities.FootballMatch.MetaData.Title.MinLength);
 
         RuleFor(expression: request => request.MinPrestigeScore)
             .Cascade(cascadeMode: CascadeMode.Stop)

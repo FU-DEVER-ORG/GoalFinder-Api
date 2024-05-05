@@ -49,6 +49,7 @@ public static class GoalFinderDataSeeding
         var positions = context.Set<Position>();
         var userDetails = context.Set<UserDetail>();
         var roles = context.Set<Role>();
+        var matchPlayersJoiningStatus = context.Set<MatchPlayerJoiningStatus>();
 
         // Is departments table empty.
         var isTableEmpty = await IsTableEmptyAsync(
@@ -57,6 +58,7 @@ public static class GoalFinderDataSeeding
             positions: positions,
             userDetails: userDetails,
             roles: roles,
+            matchPlayersJoiningStatus: matchPlayersJoiningStatus,
             cancellationToken: cancellationToken
         );
 
@@ -76,6 +78,8 @@ public static class GoalFinderDataSeeding
 
         // Init list of position.
         var newPositions = InitNewPositions();
+
+        var newMatchPlayersJoiningStatus = InitNewMatchPlayerJoiningStatus();
 
         //// Init admin.
         var admin = InitAdmin(
@@ -113,6 +117,11 @@ public static class GoalFinderDataSeeding
 
                     await positions.AddRangeAsync(
                         entities: newPositions,
+                        cancellationToken: cancellationToken
+                    );
+
+                    await matchPlayersJoiningStatus.AddRangeAsync(
+                        entities: newMatchPlayersJoiningStatus,
                         cancellationToken: cancellationToken
                     );
 
@@ -163,6 +172,7 @@ public static class GoalFinderDataSeeding
         DbSet<Position> positions,
         DbSet<UserDetail> userDetails,
         DbSet<Role> roles,
+        DbSet<MatchPlayerJoiningStatus> matchPlayersJoiningStatus,
         CancellationToken cancellationToken
     )
     {
@@ -200,6 +210,15 @@ public static class GoalFinderDataSeeding
 
         // Is roles table empty.
         isTableNotEmpty = await roles.AnyAsync(cancellationToken: cancellationToken);
+
+        if (isTableNotEmpty)
+        {
+            return false;
+        }
+
+        isTableNotEmpty = await matchPlayersJoiningStatus.AnyAsync(
+            cancellationToken: cancellationToken
+        );
 
         if (isTableNotEmpty)
         {
@@ -355,6 +374,48 @@ public static class GoalFinderDataSeeding
         return newRoles;
     }
 
+    private static List<MatchPlayerJoiningStatus> InitNewMatchPlayerJoiningStatus()
+    {
+        Dictionary<Guid, string> newMatchPlayerJoiningStatusName = [];
+
+        newMatchPlayerJoiningStatusName.Add(
+            key: Guid.Parse(input: "e1442702-eb03-4e1e-8745-e0e85f9cefa2"),
+            value: "Joined"
+        );
+
+        newMatchPlayerJoiningStatusName.Add(
+            key: Guid.Parse(input: "8c59bf95-10e5-4421-9803-2fe8b717b882"),
+            value: "Rejected"
+        );
+
+        newMatchPlayerJoiningStatusName.Add(
+            key: Guid.Parse(input: "8ead39e1-ce22-45e8-8984-d504872fc65a"),
+            value: "Pending"
+        );
+
+        List<MatchPlayerJoiningStatus> newMatchPlayerJoiningStatuses = [];
+
+        foreach (var newJoiningStatus in newMatchPlayerJoiningStatusName)
+        {
+            MatchPlayerJoiningStatus newStatus =
+                new()
+                {
+                    Id = newJoiningStatus.Key,
+                    FullName = newJoiningStatus.Value,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = AdminId,
+                    UpdatedAt = DateTime.MinValue,
+                    UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+                    RemovedAt = DateTime.MinValue,
+                    RemovedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID
+                };
+
+            newMatchPlayerJoiningStatuses.Add(item: newStatus);
+        }
+
+        return newMatchPlayerJoiningStatuses;
+    }
+
     /// <summary>
     ///     Init a list of positions.
     /// </summary>
@@ -445,7 +506,8 @@ public static class GoalFinderDataSeeding
                     ExperienceId = experienceId,
                     PrestigeScore = 100,
                     BackgroundUrl = string.Empty,
-                    AvatarUrl = defaultUserAvatarAsUrlHandler.Get()
+                    AvatarUrl = defaultUserAvatarAsUrlHandler.Get(),
+                    NickName = "KhoaMapDit"
                 }
             };
 

@@ -56,6 +56,7 @@ internal sealed class GetAllMatchesHandler
                         PitchAddress = matches.PitchAddress,
                         MaxMatchPlayersNeed = matches.MaxMatchPlayersNeed,
                         PitchPrice = matches.PitchPrice,
+                        Title = matches.Title,
                         Description = matches.Description,
                         MinPrestigeScore = matches.MinPrestigeScore,
                         StartTime = matches.StartTime.ToLocalTime(),
