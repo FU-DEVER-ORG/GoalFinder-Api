@@ -16,8 +16,10 @@ public partial interface IGetAllReportsRepository
         CancellationToken cancellationToken
     );
 
-    Task<IEnumerable<MatchPlayer>> GetMatchPlayerByMatchIdAsync(
+    Task<IEnumerable<MatchPlayer>> GetMatchPlayerByMatchIdAndUserIdAsync(
         Guid matchId,
+        Guid userId,
         CancellationToken cancellationToken
     );
+
 }

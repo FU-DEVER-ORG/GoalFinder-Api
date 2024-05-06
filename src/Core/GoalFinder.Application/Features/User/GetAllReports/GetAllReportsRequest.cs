@@ -9,4 +9,6 @@ namespace GoalFinder.Application.Features.User.GetAllReports;
 public sealed class GetAllReportsRequest : IFeatureRequest<GetAllReportsResponse>
 {
     public Guid MatchId { get; init; }
+
+    public Guid UserId { get; init; }
 }

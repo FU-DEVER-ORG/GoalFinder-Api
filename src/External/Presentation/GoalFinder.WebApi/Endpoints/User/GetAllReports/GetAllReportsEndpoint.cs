@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -67,8 +69,20 @@ internal sealed class GetAllReportsEndpoint : Endpoint<EmptyRequest, GetAllRepor
         CancellationToken ct
     )
     {
-        //get command request
-        var command = new GetAllReportsRequest();
+        // Get user id from claims.
+        var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out Guid userId))
+        {
+            return new GetAllReportsHttpResponse
+            {
+                HttpCode = StatusCodes.Status401Unauthorized,
+                ErrorMessages = new List<string> { "Unauthorized or invalid user ID" }
+            };
+        }
+
+        //send userId to command
+        var command = new GetAllReportsRequest { UserId = userId };
 
         // Get app feature response.
         var appResponse = await command.ExecuteAsync(ct: ct);

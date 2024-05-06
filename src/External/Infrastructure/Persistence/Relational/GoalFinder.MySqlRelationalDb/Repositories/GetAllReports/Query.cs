@@ -10,62 +10,25 @@ namespace GoalFinder.MySqlRelationalDb.Repositories.GetAllReports;
 
 internal sealed partial class GetAllReportsRepository
 {
-    public async Task<IEnumerable<MatchPlayer>> GetAllReportsQueryAsync(
-        CancellationToken cancellationToken
-    )
-    {
-        return await _matchPlayers
-            .AsNoTracking()
-            .OrderBy(keySelector: report => report.FootballMatch.EndTime)
-            .Select(report => new MatchPlayer()
-            {
-                MatchId = report.MatchId,
-                PlayerId = report.PlayerId,
-                NumberOfReports = report.NumberOfReports,
-                UserDetail = new UserDetail()
-                {
-                    FirstName = report.UserDetail.FirstName,
-                    LastName = report.UserDetail.LastName,
-                }
-            })
-            .ToListAsync(cancellationToken: cancellationToken);
-    }
 
-    public async Task<IEnumerable<MatchPlayer>> GetMatchPlayerByMatchIdAsync(
+    public async Task<IEnumerable<MatchPlayer>> GetMatchPlayerByMatchIdAndUserIdAsync(
         Guid matchId,
+        Guid userId,
         CancellationToken cancellationToken
     )
     {
         return await _matchPlayers
             .AsNoTracking()
-            .Where(predicate: matchPlayer => matchPlayer.MatchId == matchId)
+            .Where(matchPlayer => matchPlayer.MatchId == matchId && matchPlayer.PlayerId != userId)
             .Select(matchPlayer => new MatchPlayer
             {
                 PlayerId = matchPlayer.PlayerId,
                 NumberOfReports = matchPlayer.NumberOfReports
             })
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToListAsync(cancellationToken);
     }
 
-    public Task<UserDetail> GetUserDetailByIdAsync(Guid userId, CancellationToken cancellationToken)
-    {
-        return _userDetails
-            .AsNoTracking()
-            .Where(predicate: userDetail => userDetail.UserId == userId)
-            .Select(selector: userDetail => new UserDetail
-            {
-                FirstName = userDetail.FirstName,
-                LastName = userDetail.LastName,
-                PrestigeScore = userDetail.PrestigeScore,
-                AvatarUrl = userDetail.AvatarUrl,
-                CompetitionLevel = new() { FullName = userDetail.CompetitionLevel.FullName, },
-                UserPositions = userDetail.UserPositions.Select(userPosition => new UserPosition
-                {
-                    Position = new() { FullName = userPosition.Position.FullName, }
-                }),
-            })
-            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-    }
+
 
     public Task<FootballMatch> GetFootballMatchByIdQueryAsync(
         Guid matchId,

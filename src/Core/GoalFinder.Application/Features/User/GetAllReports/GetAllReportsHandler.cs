@@ -53,8 +53,9 @@ internal sealed class GetAllReportsHandler
         }
 
         //Get match players
-        var matchPlayers = await _unitOfWork.GetAllReportsRepository.GetMatchPlayerByMatchIdAsync(
+        var matchPlayers = await _unitOfWork.GetAllReportsRepository.GetMatchPlayerByMatchIdAndUserIdAsync(
             matchId: command.MatchId,
+            userId: command.UserId,
             cancellationToken: ct
         );
 
