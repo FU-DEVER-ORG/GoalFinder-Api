@@ -164,7 +164,7 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
                 {
                     Email = foundUser.Email,
                     AvatarUrl = userDetail.AvatarUrl,
-                    UserName = foundUser.UserName,
+                    NickName = userDetail.NickName,
                     FirstName = userDetail.FirstName,
                     LastName = userDetail.LastName
                 }
