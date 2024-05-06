@@ -18,5 +18,4 @@ internal sealed partial class GetAllPositionsRepository : IGetAllPositionsReposi
         _context = context;
         _positions = _context.Set<Position>();
     }
-
 }

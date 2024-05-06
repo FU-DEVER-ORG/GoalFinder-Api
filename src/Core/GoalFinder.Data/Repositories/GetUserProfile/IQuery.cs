@@ -11,7 +11,10 @@ namespace GoalFinder.Data.Repositories.GetUserProfile;
 /// </summary>
 public partial interface IGetUserProfileRepository
 {
-    Task<User> GetUserByUsernameQueryAsync(string userName, CancellationToken cancellationToken);
+    Task<UserDetail> GetUserByNickNameQueryAsync(
+        string nickName,
+        CancellationToken cancellationToken
+    );
 
     Task<bool> IsUserTemporarilyRemovedQueryAsync(Guid userId, CancellationToken cancellationToken);
 

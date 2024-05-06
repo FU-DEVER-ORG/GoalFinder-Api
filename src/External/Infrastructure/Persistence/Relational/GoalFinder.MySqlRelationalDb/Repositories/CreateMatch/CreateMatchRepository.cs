@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.MySqlRelationalDb.Data;
@@ -19,6 +16,7 @@ internal sealed partial class CreateMatchRepository : ICreateMatchRepository
     private readonly DbSet<CompetitionLevel> _competitionLevels;
     private readonly DbSet<RefreshToken> _refreshTokens;
     private readonly DbSet<MatchPlayer> _matchPlayers;
+
     internal CreateMatchRepository(GoalFinderContext context)
     {
         _context = context;

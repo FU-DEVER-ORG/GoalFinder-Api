@@ -4,8 +4,10 @@ using GoalFinder.Data.Repositories.GetAllCompetitionLevels;
 using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetAllPositions;
+using GoalFinder.Data.Repositories.GetMatchDetailRepository;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
+using GoalFinder.Data.Repositories.GetUserProfileByUserId;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
@@ -20,8 +22,10 @@ using GoalFinder.MySqlRelationalDb.Repositories.GetAllCompetitionLevels;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllExperiences;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllPositions;
+using GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
+using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfileByUserId;
 using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
 using GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
@@ -51,6 +55,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetAllPositionsRepository _getAllPositionsRepository;
     private IGetAllCompetitionLevelsRepository _getAllCompetitionLevelsRepository;
     private IGetAllExperiencesRepository _getAllExperiencesRepository;
+    private IGetMatchDetailRepository _getMatchDetailRepository;
+    private IGetUserProfileByUserIdRepository _getUserProfileByUserIdRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -192,6 +198,27 @@ internal sealed class UnitOfWork : IUnitOfWork
         {
             _getAllExperiencesRepository ??= new GetAllExperiencesRepository(context: _context);
             return _getAllExperiencesRepository;
+        }
+    }
+    public IGetMatchDetailRepository GetMatchDetailRepository
+    {
+        get
+        {
+            _getMatchDetailRepository ??= new GetMatchDetailRepository(context: _context);
+
+            return _getMatchDetailRepository;
+        }
+    }
+
+    public IGetUserProfileByUserIdRepository GetUserProfileByUserIdRepository
+    {
+        get
+        {
+            _getUserProfileByUserIdRepository ??= new GetUserProfileByUserIdRepository(
+                context: _context
+            );
+
+            return _getUserProfileByUserIdRepository;
         }
     }
 }

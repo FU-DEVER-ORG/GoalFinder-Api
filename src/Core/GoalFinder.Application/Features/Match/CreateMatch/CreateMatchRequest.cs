@@ -16,6 +16,8 @@ public sealed class CreateMatchRequest : IFeatureRequest<CreateMatchResponse>
 
     public decimal PitchPrice { get; init; }
 
+    public string Title { get; init; }
+
     public string Description { get; init; }
 
     public int MinPrestigeScore { get; init; }
@@ -35,5 +37,4 @@ public sealed class CreateMatchRequest : IFeatureRequest<CreateMatchResponse>
     {
         return _hostId;
     }
-
 }

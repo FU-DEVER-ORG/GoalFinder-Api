@@ -110,6 +110,7 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
                 PitchAddress = createMatchRequest.PitchAddress,
                 MaxMatchPlayersNeed = createMatchRequest.MaxMatchPlayersNeed,
                 PitchPrice = createMatchRequest.PitchPrice,
+                Title = createMatchRequest.Title,
                 Description = createMatchRequest.Description,
                 MinPrestigeScore = createMatchRequest.MinPrestigeScore,
                 StartTime = createMatchRequest.StartTime,
@@ -134,6 +135,7 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
         {
             MatchId = matchId,
             PlayerId = userId,
+            JoiningStatusId = Guid.Parse("e1442702-eb03-4e1e-8745-e0e85f9cefa2"),
             NumberOfReports = default,
         };
     }

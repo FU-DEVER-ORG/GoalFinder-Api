@@ -18,5 +18,4 @@ internal sealed partial class GetAllExperiencesRepository : IGetAllExperiencesRe
         _context = context;
         _experiences = _context.Set<Experience>();
     }
-
 }

@@ -13,7 +13,11 @@ internal sealed class GetAllCompetitionLevelsHttpResponseManager
 {
     private readonly Dictionary<
         GetAllCompetitionLevelsResponseStatusCode,
-        Func<GetAllCompetitionLevelsRequest, GetAllCompetitionLevelsResponse, GetAllCompetitionLevelsHttpResponse>
+        Func<
+            GetAllCompetitionLevelsRequest,
+            GetAllCompetitionLevelsResponse,
+            GetAllCompetitionLevelsHttpResponse
+        >
     > _dictionary;
 
     internal GetAllCompetitionLevelsHttpResponseManager()

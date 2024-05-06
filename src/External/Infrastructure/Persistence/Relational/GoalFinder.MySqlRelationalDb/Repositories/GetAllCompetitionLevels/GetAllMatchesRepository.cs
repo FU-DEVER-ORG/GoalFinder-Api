@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using GoalFinder.Data.Entities;
 using GoalFinder.Data.Repositories.GetAllCompetitionLevels;
 using GoalFinder.MySqlRelationalDb.Data;

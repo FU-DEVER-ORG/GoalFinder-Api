@@ -4,14 +4,15 @@ using GoalFinder.MySqlRelationalDb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace GoalFinder.MySqlRelationalDb.Migrations
 {
     [DbContext(typeof(GoalFinderContext))]
-    [Migration("20240427142541_M1_Fix_Seeding_Add_BackgroundField")]
-    partial class M1_Fix_Seeding_Add_BackgroundField
+    [Migration("20240505085323_M1_Init_DataSource")]
+    partial class M1_Init_DataSource
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,6 +174,10 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("DATETIME");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("DATETIME");
 
@@ -199,16 +204,57 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                     b.Property<Guid>("PlayerId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("JoiningStatusId")
+                        .HasColumnType("char(36)");
+
                     b.Property<int>("NumberOfReports")
                         .HasColumnType("int");
 
                     b.HasKey("MatchId", "PlayerId");
+
+                    b.HasIndex("JoiningStatusId");
 
                     b.HasIndex("PlayerId");
 
                     b.ToTable("MatchPlayers", null, t =>
                         {
                             t.HasComment("Contain match player records.");
+                        });
+                });
+
+            modelBuilder.Entity("GoalFinder.Data.Entities.MatchPlayerJoiningStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<DateTime>("RemovedAt")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<Guid>("RemovedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MatchPlayerJoiningStatuses", null, t =>
+                        {
+                            t.HasComment("Contain Match Player Joining Status records.");
                         });
                 });
 
@@ -447,6 +493,10 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
+                    b.Property<string>("NickName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(30)");
+
                     b.Property<int>("PrestigeScore")
                         .HasColumnType("int");
 
@@ -654,6 +704,12 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
 
             modelBuilder.Entity("GoalFinder.Data.Entities.MatchPlayer", b =>
                 {
+                    b.HasOne("GoalFinder.Data.Entities.MatchPlayerJoiningStatus", "MatchPlayerJoiningStatus")
+                        .WithMany("MatchPlayers")
+                        .HasForeignKey("JoiningStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("GoalFinder.Data.Entities.FootballMatch", "FootballMatch")
                         .WithMany("MatchPlayers")
                         .HasForeignKey("MatchId")
@@ -667,6 +723,8 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                         .IsRequired();
 
                     b.Navigation("FootballMatch");
+
+                    b.Navigation("MatchPlayerJoiningStatus");
 
                     b.Navigation("UserDetail");
                 });
@@ -807,6 +865,11 @@ namespace GoalFinder.MySqlRelationalDb.Migrations
                 });
 
             modelBuilder.Entity("GoalFinder.Data.Entities.FootballMatch", b =>
+                {
+                    b.Navigation("MatchPlayers");
+                });
+
+            modelBuilder.Entity("GoalFinder.Data.Entities.MatchPlayerJoiningStatus", b =>
                 {
                     b.Navigation("MatchPlayers");
                 });

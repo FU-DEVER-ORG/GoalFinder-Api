@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Shared.Features;
-using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.Enum.GetAllCompetitionLevels;
@@ -26,9 +24,10 @@ internal sealed class GetAllCompetitionLevelsHandler
         CancellationToken ct
     )
     {
-        var CompetitionLevels = await _unitOfWork.GetAllCompetitionLevelsRepository.GetAllCompetitionLevelsQueryAsync(
-            cancellationToken: ct
-        );
+        var CompetitionLevels =
+            await _unitOfWork.GetAllCompetitionLevelsRepository.GetAllCompetitionLevelsQueryAsync(
+                cancellationToken: ct
+            );
 
         return new()
         {
