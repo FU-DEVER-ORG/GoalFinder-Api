@@ -14,10 +14,14 @@ public class MatchPlayer : IBaseEntity
 
     public Guid PlayerId { get; set; }
 
+    public Guid JoiningStatusId { get; set; }
+
     public int NumberOfReports { get; set; }
 
     // Navigation properties.
     public FootballMatch FootballMatch { get; set; }
 
     public UserDetail UserDetail { get; set; }
+
+    public MatchPlayerJoiningStatus MatchPlayerJoiningStatus { get; set; }
 }

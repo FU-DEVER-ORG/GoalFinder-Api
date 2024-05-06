@@ -21,6 +21,7 @@ public sealed class GetUserProfileResponse : IFeatureResponse
 
         public sealed class User
         {
+            public string NickName { get; init; }
             public string LastName { get; init; }
 
             public string FirstName { get; init; }

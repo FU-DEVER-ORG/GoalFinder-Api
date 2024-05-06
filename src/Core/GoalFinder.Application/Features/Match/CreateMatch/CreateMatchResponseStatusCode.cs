@@ -5,7 +5,7 @@
 /// </summary>
 public enum CreateMatchResponseStatusCode
 {
-    USER_ID_IS_NOT_FOUND,   
+    USER_ID_IS_NOT_FOUND,
     USER_IS_TEMPORARILY_REMOVED,
     UN_AUTHORIZED,
     FORBIDDEN,

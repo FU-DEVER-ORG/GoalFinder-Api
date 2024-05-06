@@ -13,11 +13,10 @@ public sealed class GetUserProfileRequestValidator
     {
         ClassLevelCascadeMode = CascadeMode.Stop;
 
-        RuleFor(expression: request => request.UserName)
+        RuleFor(expression: request => request.NickName)
             .Cascade(cascadeMode: CascadeMode.Stop)
             .NotEmpty()
-            .EmailAddress()
-            .MaximumLength(maximumLength: Data.Entities.User.MetaData.UserName.MaxLength)
-            .MinimumLength(minimumLength: Data.Entities.User.MetaData.UserName.MinLength);
+            .MaximumLength(maximumLength: Data.Entities.UserDetail.MetaData.NickName.MaxLength)
+            .MinimumLength(minimumLength: Data.Entities.UserDetail.MetaData.NickName.MinLength);
     }
 }

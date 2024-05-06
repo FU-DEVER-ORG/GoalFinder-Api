@@ -13,6 +13,9 @@ public class FootballMatch : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITempo
     public Guid Id { get; set; }
 
     // Normal columns.
+
+    public string Title { get; set; }
+
     public string PitchAddress { get; set; }
 
     public int MaxMatchPlayersNeed { get; set; }
@@ -58,6 +61,13 @@ public class FootballMatch : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITempo
     public static class MetaData
     {
         public static class PitchAddress
+        {
+            public const int MinLength = 3;
+
+            public const int MaxLength = 100;
+        }
+
+        public static class Title
         {
             public const int MinLength = 3;
 

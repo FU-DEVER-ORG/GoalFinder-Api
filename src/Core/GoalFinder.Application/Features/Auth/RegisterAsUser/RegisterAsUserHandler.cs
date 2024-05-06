@@ -159,13 +159,14 @@ internal sealed class RegisterAsUserHandler
             UpdatedBy = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
             Address = string.Empty,
             CompetitionLevelId = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
+            NickName = string.Empty,
             FirstName = string.Empty,
             LastName = string.Empty,
             Description = string.Empty,
             ExperienceId = CommonConstant.App.DEFAULT_ENTITY_ID_AS_GUID,
             PrestigeScore = 100,
             AvatarUrl = _defaultUserAvatarAsUrlHandler.Get(),
-            BackgroundUrl = string.Empty
+            BackgroundUrl = string.Empty,
         };
     }
 }
