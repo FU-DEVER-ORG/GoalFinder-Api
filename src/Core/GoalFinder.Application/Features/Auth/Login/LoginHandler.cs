@@ -148,7 +148,7 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
         // Generate access token.
         var newAccessToken = _accessTokenHandler.GenerateSigningToken(claims: userClaims);
 
-        var userAvatarUrl = await _unitOfWork.LoginRepository.GetUserAvatarUrlQueryAsync(
+        var userDetail = await _unitOfWork.LoginRepository.GetUserDetailByUserIdQueryAsync(
             userId: foundUser.Id,
             cancellationToken: ct
         );
@@ -160,7 +160,14 @@ internal sealed class LoginHandler : IFeatureHandler<LoginRequest, LoginResponse
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken.RefreshTokenValue,
-                User = new() { Email = foundUser.Email, AvatarUrl = userAvatarUrl }
+                User = new()
+                {
+                    Email = foundUser.Email,
+                    AvatarUrl = userDetail.AvatarUrl,
+                    NickName = userDetail.NickName,
+                    FirstName = userDetail.FirstName,
+                    LastName = userDetail.LastName
+                }
             }
         };
     }

@@ -40,6 +40,15 @@ internal sealed class FootballMatchEntityConfiguration : IEntityTypeConfiguratio
             .Property(propertyExpression: footballMatch => footballMatch.PitchPrice)
             .IsRequired();
 
+        builder
+            .Property(propertyExpression: footballMatch => footballMatch.Title)
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: FootballMatch.MetaData.Title.MaxLength
+                )
+            )
+            .IsRequired();
+
         // Description property configuration.
         builder
             .Property(propertyExpression: footballMatch => footballMatch.Description)

@@ -24,7 +24,7 @@ internal partial class LoginRepository
             .AnyAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<string> GetUserAvatarUrlQueryAsync(
+    public async Task<UserDetail> GetUserDetailByUserIdQueryAsync(
         Guid userId,
         CancellationToken cancellationToken
     )
@@ -32,9 +32,15 @@ internal partial class LoginRepository
         var foundUserDetail = await _userDetails
             .AsNoTracking()
             .Where(predicate: userDetail => userDetail.UserId == userId)
-            .Select(userDetail => new UserDetail { AvatarUrl = userDetail.AvatarUrl })
+            .Select(selector: userDetail => new UserDetail()
+            {
+                AvatarUrl = userDetail.AvatarUrl,
+                NickName = userDetail.NickName,
+                FirstName = userDetail.FirstName,
+                LastName = userDetail.LastName,
+            })
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-        return foundUserDetail.AvatarUrl;
+        return foundUserDetail;
     }
 }

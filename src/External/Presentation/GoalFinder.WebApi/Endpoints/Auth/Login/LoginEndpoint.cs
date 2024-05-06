@@ -46,7 +46,14 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
                     {
                         AccessToken = "string",
                         RefreshToken = "string",
-                        User = new() { Email = "string", AvatarUrl = "string" }
+                        User = new()
+                        {
+                            Email = "string",
+                            AvatarUrl = "string",
+                            NickName = "string",
+                            FirstName = "string",
+                            LastName = "string"
+                        }
                     }
                 }
             );

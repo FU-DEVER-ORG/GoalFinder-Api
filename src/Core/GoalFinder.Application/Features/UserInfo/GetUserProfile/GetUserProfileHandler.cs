@@ -39,8 +39,8 @@ internal sealed class GetUserProfileHandler
     )
     {
         //Find User By username
-        var foundUser = await _unitOfWork.GetUserProfileRepository.GetUserByUsernameQueryAsync(
-            userName: command.UserName,
+        var foundUser = await _unitOfWork.GetUserProfileRepository.GetUserByNickNameQueryAsync(
+            nickName: command.NickName,
             cancellationToken: ct
         );
 
@@ -53,7 +53,7 @@ internal sealed class GetUserProfileHandler
         // Is user temporarily removed.
         var isUserTemporarilyRemoved =
             await _unitOfWork.GetUserProfileRepository.IsUserTemporarilyRemovedQueryAsync(
-                userId: foundUser.Id,
+                userId: foundUser.UserId,
                 cancellationToken: ct
             );
 
@@ -68,13 +68,13 @@ internal sealed class GetUserProfileHandler
 
         //Get user detail.
         var userDetail = await _unitOfWork.GetUserProfileRepository.GetUserDetailAsync(
-            userId: foundUser.Id,
+            userId: foundUser.UserId,
             cancellationToken: ct
         );
 
         //Get matches of user
         var matches = await _unitOfWork.GetUserProfileRepository.GetFootballMatchByIdAsync(
-            userId: foundUser.Id,
+            userId: foundUser.UserId,
             cancellationToken: ct
         );
 
@@ -85,6 +85,7 @@ internal sealed class GetUserProfileHandler
             {
                 UserDetail = new GetUserProfileResponse.Body.User
                 {
+                    NickName = userDetail.NickName,
                     LastName = userDetail.LastName,
                     FirstName = userDetail.FirstName,
                     Description = userDetail.Description,
