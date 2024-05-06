@@ -20,6 +20,15 @@ internal sealed class UserDetailEntityConfiguration : IEntityTypeConfiguration<U
         // Primary key configuration.
         builder.HasKey(keyExpression: userDetail => userDetail.UserId);
 
+        builder
+            .Property(propertyExpression: userDetail => userDetail.NickName)
+            .HasColumnType(
+                typeName: CommonConstant.Database.DataType.VarcharGenerator.Get(
+                    length: UserDetail.MetaData.NickName.MaxLength
+                )
+            )
+            .IsRequired();
+
         // LastName property configuration.
         builder
             .Property(propertyExpression: userDetail => userDetail.LastName)

@@ -7,5 +7,5 @@ namespace GoalFinder.Application.Features.UserInfo.GetUserProfile;
 /// </summary>
 public sealed class GetUserProfileRequest : IFeatureRequest<GetUserProfileResponse>
 {
-    public string UserName { get; init; }
+    public string NickName { get; init; }
 }

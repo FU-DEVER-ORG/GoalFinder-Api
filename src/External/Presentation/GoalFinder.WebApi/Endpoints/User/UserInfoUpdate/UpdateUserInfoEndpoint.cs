@@ -43,7 +43,7 @@ internal sealed class UpdateUserInfoEndpoint
             summary.Description = "This endpoint is used for updating user information purpose.";
             summary.ExampleRequest = new()
             {
-                UserName = "string",
+                NickName = "string",
                 LastName = "string",
                 FirstName = "string",
                 Description = "string",

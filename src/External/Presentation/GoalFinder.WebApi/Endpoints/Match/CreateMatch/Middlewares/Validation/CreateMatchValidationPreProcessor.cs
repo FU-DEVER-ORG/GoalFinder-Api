@@ -57,7 +57,7 @@ internal class CreateMatchValidationPreProcessor
                         arg1: context.Request,
                         arg2: new()
                         {
-                            StatusCode = CreateMatchResponseStatusCode.INPUT_VALIDATION_FAIL
+                            StatusCode = CreateMatchResponseStatusCode.INPUT_VALIDATION_FAIL,
                         }
                     );
             }

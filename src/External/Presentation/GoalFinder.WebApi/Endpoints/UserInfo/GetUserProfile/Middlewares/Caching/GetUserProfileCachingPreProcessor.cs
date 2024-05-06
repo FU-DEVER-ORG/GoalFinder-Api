@@ -33,7 +33,7 @@ internal sealed class GetUserProfileCachingPreProcessor
             return;
         }
 
-        state.CacheKey = $"{nameof(GetUserProfileRequest)}_username_{context.Request.UserName}";
+        state.CacheKey = $"{nameof(GetUserProfileRequest)}_username_{context.Request.NickName}";
 
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 

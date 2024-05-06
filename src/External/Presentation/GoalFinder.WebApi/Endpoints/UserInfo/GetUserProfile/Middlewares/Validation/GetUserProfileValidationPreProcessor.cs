@@ -52,7 +52,7 @@ internal sealed class GetUserProfileValidationPreProcessor
                         arg1: context.Request,
                         arg2: new()
                         {
-                            StatusCode = GetUserProfileResponseStatusCode.INPUT_VALIDATION_FAIL
+                            StatusCode = GetUserProfileResponseStatusCode.INPUT_VALIDATION_FAIL,
                         }
                     );
             }

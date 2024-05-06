@@ -12,8 +12,7 @@ namespace GoalFinder.WebApi.Endpoints.Auth.Login.Middlewares.Caching;
 /// <summary>
 ///     Pre-processor for login caching.
 /// </summary>
-internal sealed class LoginCachingPreProcessor 
-    : PreProcessor<LoginRequest, LoginStateBag>
+internal sealed class LoginCachingPreProcessor : PreProcessor<LoginRequest, LoginStateBag>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
