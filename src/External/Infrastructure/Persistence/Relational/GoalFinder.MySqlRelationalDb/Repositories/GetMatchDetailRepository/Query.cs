@@ -78,6 +78,8 @@ internal sealed partial class GetMatchDetailRepository
                     UserDetail = new UserDetail()
                     {
                         NickName = matchPlayer.UserDetail.NickName,
+                        FirstName = matchPlayer.UserDetail.FirstName,
+                        LastName = matchPlayer.UserDetail.LastName,
                         Address = matchPlayer.UserDetail.Address,
                         BackgroundUrl = matchPlayer.UserDetail.BackgroundUrl,
                         AvatarUrl = matchPlayer.UserDetail.AvatarUrl,
@@ -99,7 +101,7 @@ internal sealed partial class GetMatchDetailRepository
                         User = new User()
                         {
                             PhoneNumber = matchPlayer.UserDetail.User.PhoneNumber,
-                            Email = matchPlayer.UserDetail.User.Email,
+                            UserName = matchPlayer.UserDetail.User.UserName
                         }
                     },
                     MatchPlayerJoiningStatus = new MatchPlayerJoiningStatus()

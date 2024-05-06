@@ -46,6 +46,8 @@ internal sealed partial class GetAllMatchesRepository
                 {
                     FirstName = match.UserDetail.FirstName,
                     LastName = match.UserDetail.LastName,
+                    NickName = match.UserDetail.NickName,
+                    User = new User() { UserName = match.UserDetail.User.UserName, }
                 }
             })
             .ToListAsync(cancellationToken: cancellationToken);
