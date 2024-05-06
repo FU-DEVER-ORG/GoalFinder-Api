@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
 
+/// <summary>
+///     Implementation of IGetMatchDetailRepository
+/// </summary>
 internal sealed partial class GetMatchDetailRepository
 {
     public Task<bool> IsUserTemporarilyRemovedQueryAsync(
@@ -70,43 +73,41 @@ internal sealed partial class GetMatchDetailRepository
                 StartTime = footballMatch.StartTime,
                 EndTime = footballMatch.EndTime,
                 MaxMatchPlayersNeed = footballMatch.MaxMatchPlayersNeed,
-                MatchPlayers = footballMatch
-                    .MatchPlayers.Select(matchPlayer => new MatchPlayer
+                MatchPlayers = footballMatch.MatchPlayers.Select(matchPlayer => new MatchPlayer
+                {
+                    UserDetail = new UserDetail()
                     {
-                        UserDetail = new UserDetail()
+                        NickName = matchPlayer.UserDetail.NickName,
+                        Address = matchPlayer.UserDetail.Address,
+                        BackgroundUrl = matchPlayer.UserDetail.BackgroundUrl,
+                        AvatarUrl = matchPlayer.UserDetail.AvatarUrl,
+                        PrestigeScore = matchPlayer.UserDetail.PrestigeScore,
+                        CompetitionLevel = new CompetitionLevel()
                         {
-                            NickName = matchPlayer.UserDetail.NickName,
-                            Address = matchPlayer.UserDetail.Address,
-                            BackgroundUrl = matchPlayer.UserDetail.BackgroundUrl,
-                            AvatarUrl = matchPlayer.UserDetail.AvatarUrl,
-                            PrestigeScore = matchPlayer.UserDetail.PrestigeScore,
-                            CompetitionLevel = new CompetitionLevel()
+                            FullName = matchPlayer.UserDetail.CompetitionLevel.FullName
+                        },
+                        UserPositions = matchPlayer.UserDetail.UserPositions.Select(
+                            userPosition => new UserPosition
                             {
-                                FullName = matchPlayer.UserDetail.CompetitionLevel.FullName
-                            },
-                            UserPositions = matchPlayer
-                                .UserDetail.UserPositions.Select(userPosition => new UserPosition
-                                {
-                                    Position = new() { FullName = userPosition.Position.FullName }
-                                })
-                                .ToList(),
-                            Experience = new Experience()
-                            {
-                                FullName = matchPlayer.UserDetail.Experience.FullName,
-                            },
-                            User = new User()
-                            {
-                                PhoneNumber = matchPlayer.UserDetail.User.PhoneNumber,
-                                Email = matchPlayer.UserDetail.User.Email,
+                                Position = new() { FullName = userPosition.Position.FullName }
                             }
-                        },
-                        MatchPlayerJoiningStatus = new MatchPlayerJoiningStatus()
+                        ),
+                        Experience = new Experience()
                         {
-                            FullName = matchPlayer.MatchPlayerJoiningStatus.FullName
+                            FullName = matchPlayer.UserDetail.Experience.FullName,
                         },
-                        PlayerId = matchPlayer.PlayerId,
-                    })
-                    .ToList()
+                        User = new User()
+                        {
+                            PhoneNumber = matchPlayer.UserDetail.User.PhoneNumber,
+                            Email = matchPlayer.UserDetail.User.Email,
+                        }
+                    },
+                    MatchPlayerJoiningStatus = new MatchPlayerJoiningStatus()
+                    {
+                        FullName = matchPlayer.MatchPlayerJoiningStatus.FullName
+                    },
+                    PlayerId = matchPlayer.PlayerId,
+                })
             })
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }

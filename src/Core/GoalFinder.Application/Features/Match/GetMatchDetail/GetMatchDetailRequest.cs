@@ -1,5 +1,4 @@
 ﻿using System;
-using FastEndpoints;
 using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.Match.GetMatchDetail;
@@ -12,7 +11,6 @@ public sealed class GetMatchDetailRequest : IFeatureRequest<GetMatchDetailRespon
 {
     private Guid _userId;
 
-    [BindFrom("matchId")]
     public Guid MatchId { get; set; }
 
     public void SetUserId(Guid userId)

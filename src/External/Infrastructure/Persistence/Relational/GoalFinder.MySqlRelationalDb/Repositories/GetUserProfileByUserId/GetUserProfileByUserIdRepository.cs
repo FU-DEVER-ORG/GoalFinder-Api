@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfileByUserId;
 
+/// <summary>
+/// Implementation of <see cref="IGetUserProfileByUserIdRepository"/>
+/// </summary>
 internal sealed partial class GetUserProfileByUserIdRepository : IGetUserProfileByUserIdRepository
 {
     private readonly GoalFinderContext _context;

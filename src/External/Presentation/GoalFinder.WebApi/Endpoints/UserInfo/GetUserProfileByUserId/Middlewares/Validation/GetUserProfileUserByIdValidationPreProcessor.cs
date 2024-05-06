@@ -7,6 +7,10 @@ using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.HttpResponseMa
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.Middlewares.Validation;
 
+/// <summary>
+///     Pre processor for validation
+/// </summary>
+
 internal sealed class GetUserProfileUserByIdValidationPreProcessor
     : PreProcessor<GetUserProfileByUserIdRequest, GetUserProfileByUserIdStateBag>
 {

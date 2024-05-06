@@ -9,6 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.GetUserProfileByUserId;
 
+/// <summary>
+/// Implementation of <see cref="IGetUserProfileByUserIdRepository"/>
+/// </summary>
+
 internal sealed partial class GetUserProfileByUserIdRepository
 {
     public async Task<IEnumerable<FootballMatch>> GetFootballMatchByIdAsync(

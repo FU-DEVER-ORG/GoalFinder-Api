@@ -5,6 +5,9 @@ using GoalFinder.Data.Entities;
 
 namespace GoalFinder.Data.Repositories.GetMatchDetailRepository;
 
+/// <summary>
+///     Interface for IGetMatchDetailRepository
+/// </summary>
 public partial interface IGetMatchDetailRepository
 {
     Task<bool> IsUserTemporarilyRemovedQueryAsync(Guid userId, CancellationToken cancellationToken);

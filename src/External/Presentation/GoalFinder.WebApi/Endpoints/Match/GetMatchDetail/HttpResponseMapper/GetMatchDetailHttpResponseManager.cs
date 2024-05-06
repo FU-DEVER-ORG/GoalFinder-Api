@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetMatchDetail.HttpResponseMapper;
 
+/// <summary>
+///     Get Match Detail Http Response Manager
+/// </summary>
+
 internal sealed class GetMatchDetailHttpResponseManager
 {
     private readonly Dictionary<

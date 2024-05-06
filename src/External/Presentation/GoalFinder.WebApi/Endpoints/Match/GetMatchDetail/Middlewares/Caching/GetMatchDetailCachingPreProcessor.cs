@@ -9,6 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetMatchDetail.Middlewares.Caching;
 
+/// <summary>
+/// Pre-processor for caching
+/// </summary>
+///
 internal sealed class GetMatchDetailCachingPreProcessor
     : PreProcessor<GetMatchDetailRequest, GetMatchDetailStateBag>
 {

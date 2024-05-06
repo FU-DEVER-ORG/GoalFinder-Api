@@ -9,6 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.Middlewares.Caching;
 
+/// <summary>
+///     Pre Processor for Caching
+/// </summary>
+
 internal sealed class GetUserProfileByUserIdCachingPreProcessor
     : PreProcessor<GetUserProfileByUserIdRequest, GetUserProfileByUserIdStateBag>
 {

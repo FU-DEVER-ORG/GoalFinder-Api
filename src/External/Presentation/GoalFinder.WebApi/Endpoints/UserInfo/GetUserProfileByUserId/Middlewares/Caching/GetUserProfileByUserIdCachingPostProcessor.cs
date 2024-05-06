@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.Middlewares.Caching;
 
+/// <summary>
+///     Post Processor for Caching
+/// </summary>
+
 internal sealed class GetUserProfileByUserIdCachingPostProcessor
     : PostProcessor<
         GetUserProfileByUserIdRequest,

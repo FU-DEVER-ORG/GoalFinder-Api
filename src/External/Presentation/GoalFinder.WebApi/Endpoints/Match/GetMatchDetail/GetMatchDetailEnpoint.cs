@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetMatchDetail;
 
+/// <summary>
+///     Endpoint for getting match detail
+/// </summary>
+
 internal sealed class GetMatchDetailEnpoint
     : Endpoint<GetMatchDetailRequest, GetMatchDetailHttpResponse>
 {

@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
 
+/// <summary>
+///     Implementation of IGetMatchDetailRepository
+/// </summary>
+
 internal sealed partial class GetMatchDetailRepository : IGetMatchDetailRepository
 {
     private readonly GoalFinderContext _context;

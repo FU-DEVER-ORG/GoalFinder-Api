@@ -7,6 +7,10 @@ using GoalFinder.WebApi.Endpoints.Match.GetMatchDetail.HttpResponseMapper;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetMatchDetail.Middlewares.Validation;
 
+/// <summary>
+/// PreProcessor for validation
+/// </summary>
+
 internal sealed class GetMatchDetailValidationPreProcessor
     : PreProcessor<GetMatchDetailRequest, GetMatchDetailStateBag>
 {

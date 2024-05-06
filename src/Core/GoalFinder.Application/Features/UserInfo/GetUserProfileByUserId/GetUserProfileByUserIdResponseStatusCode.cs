@@ -1,5 +1,8 @@
 ﻿namespace GoalFinder.Application.Features.UserInfo.GetUserProfileByUserId;
 
+/// <summary>
+/// Get User Profile By User Id Enum
+/// </summary>
 public enum GetUserProfileByUserIdResponseStatusCode
 {
     USER_IS_NOT_FOUND,

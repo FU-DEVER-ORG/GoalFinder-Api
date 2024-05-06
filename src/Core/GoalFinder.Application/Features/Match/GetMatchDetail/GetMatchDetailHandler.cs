@@ -7,6 +7,10 @@ using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.Match.GetMatchDetail;
 
+/// <summary>
+///     Get Match Detail Handler
+/// </summary>
+
 internal sealed class GetMatchDetailHandler
     : IFeatureHandler<GetMatchDetailRequest, GetMatchDetailResponse>
 {
@@ -28,6 +32,7 @@ internal sealed class GetMatchDetailHandler
                 matchId: command.MatchId,
                 cancellationToken: ct
             );
+
         //  if not found
         if (Equals(objA: footballMatchInfo, objB: default))
         {
@@ -101,11 +106,9 @@ internal sealed class GetMatchDetailHandler
                             || string.IsNullOrEmpty(matchPlayer.UserDetail.LastName)
                                 ? matchPlayer.UserDetail.NickName
                                 : $"{matchPlayer.UserDetail.FirstName} {matchPlayer.UserDetail.LastName}",
-                        UserPosition = matchPlayer
-                            .UserDetail.UserPositions.Select(selector: userPosition =>
-                                userPosition?.Position?.FullName
-                            )
-                            .ToList(),
+                        UserPosition = matchPlayer.UserDetail.UserPositions.Select(
+                            selector: userPosition => userPosition?.Position?.FullName
+                        ),
                     }),
                 CurrentPendingUser =
                     (footballMatchInfo.HostId == command.GetUserId())
@@ -130,11 +133,9 @@ internal sealed class GetMatchDetailHandler
                                         || string.IsNullOrEmpty(matchPlayer.UserDetail.LastName)
                                             ? matchPlayer.UserDetail.NickName
                                             : $"{matchPlayer.UserDetail.FirstName} {matchPlayer.UserDetail.LastName}",
-                                    UserPosition = matchPlayer
-                                        .UserDetail.UserPositions.Select(selector: userPosition =>
-                                            userPosition?.Position?.FullName
-                                        )
-                                        .ToList(),
+                                    UserPosition = matchPlayer.UserDetail.UserPositions.Select(
+                                        selector: userPosition => userPosition?.Position?.FullName
+                                    ),
                                 }
                             )
                         : [],
@@ -161,11 +162,9 @@ internal sealed class GetMatchDetailHandler
                                         || string.IsNullOrEmpty(matchPlayer.UserDetail.LastName)
                                             ? matchPlayer.UserDetail.NickName
                                             : $"{matchPlayer.UserDetail.FirstName} {matchPlayer.UserDetail.LastName}",
-                                    UserPosition = matchPlayer
-                                        .UserDetail.UserPositions.Select(selector: userPosition =>
-                                            userPosition?.Position?.FullName
-                                        )
-                                        .ToList(),
+                                    UserPosition = matchPlayer.UserDetail.UserPositions.Select(
+                                        selector: userPosition => userPosition?.Position?.FullName
+                                    ),
                                 }
                             )
                         : []

@@ -5,6 +5,10 @@ using GoalFinder.Application.Features.Match.GetMatchDetail;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetMatchDetail.HttpResponseMapper;
 
+/// <summary>
+///     Get Match Detail Http Response
+/// </summary>
+
 internal sealed class GetMatchDetailHttpResponse
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

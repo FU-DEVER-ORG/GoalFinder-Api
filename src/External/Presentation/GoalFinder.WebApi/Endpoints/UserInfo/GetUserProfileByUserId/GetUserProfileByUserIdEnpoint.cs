@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId;
 
+/// <summary>
+///     Get user profile by user id endpoint.
+/// </summary>
+
 internal sealed class GetUserProfileByUserIdEnpoint
     : Endpoint<GetUserProfileByUserIdRequest, GetUserProfileByUserIdHttpResponse>
 {

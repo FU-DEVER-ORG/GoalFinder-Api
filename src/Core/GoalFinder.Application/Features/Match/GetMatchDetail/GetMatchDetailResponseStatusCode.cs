@@ -1,5 +1,9 @@
 ﻿namespace GoalFinder.Application.Features.Match.GetMatchDetail;
 
+/// <summary>
+///     Get Match Detail Response Status Code Enum
+/// </summary>
+
 public enum GetMatchDetailResponseStatusCode
 {
     OPERATION_SUCCESS,

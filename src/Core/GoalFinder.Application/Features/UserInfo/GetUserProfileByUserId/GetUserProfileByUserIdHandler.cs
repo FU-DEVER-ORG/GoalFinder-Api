@@ -6,6 +6,10 @@ using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.UserInfo.GetUserProfileByUserId;
 
+/// <summary>
+/// Get User Profile By User Id
+/// </summary>
+
 internal class GetUserProfileByUserIdHandler
     : IFeatureHandler<GetUserProfileByUserIdRequest, GetUserProfileByUserIdResponse>
 {

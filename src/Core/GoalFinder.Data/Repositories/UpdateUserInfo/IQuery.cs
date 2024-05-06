@@ -6,6 +6,10 @@ using GoalFinder.Data.Entities;
 
 namespace GoalFinder.Data.Repositories.UpdateUserInfo;
 
+/// <summary>
+///     Repository interface for the update user info feature.
+/// </summary>
+
 public partial interface IUpdateUserInfoRepository
 {
     Task<bool> IsNickNameAlreadyTakenQueryAsync(

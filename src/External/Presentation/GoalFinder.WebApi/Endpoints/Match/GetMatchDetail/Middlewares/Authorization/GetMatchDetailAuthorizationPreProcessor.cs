@@ -14,6 +14,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GoalFinder.WebApi.Endpoints.Match.GetMatchDetail.Middlewares.Authorization;
 
+/// <summary>
+/// Pre processor for authorization.
+/// </summary>
+
 internal sealed class GetMatchDetailAuthorizationPreProcessor
     : PreProcessor<GetMatchDetailRequest, GetMatchDetailStateBag>
 {
