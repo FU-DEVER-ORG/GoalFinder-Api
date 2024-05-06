@@ -11,7 +11,7 @@ public sealed class UpdateUserInfoRequest : IFeatureRequest<UpdateUserInfoRespon
 {
     private Guid _userId;
 
-    public string UserName { get; init; }
+    public string NickName { get; init; }
 
     public string LastName { get; init; }
 

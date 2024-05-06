@@ -13,11 +13,11 @@ public sealed class UpdateUserInfoRequestValidator
     {
         ClassLevelCascadeMode = CascadeMode.Stop;
 
-        RuleFor(expression: request => request.UserName)
+        RuleFor(expression: request => request.NickName)
             .Cascade(cascadeMode: CascadeMode.Stop)
             .NotEmpty()
-            .MaximumLength(maximumLength: Data.Entities.User.MetaData.UserName.MaxLength)
-            .MinimumLength(minimumLength: Data.Entities.User.MetaData.UserName.MinLength);
+            .MaximumLength(maximumLength: Data.Entities.UserDetail.MetaData.NickName.MaxLength)
+            .MinimumLength(minimumLength: Data.Entities.UserDetail.MetaData.NickName.MinLength);
 
         RuleFor(expression: request => request.FirstName)
             .Cascade(cascadeMode: CascadeMode.Stop)

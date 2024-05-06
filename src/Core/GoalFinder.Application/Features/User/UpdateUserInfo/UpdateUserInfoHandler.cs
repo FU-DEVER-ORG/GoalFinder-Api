@@ -84,9 +84,9 @@ internal sealed class UpdateUserInfoHandler
 
         // Is username already taken by other user.
         var isUsernameAlreadyTaken =
-            await _unitOfWork.UpdateUserInfoRepository.IsUserNameAlreadyTakenQueryAsync(
+            await _unitOfWork.UpdateUserInfoRepository.IsNickNameAlreadyTakenQueryAsync(
                 currentUserId: command.GetUserId(),
-                userName: command.UserName,
+                nickName: command.NickName,
                 cancellationToken: ct
             );
 
@@ -127,7 +127,7 @@ internal sealed class UpdateUserInfoHandler
     {
         UserDetail newUpdateUser = new() { UserId = command.GetUserId(), User = new() };
 
-        newUpdateUser.User.UserName = command.UserName;
+        newUpdateUser.NickName = command.NickName;
         newUpdateUser.FirstName = command.FirstName;
         newUpdateUser.LastName = command.LastName;
         newUpdateUser.Description = command.Description;

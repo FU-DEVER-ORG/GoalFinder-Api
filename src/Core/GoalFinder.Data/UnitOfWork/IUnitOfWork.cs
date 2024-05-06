@@ -1,9 +1,14 @@
 ﻿using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
+using GoalFinder.Data.Repositories.GetAllCompetitionLevels;
+using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetAllPositions;
+using GoalFinder.Data.Repositories.GetMatchDetailRepository;
 using GoalFinder.Data.Repositories.GetAllReports;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
+using GoalFinder.Data.Repositories.GetUserProfileByUserId;
 using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
@@ -74,6 +79,30 @@ public interface IUnitOfWork
     ///     Gets the create new match repository
     /// </summary>
     ICreateMatchRepository CreateMatchRepository { get; }
+
+    /// <summary>
+    ///     Gets all positions repository
+    /// </summary>
+    IGetAllPositionsRepository GetAllPositionsRepository { get; }
+
+    /// <summary>
+    ///     Gets all competitionLevels repository
+    /// </summary>
+    IGetAllCompetitionLevelsRepository GetAllCompetitionLevelsRepository { get; }
+
+    /// <summary>
+    ///     Gets all experiences repository
+    /// </summary>
+    IGetAllExperiencesRepository GetAllExperiencesRepository { get; }
+
+    ///     Gets the get match detail repository
+    /// </summary>
+    IGetMatchDetailRepository GetMatchDetailRepository { get; }
+
+    /// <summary>
+    ///     Gets the get user profile by user id repository
+    /// </summary>
+    IGetUserProfileByUserIdRepository GetUserProfileByUserIdRepository { get; }
 
     /// <summary>
     ///     Gets the get user info on sidebar repository

@@ -27,6 +27,8 @@ public sealed class GetAllMatchesResponse : IFeatureResponse
 
             public decimal PitchPrice { get; init; }
 
+            public string Title { get; init; }
+
             public string Description { get; init; }
 
             public int MinPrestigeScore { get; init; }

@@ -13,6 +13,9 @@ public class UserDetail : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITemporar
     public Guid UserId { get; set; }
 
     // Normal columns.
+
+    public string NickName { get; set; }
+
     public string LastName { get; set; }
 
     public string FirstName { get; set; }
@@ -62,6 +65,13 @@ public class UserDetail : IBaseEntity, ICreatedEntity, IUpdatedEntity, ITemporar
     // Additional information of this table.
     public static class MetaData
     {
+        public static class NickName
+        {
+            public const int MinLength = 2;
+
+            public const int MaxLength = 30;
+        }
+
         public static class LastName
         {
             public const int MinLength = 2;

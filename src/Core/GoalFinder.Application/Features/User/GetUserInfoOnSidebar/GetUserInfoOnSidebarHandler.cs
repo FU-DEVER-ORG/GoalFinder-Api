@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Shared.Features;
+using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.User.GetUserInfoOnSidebar;
@@ -66,12 +67,29 @@ internal sealed class GetUserInfoOnSidebarHandler
             StatusCode = GetUserInfoOnSidebarResponseStatusCode.OPERATION_SUCCESS,
             Body = new()
             {
-                UserName = userDetail.User.UserName,
+                UserName = ToUserName(userDetail),
                 PrestigeScore = userDetail.PrestigeScore,
                 Area = addressTokens.Equals(obj: Array.Empty<string>())
                     ? string.Empty
                     : addressTokens[0],
             }
         };
+    }
+
+    private string ToUserName(UserDetail userDetail)
+    {
+        if (
+            !string.IsNullOrEmpty(userDetail.FirstName)
+            || !string.IsNullOrEmpty(userDetail.LastName)
+        )
+        {
+            return $"{userDetail.FirstName} {userDetail.LastName}";
+        }
+        else if (!string.IsNullOrEmpty(userDetail.NickName))
+        {
+            return userDetail.NickName;
+        }
+
+        return userDetail.User.UserName;
     }
 }

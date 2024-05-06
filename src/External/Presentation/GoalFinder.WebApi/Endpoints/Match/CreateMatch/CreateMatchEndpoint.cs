@@ -45,6 +45,7 @@ internal sealed class CreateMatchEndpoint : Endpoint<CreateMatchRequest, CreateM
                 PitchAddress = "string",
                 MaxMatchPlayersNeed = default,
                 PitchPrice = default,
+                Title = "string",
                 Description = "string",
                 MinPrestigeScore = default,
                 Address = "string",
