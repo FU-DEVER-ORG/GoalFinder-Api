@@ -29,19 +29,23 @@ internal sealed class GetReportNotificationCachingPostProcessor
         CancellationToken ct
     )
     {
+        if (Equals(objA: context.Response, objB: default))
+        {
+            return;
+        }
+
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
+        // Set new cache if current app code is suitable.
         if (
             context.Response.AppCode.Equals(
-                value: GetReportNotificationResponseStatusCode.NO_NOTIFICATION_EXITS.ToAppCode()
-            )
-            || context.Response.AppCode.Equals(
                 value: GetReportNotificationResponseStatusCode.OPERATION_SUCCESS.ToAppCode()
             )
         )
         {
+            // Caching the return value.
             await cacheHandler.SetAsync(
                 key: state.CacheKey,
                 value: context.Response,

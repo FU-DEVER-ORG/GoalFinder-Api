@@ -1,12 +1,12 @@
-﻿using GoalFinder.Application.Shared.Features;
-using System;
+﻿using System;
+using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.Notification.GetReportNotification;
 
 /// <summary>
 ///     Get Report Notification Request
 /// </summary>
-public sealed class GetReportNotificationRequest : IFeatureRequest<GetReportNotificationResponse> 
+public sealed class GetReportNotificationRequest : IFeatureRequest<GetReportNotificationResponse>
 {
     private Guid _userId;
 

@@ -12,7 +12,11 @@ internal sealed class GetReportNotificationHttpResponseManager
 {
     private readonly Dictionary<
         GetReportNotificationResponseStatusCode,
-        Func<GetReportNotificationRequest, GetReportNotificationResponse, GetReportNotificationHttpResponse>
+        Func<
+            GetReportNotificationRequest,
+            GetReportNotificationResponse,
+            GetReportNotificationHttpResponse
+        >
     > _dictionary;
 
     internal GetReportNotificationHttpResponseManager()
@@ -41,9 +45,11 @@ internal sealed class GetReportNotificationHttpResponseManager
         );
     }
 
-    internal Func<GetReportNotificationRequest, GetReportNotificationResponse, GetReportNotificationHttpResponse> Resolve(
-        GetReportNotificationResponseStatusCode statusCode
-    )
+    internal Func<
+        GetReportNotificationRequest,
+        GetReportNotificationResponse,
+        GetReportNotificationHttpResponse
+    > Resolve(GetReportNotificationResponseStatusCode statusCode)
     {
         return _dictionary[statusCode];
     }

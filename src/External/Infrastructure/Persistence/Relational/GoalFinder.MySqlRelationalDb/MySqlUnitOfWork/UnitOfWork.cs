@@ -1,6 +1,7 @@
 ﻿using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetMatchDetailRepository;
 using GoalFinder.Data.Repositories.GetReportNotification;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
@@ -17,6 +18,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.CreateMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
+using GoalFinder.MySqlRelationalDb.Repositories.GetReportNotification;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfileByUserId;
@@ -26,7 +28,6 @@ using GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
 using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 using GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
-using GoalFinder.MySqlRelationalDb.Repositories.GetReportNotification;
 
 namespace GoalFinder.MySqlRelationalDb.MySqlUnitOfWork;
 
@@ -51,6 +52,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetUserProfileByUserIdRepository _getUserProfileByUserIdRepository;
 
     private IGetReportNotificationRepository _getReportNotificationRepository;
+
     public UnitOfWork(GoalFinderContext context)
     {
         _context = context;
@@ -190,7 +192,9 @@ internal sealed class UnitOfWork : IUnitOfWork
     {
         get
         {
-            _getReportNotificationRepository ??= new GetReportNotificationRepository(context: _context);
+            _getReportNotificationRepository ??= new GetReportNotificationRepository(
+                context: _context
+            );
 
             return _getReportNotificationRepository;
         }

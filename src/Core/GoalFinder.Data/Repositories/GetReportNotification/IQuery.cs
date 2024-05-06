@@ -11,7 +11,9 @@ namespace GoalFinder.Data.Repositories.GetReportNotification;
 /// </summary>
 public partial interface IGetReportNotificationRepository
 {
-    Task<IEnumerable<FootballMatch>> GetMatchesWitUpperBlockTimeByUserId(
+    Task<
+        IEnumerable<(MatchPlayer Player, FootballMatch Match)>
+    > GetAllNotificationReportWithUpperBlockTimeByUserId(
         DateTime currenTime,
         Guid userID,
         CancellationToken cancellationToken

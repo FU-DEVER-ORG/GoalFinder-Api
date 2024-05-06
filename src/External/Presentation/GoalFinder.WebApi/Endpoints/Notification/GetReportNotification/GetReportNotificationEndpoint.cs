@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using GoalFinder.Application.Features.Notification.GetReportNotification;
-using GoalFinder.WebApi.Endpoints.Notification.GetReportNotification.Middlewares.Caching;
 using GoalFinder.WebApi.Endpoints.Notification.GetReportNotification.HttpResponseMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Security.Claims;
-using Microsoft.IdentityModel.JsonWebTokens;
 using GoalFinder.WebApi.Endpoints.Notification.GetReportNotification.Middlewares.Authorization;
+using GoalFinder.WebApi.Endpoints.Notification.GetReportNotification.Middlewares.Caching;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace GoalFinder.WebApi.Endpoints.Notification.GetReportNotification;
 

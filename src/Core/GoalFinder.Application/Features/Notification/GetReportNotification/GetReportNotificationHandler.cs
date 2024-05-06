@@ -39,16 +39,20 @@ internal sealed class GetReportNotificationHandler
         CancellationToken ct
     )
     {
-        //Get all football matches with upper block time 
-        var matches = await _unitOfWork.GetReportNotificationRepository.GetMatchesWitUpperBlockTimeByUserId(
-            userID : command.GetUserId(),
-            currenTime: DateTime.UtcNow,
-            cancellationToken: ct
-        );
+        //Get all notification report with upper block time
+        var notificationReports =
+            await _unitOfWork.GetReportNotificationRepository.GetAllNotificationReportWithUpperBlockTimeByUserId(
+                userID: command.GetUserId(),
+                currenTime: DateTime.UtcNow,
+                cancellationToken: ct
+            );
 
-        if (!matches.Any())
+        if (!notificationReports.Any())
         {
-            return new() { StatusCode = GetReportNotificationResponseStatusCode.NO_NOTIFICATION_EXITS};
+            return new()
+            {
+                StatusCode = GetReportNotificationResponseStatusCode.NO_NOTIFICATION_EXITS
+            };
         }
 
         return new()
@@ -56,12 +60,12 @@ internal sealed class GetReportNotificationHandler
             StatusCode = GetReportNotificationResponseStatusCode.OPERATION_SUCCESS,
             ResponseBody = new()
             {
-                ReportNotifications = matches.Select(
-                    matches => new GetReportNotificationResponse.Body.ReportNotification
+                ReportNotifications = notificationReports.Select(
+                    notificationReports => new GetReportNotificationResponse.Body.ReportNotification
                     {
-                        EndTimeToReport = matches.EndTime.AddDays(1),
-                        MatchId = matches.Id,
-                        IsReported = false,
+                        EndTimeToReport = notificationReports.Match.EndTime.AddDays(1),
+                        MatchId = notificationReports.Match.Id,
+                        IsReported = notificationReports.Player.IsReported,
                     }
                 )
             }
