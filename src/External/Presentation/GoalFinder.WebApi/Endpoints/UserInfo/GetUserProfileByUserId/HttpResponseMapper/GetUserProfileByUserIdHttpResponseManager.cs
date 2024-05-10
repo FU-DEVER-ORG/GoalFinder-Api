@@ -36,16 +36,6 @@ internal sealed class GetUserProfileByUserIdHttpResponseManager
         );
 
         _dictionary.Add(
-            key: GetUserProfileByUserIdResponseStatusCode.INPUT_VALIDATION_FAIL,
-            value: (_, response) =>
-                new()
-                {
-                    HttpCode = StatusCodes.Status400BadRequest,
-                    AppCode = response.StatusCode.ToAppCode()
-                }
-        );
-
-        _dictionary.Add(
             key: GetUserProfileByUserIdResponseStatusCode.OPERATION_SUCCESS,
             value: (_, response) =>
                 new()
@@ -62,16 +52,6 @@ internal sealed class GetUserProfileByUserIdHttpResponseManager
                 new()
                 {
                     HttpCode = StatusCodes.Status404NotFound,
-                    AppCode = response.StatusCode.ToAppCode()
-                }
-        );
-
-        _dictionary.Add(
-            key: GetUserProfileByUserIdResponseStatusCode.INPUT_NOT_UNDERSTANDABLE,
-            value: (_, response) =>
-                new()
-                {
-                    HttpCode = StatusCodes.Status400BadRequest,
                     AppCode = response.StatusCode.ToAppCode()
                 }
         );

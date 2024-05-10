@@ -68,10 +68,7 @@ internal sealed class RefreshAccessTokenHandler
         // Checking expired or not
         if (foundRefreshToken.ExpiredDate < DateTime.UtcNow)
         {
-            return new()
-            {
-                StatusCode = RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_EXPIRED
-            };
+            return new() { StatusCode = RefreshAccessTokenResponseStatusCode.REQUIRE_LOGIN_AGAIN };
         }
 
         // New access token id.

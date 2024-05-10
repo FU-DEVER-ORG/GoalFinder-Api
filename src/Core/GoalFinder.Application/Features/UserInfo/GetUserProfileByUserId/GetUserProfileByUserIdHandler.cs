@@ -26,13 +26,14 @@ internal class GetUserProfileByUserIdHandler
     )
     {
         //Find User By username
-        var foundUser = await _unitOfWork.GetUserProfileByUserIdRepository.GetUserByIdQueryAsync(
-            userId: command.Id,
-            cancellationToken: ct
-        );
+        var isUserFound =
+            await _unitOfWork.GetUserProfileByUserIdRepository.IsUserFoundByUserIdQueryAsync(
+                userId: command.Id,
+                cancellationToken: ct
+            );
 
         //Validate User
-        if (Equals(objA: foundUser, objB: default))
+        if (!isUserFound)
         {
             return new()
             {
@@ -43,7 +44,7 @@ internal class GetUserProfileByUserIdHandler
         // Is user temporarily removed.
         var isUserTemporarilyRemoved =
             await _unitOfWork.GetUserProfileByUserIdRepository.IsUserTemporarilyRemovedQueryAsync(
-                userId: foundUser.Id,
+                userId: command.Id,
                 cancellationToken: ct
             );
 
@@ -58,13 +59,13 @@ internal class GetUserProfileByUserIdHandler
 
         //Get user detail.
         var userDetail = await _unitOfWork.GetUserProfileByUserIdRepository.GetUserDetailAsync(
-            userId: foundUser.Id,
+            userId: command.Id,
             cancellationToken: ct
         );
 
         //Get matches of user
         var matches = await _unitOfWork.GetUserProfileByUserIdRepository.GetFootballMatchByIdAsync(
-            userId: foundUser.Id,
+            userId: command.Id,
             cancellationToken: ct
         );
 
@@ -98,7 +99,7 @@ internal class GetUserProfileByUserIdHandler
                         Description = match.Description,
                         StartTime = match.StartTime.ToString(),
                         Address = match.Address,
-                        CompetitionLevel = match.CompetitionLevel?.FullName
+                        CompetitionLevel = match.CompetitionLevel.FullName
                     }
                 )
             }

@@ -48,7 +48,7 @@ internal sealed class RefreshAccessTokenCachingPostProcessor
                 value: RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_NOT_FOUND.ToAppCode()
             )
             || context.Response.AppCode.Equals(
-                value: RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_EXPIRED.ToAppCode()
+                value: RefreshAccessTokenResponseStatusCode.REQUIRE_LOGIN_AGAIN.ToAppCode()
             )
         )
         {

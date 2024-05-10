@@ -37,12 +37,15 @@ internal sealed partial class GetUserProfileByUserIdRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public Task<User> GetUserByIdQueryAsync(Guid userId, CancellationToken cancellationToken)
+    public Task<bool> IsUserFoundByUserIdQueryAsync(
+        Guid userId,
+        CancellationToken cancellationToken
+    )
     {
-        return _users
-            .Where(user => user.Id.Equals(userId))
-            .Select(user => new User { Id = user.Id })
-            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        return _users.AnyAsync(
+            predicate: user => user.Id == userId,
+            cancellationToken: cancellationToken
+        );
     }
 
     public Task<UserDetail> GetUserDetailAsync(Guid userId, CancellationToken cancellationToken)

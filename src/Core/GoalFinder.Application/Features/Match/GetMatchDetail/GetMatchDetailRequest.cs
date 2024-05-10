@@ -9,6 +9,8 @@ namespace GoalFinder.Application.Features.Match.GetMatchDetail;
 
 public sealed class GetMatchDetailRequest : IFeatureRequest<GetMatchDetailResponse>
 {
+    public Guid UserId { get; set; }
+
     private Guid _userId;
 
     public Guid MatchId { get; set; }

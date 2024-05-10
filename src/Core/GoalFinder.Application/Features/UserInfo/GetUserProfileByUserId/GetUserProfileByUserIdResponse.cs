@@ -22,6 +22,7 @@ public sealed class GetUserProfileByUserIdResponse : IFeatureResponse
         public sealed class User
         {
             public string NickName { get; init; }
+
             public string LastName { get; init; }
 
             public string FirstName { get; init; }
@@ -55,7 +56,7 @@ public sealed class GetUserProfileByUserIdResponse : IFeatureResponse
 
             public string StartTime { get; init; }
 
-            public string Address { get; set; }
+            public string Address { get; init; }
 
             public string CompetitionLevel { get; init; }
         }

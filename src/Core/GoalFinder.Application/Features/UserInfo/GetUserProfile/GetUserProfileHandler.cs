@@ -108,7 +108,7 @@ internal sealed class GetUserProfileHandler
                         Description = match.Description,
                         StartTime = match.StartTime.ToString(),
                         Address = match.Address,
-                        CompetitionLevel = match.CompetitionLevel?.FullName
+                        CompetitionLevel = match.CompetitionLevel.FullName
                     }
                 )
             }

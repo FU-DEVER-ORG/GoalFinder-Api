@@ -59,15 +59,21 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
             return new() { StatusCode = CreateMatchResponseStatusCode.INPUT_VALIDATION_FAIL };
         }
 
-        // Is user found
+        // Get detail of user
         var userDetail = await _unitOfWork.CreateMatchRepository.GetUserDetailByUserIdQueryAsync(
             userId: command.GetHostId(),
             cancellationToken: ct
         );
 
+        // Check the user's prestige always less than or equal with match's min prestige
+        if (userDetail.PrestigeScore < command.MinPrestigeScore)
+        {
+            return new() { StatusCode = CreateMatchResponseStatusCode.PRESTIGE_IS_NOT_ENOUGH };
+        }
+
         // Has the user created match in this day
         var isUserCreatedMatchToday =
-            await _unitOfWork.CreateMatchRepository.IsUserCreatedMatchThisDayQueryAsync(
+            await _unitOfWork.CreateMatchRepository.HasUserCreatedMatchThisDayQueryAsync(
                 userId: command.GetHostId(),
                 startTime: command.StartTime,
                 cancellationToken: ct
@@ -76,12 +82,6 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
         if (isUserCreatedMatchToday)
         {
             return new() { StatusCode = CreateMatchResponseStatusCode.LIMIT_ONE_MATCH_PER_DAY };
-        }
-
-        // Check the user's prestige always less than or equal with match's min prestige
-        if (userDetail.PrestigeScore < command.MinPrestigeScore)
-        {
-            return new() { StatusCode = CreateMatchResponseStatusCode.PRESTIGE_IS_NOT_ENOUGH };
         }
 
         var footballMatch = InitNewFootballMatch(createMatchRequest: command);
@@ -101,7 +101,7 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
         return new() { StatusCode = CreateMatchResponseStatusCode.OPERATION_SUCCESS };
     }
 
-    private FootballMatch InitNewFootballMatch(CreateMatchRequest createMatchRequest)
+    private static FootballMatch InitNewFootballMatch(CreateMatchRequest createMatchRequest)
     {
         FootballMatch footballMatch =
             new()
@@ -129,7 +129,7 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
         return footballMatch;
     }
 
-    private MatchPlayer InitNewMatchPlayer(Guid matchId, Guid userId)
+    private static MatchPlayer InitNewMatchPlayer(Guid matchId, Guid userId)
     {
         return new()
         {
@@ -140,7 +140,7 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
         };
     }
 
-    private bool IsNotValidStartTime(DateTime startTime)
+    private static bool IsNotValidStartTime(DateTime startTime)
     {
         return (startTime - DateTime.UtcNow).TotalMinutes < 90;
     }

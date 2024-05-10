@@ -1,5 +1,4 @@
-﻿using System;
-using GoalFinder.Application.Shared.Features;
+﻿using GoalFinder.Application.Shared.Features;
 
 namespace GoalFinder.Application.Features.Enum.GetAllExperiences;
 

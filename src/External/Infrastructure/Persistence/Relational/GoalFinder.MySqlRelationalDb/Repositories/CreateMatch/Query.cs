@@ -24,19 +24,17 @@ internal sealed partial class CreateMatchRepository
         );
     }
 
-    public Task<bool> IsUserCreatedMatchThisDayQueryAsync(
+    public Task<bool> HasUserCreatedMatchThisDayQueryAsync(
         Guid userId,
         DateTime startTime,
         CancellationToken cancellationToken
     )
     {
-        return _userDetails
-            .Where(userDetail => userDetail.UserId == userId)
-            .SelectMany(userDetail => userDetail.FootballMatches)
-            .AnyAsync(
-                footballMatch => footballMatch.StartTime.Date.Equals(startTime.Date),
-                cancellationToken
-            );
+        return _footballMatches.AnyAsync(
+            footballMatch =>
+                footballMatch.HostId == userId && footballMatch.StartTime.Date == startTime.Date,
+            cancellationToken
+        );
     }
 
     public Task<UserDetail> GetUserDetailByUserIdQueryAsync(
@@ -45,8 +43,9 @@ internal sealed partial class CreateMatchRepository
     )
     {
         return _userDetails
+            .AsNoTracking()
             .Where(predicate: userDetail => userDetail.UserId == userId)
-            .Select(userDetail => new UserDetail { PrestigeScore = userDetail.PrestigeScore, })
+            .Select(userDetail => new UserDetail { PrestigeScore = userDetail.PrestigeScore })
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 

@@ -13,9 +13,9 @@ public sealed class GetMatchDetailRequestValidator
     public GetMatchDetailRequestValidator()
     {
         ClassLevelCascadeMode = CascadeMode.Stop;
+
         RuleFor(expression: request => request.MatchId)
             .Cascade(cascadeMode: CascadeMode.Stop)
-            .NotNull()
             .NotEmpty();
     }
 }

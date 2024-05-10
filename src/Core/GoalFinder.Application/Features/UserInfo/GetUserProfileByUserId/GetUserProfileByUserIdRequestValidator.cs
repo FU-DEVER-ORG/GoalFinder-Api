@@ -16,7 +16,6 @@ public sealed class GetUserProfileByUserIdRequestValidator
 
         RuleFor(expression: request => request.Id)
             .Cascade(cascadeMode: CascadeMode.Stop)
-            .NotEmpty()
-            .NotNull();
+            .NotEmpty();
     }
 }

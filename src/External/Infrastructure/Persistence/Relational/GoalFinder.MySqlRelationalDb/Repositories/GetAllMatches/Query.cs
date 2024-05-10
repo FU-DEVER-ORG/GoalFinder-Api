@@ -25,7 +25,7 @@ internal sealed partial class GetAllMatchesRepository
                 && match.RemovedAt == DateTime.MinValue
             )
             .OrderBy(keySelector: match => match.CreatedAt)
-            .Select(match => new FootballMatch()
+            .Select(match => new FootballMatch
             {
                 Id = match.Id,
                 PitchAddress = match.PitchAddress,
@@ -36,18 +36,15 @@ internal sealed partial class GetAllMatchesRepository
                 MinPrestigeScore = match.MinPrestigeScore,
                 StartTime = match.StartTime,
                 Address = match.Address,
-                CompetitionLevel = new CompetitionLevel
-                {
-                    FullName = match.CompetitionLevel.FullName,
-                },
+                CompetitionLevel = new() { FullName = match.CompetitionLevel.FullName, },
                 CreatedAt = match.CreatedAt,
                 HostId = match.HostId,
-                UserDetail = new UserDetail
+                UserDetail = new()
                 {
                     FirstName = match.UserDetail.FirstName,
                     LastName = match.UserDetail.LastName,
                     NickName = match.UserDetail.NickName,
-                    User = new User() { UserName = match.UserDetail.User.UserName, }
+                    User = new() { UserName = match.UserDetail.User.UserName, }
                 }
             })
             .ToListAsync(cancellationToken: cancellationToken);
