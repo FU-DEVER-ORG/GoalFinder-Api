@@ -46,6 +46,7 @@ internal sealed class GetUserProfileEndpoint
                             Description = "string",
                             PrestigeScore = default,
                             Address = "string",
+                            BackgroundUrl = "https://example.com/background.png",
                             AvatarUrl = "https://example.com/avatar.png",
                             Experience = "string",
                             CompetitionLevel = "string",

@@ -82,6 +82,7 @@ internal class GetUserProfileByUserIdHandler
                     Description = userDetail.Description,
                     PrestigeScore = userDetail.PrestigeScore,
                     Address = userDetail.Address,
+                    BackgroundUrl = userDetail.BackgroundUrl,
                     AvatarUrl = userDetail.AvatarUrl,
                     Experience = userDetail.Experience.FullName,
                     CompetitionLevel = userDetail.CompetitionLevel.FullName,

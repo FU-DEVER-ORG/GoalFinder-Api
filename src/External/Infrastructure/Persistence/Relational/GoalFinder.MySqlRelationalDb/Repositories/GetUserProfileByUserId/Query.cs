@@ -60,6 +60,7 @@ internal sealed partial class GetUserProfileByUserIdRepository
                 LastName = userDetail.LastName,
                 Description = userDetail.Description,
                 PrestigeScore = userDetail.PrestigeScore,
+                BackgroundUrl = userDetail.BackgroundUrl,
                 Address = userDetail.Address,
                 AvatarUrl = userDetail.AvatarUrl,
                 Experience = new() { FullName = userDetail.Experience.FullName, },

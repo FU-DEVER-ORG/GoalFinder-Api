@@ -33,6 +33,8 @@ public sealed class GetUserProfileByUserIdResponse : IFeatureResponse
 
             public string Address { get; init; }
 
+            public string BackgroundUrl { get; init; }
+
             public string AvatarUrl { get; init; }
 
             public string Experience { get; init; }

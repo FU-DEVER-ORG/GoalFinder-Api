@@ -51,6 +51,7 @@ internal sealed class GetUserProfileByUserIdEnpoint
                             FirstName = "string",
                             Description = "string",
                             PrestigeScore = default,
+                            BackgroundUrl = "https://example.com/background.png",
                             Address = "string",
                             AvatarUrl = "https://example.com/avatar.png",
                             Experience = "string",
