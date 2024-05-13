@@ -18,6 +18,8 @@ public class MatchPlayer : IBaseEntity
 
     public int NumberOfReports { get; set; }
 
+    public bool IsReported { get; set; }
+
     // Navigation properties.
     public FootballMatch FootballMatch { get; set; }
 
