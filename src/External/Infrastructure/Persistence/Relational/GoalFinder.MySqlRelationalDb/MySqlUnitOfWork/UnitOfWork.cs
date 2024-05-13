@@ -5,6 +5,7 @@ using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetMatchDetailRepository;
+using GoalFinder.Data.Repositories.GetAllReports;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.GetUserProfileByUserId;
@@ -12,6 +13,7 @@ using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 using GoalFinder.Data.UnitOfWork;
@@ -23,6 +25,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.GetAllExperiences;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllPositions;
 using GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
+using GoalFinder.MySqlRelationalDb.Repositories.GetAllReports;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfileByUserId;
@@ -30,6 +33,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.InsertErrorLog;
 using GoalFinder.MySqlRelationalDb.Repositories.Login;
 using GoalFinder.MySqlRelationalDb.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.MySqlRelationalDb.Repositories.RegisterAsUser;
+using GoalFinder.MySqlRelationalDb.Repositories.ReportUserAfterMatch;
 using GoalFinder.MySqlRelationalDb.Repositories.ResetPasswordWithOtp;
 using GoalFinder.MySqlRelationalDb.Repositories.UpdateUserInfo;
 
@@ -57,6 +61,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetAllExperiencesRepository _getAllExperiencesRepository;
     private IGetMatchDetailRepository _getMatchDetailRepository;
     private IGetUserProfileByUserIdRepository _getUserProfileByUserIdRepository;
+    private IReportUserAfterMatchRepository _reportUserAfterMatchRepository;
+    private IGetAllReportsRepository _getAllReportsRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -219,6 +225,30 @@ internal sealed class UnitOfWork : IUnitOfWork
             );
 
             return _getUserProfileByUserIdRepository;
+        }
+    }
+
+    public IReportUserAfterMatchRepository ReportUserAfterMatchRepository
+    {
+        get
+        {
+            _reportUserAfterMatchRepository ??= new ReportUserAfterMatchRepository(
+                context: _context
+            );
+
+            return _reportUserAfterMatchRepository;
+        }
+    }
+
+    public IGetAllReportsRepository GetAllReportsRepository
+    {
+        get
+        {
+            _getAllReportsRepository ??= new GetAllReportsRepository(
+                context: _context
+            );
+
+            return _getAllReportsRepository;    
         }
     }
 }

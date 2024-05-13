@@ -2,30 +2,31 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
-using GoalFinder.Application.Features.UserInfo.GetUserProfile;
+using GoalFinder.Application.Features.User.ReportUserAfterMatch;
+using GoalFinder.Application.Features.User.UpdateUserInfo;
 using GoalFinder.Application.Shared.Caching;
-using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Common;
-using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Common;
+using GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.HttpResponseMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfile.Middleware.Caching;
+namespace GoalFinder.WebApi.Endpoints.User.ReportUserAfterMatch.Middleware.Caching;
 
 /// <summary>
-///     This class is used for caching the get user profile response.
+///     Caching post processor
 /// </summary>
-internal sealed class GetUserProfileCachingPostProcessor
-    : PostProcessor<GetUserProfileRequest, GetUserProfileStateBag, GetUserProfileHttpResponse>
+internal sealed class ReportUserAfterMatchCachingPostProcessor
+    : PostProcessor<ReportUserAfterMatchRequest, ReportUserAfterMatchStateBag, ReportUserAfterMatchHttpResponse>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public GetUserProfileCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
+    public ReportUserAfterMatchCachingPostProcessor(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
     public override async Task PostProcessAsync(
-        IPostProcessorContext<GetUserProfileRequest, GetUserProfileHttpResponse> context,
-        GetUserProfileStateBag state,
+        IPostProcessorContext<ReportUserAfterMatchRequest, ReportUserAfterMatchHttpResponse> context,
+        ReportUserAfterMatchStateBag state,
         CancellationToken ct
     )
     {
@@ -38,17 +39,15 @@ internal sealed class GetUserProfileCachingPostProcessor
 
         var cacheHandler = scope.Resolve<ICacheHandler>();
 
-        // Caching  
         if (
             context.Response.AppCode.Equals(
-                value: GetUserProfileResponseStatusCode.USER_IS_NOT_FOUND.ToAppCode()
+                value: ReportUserAfterMatchResponseStatusCode.USER_IS_NOT_FOUND.ToAppCode()
             )
             || context.Response.AppCode.Equals(
-                value: GetUserProfileResponseStatusCode.USER_IS_TEMPORARILY_REMOVED.ToAppCode()
+                value: ReportUserAfterMatchResponseStatusCode.FOOTBALL_MATCH_IS_NOT_FOUND.ToAppCode()
             )
         )
         {
-            // Set cache
             await cacheHandler.SetAsync(
                 key: state.CacheKey,
                 value: context.Response,

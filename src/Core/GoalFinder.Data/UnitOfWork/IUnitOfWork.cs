@@ -5,6 +5,7 @@ using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetMatchDetailRepository;
+using GoalFinder.Data.Repositories.GetAllReports;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.GetUserProfileByUserId;
@@ -12,6 +13,7 @@ using GoalFinder.Data.Repositories.InsertErrorLog;
 using GoalFinder.Data.Repositories.Login;
 using GoalFinder.Data.Repositories.RefreshAccessTokenRepository;
 using GoalFinder.Data.Repositories.RegisterAsUser;
+using GoalFinder.Data.Repositories.ReportUserAfterMatch;
 using GoalFinder.Data.Repositories.ResetPasswordWithOtp;
 using GoalFinder.Data.Repositories.UpdateUserInfo;
 
@@ -101,4 +103,14 @@ public interface IUnitOfWork
     ///     Gets the get user profile by user id repository
     /// </summary>
     IGetUserProfileByUserIdRepository GetUserProfileByUserIdRepository { get; }
+
+    /// <summary>
+    ///     Gets the get user info on sidebar repository
+    /// </summary>
+    IReportUserAfterMatchRepository ReportUserAfterMatchRepository { get; }
+
+    /// <summary>
+    ///     Gets the get all reports repository
+    /// </summary>
+    IGetAllReportsRepository GetAllReportsRepository { get; }
 }
