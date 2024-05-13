@@ -46,18 +46,15 @@ internal sealed partial class GetMatchDetailRepository
         return await _footballMatches
             .AsNoTracking()
             .Where(predicate: footballMatch => footballMatch.Id == matchId)
-            .Select(selector: footballMatch => new FootballMatch()
+            .Select(selector: footballMatch => new FootballMatch
             {
                 Id = footballMatch.Id,
                 Address = footballMatch.Address,
-                CompetitionLevel = new CompetitionLevel()
-                {
-                    FullName = footballMatch.CompetitionLevel.FullName,
-                },
+                CompetitionLevel = new() { FullName = footballMatch.CompetitionLevel.FullName, },
                 Description = footballMatch.Description,
                 Title = footballMatch.Title,
                 HostId = footballMatch.HostId,
-                UserDetail = new UserDetail()
+                UserDetail = new()
                 {
                     UserId = footballMatch.UserDetail.UserId,
                     FirstName = footballMatch.UserDetail.FirstName,
@@ -75,14 +72,16 @@ internal sealed partial class GetMatchDetailRepository
                 MaxMatchPlayersNeed = footballMatch.MaxMatchPlayersNeed,
                 MatchPlayers = footballMatch.MatchPlayers.Select(matchPlayer => new MatchPlayer
                 {
-                    UserDetail = new UserDetail()
+                    UserDetail = new()
                     {
                         NickName = matchPlayer.UserDetail.NickName,
+                        FirstName = matchPlayer.UserDetail.FirstName,
+                        LastName = matchPlayer.UserDetail.LastName,
                         Address = matchPlayer.UserDetail.Address,
                         BackgroundUrl = matchPlayer.UserDetail.BackgroundUrl,
                         AvatarUrl = matchPlayer.UserDetail.AvatarUrl,
                         PrestigeScore = matchPlayer.UserDetail.PrestigeScore,
-                        CompetitionLevel = new CompetitionLevel()
+                        CompetitionLevel = new()
                         {
                             FullName = matchPlayer.UserDetail.CompetitionLevel.FullName
                         },
@@ -92,17 +91,17 @@ internal sealed partial class GetMatchDetailRepository
                                 Position = new() { FullName = userPosition.Position.FullName }
                             }
                         ),
-                        Experience = new Experience()
+                        Experience = new()
                         {
                             FullName = matchPlayer.UserDetail.Experience.FullName,
                         },
-                        User = new User()
+                        User = new()
                         {
                             PhoneNumber = matchPlayer.UserDetail.User.PhoneNumber,
-                            Email = matchPlayer.UserDetail.User.Email,
+                            UserName = matchPlayer.UserDetail.User.UserName
                         }
                     },
-                    MatchPlayerJoiningStatus = new MatchPlayerJoiningStatus()
+                    MatchPlayerJoiningStatus = new()
                     {
                         FullName = matchPlayer.MatchPlayerJoiningStatus.FullName
                     },

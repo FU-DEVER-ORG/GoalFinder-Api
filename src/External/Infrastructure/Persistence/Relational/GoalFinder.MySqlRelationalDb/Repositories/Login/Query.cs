@@ -32,6 +32,13 @@ internal partial class LoginRepository
         var foundUserDetail = await _userDetails
             .AsNoTracking()
             .Where(predicate: userDetail => userDetail.UserId == userId)
+            .Select(selector: userDetail => new UserDetail()
+            {
+                AvatarUrl = userDetail.AvatarUrl,
+                NickName = userDetail.NickName,
+                FirstName = userDetail.FirstName,
+                LastName = userDetail.LastName,
+            })
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         return foundUserDetail;

@@ -17,6 +17,9 @@ internal partial class GetUserInfoOnSidebarRepository
             .Where(userDetail => userDetail.UserId == userId)
             .Select(userDetail => new UserDetail
             {
+                NickName = userDetail.NickName,
+                FirstName = userDetail.FirstName,
+                LastName = userDetail.LastName,
                 PrestigeScore = userDetail.PrestigeScore,
                 Address = userDetail.Address,
                 User = new() { UserName = userDetail.User.UserName }

@@ -50,7 +50,7 @@ internal sealed class LoginEndpoint : Endpoint<LoginRequest, LoginHttpResponse>
                         {
                             Email = "string",
                             AvatarUrl = "string",
-                            UserName = "string",
+                            NickName = "string",
                             FirstName = "string",
                             LastName = "string"
                         }

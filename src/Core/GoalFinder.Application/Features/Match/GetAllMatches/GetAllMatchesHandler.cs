@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Shared.Features;
+using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.Match.GetAllMatches;
@@ -78,11 +79,27 @@ internal sealed class GetAllMatchesHandler
                                 )
                             ).TotalMinutes,
                         HostId = matches.HostId,
-                        HostName =
-                            $"{matches.UserDetail?.FirstName} {matches.UserDetail?.LastName}",
+                        HostName = ToHostName(matches),
                     }
                 )
             }
         };
+    }
+
+    private string ToHostName(FootballMatch match)
+    {
+        if (
+            !string.IsNullOrEmpty(match.UserDetail.FirstName)
+            || !string.IsNullOrEmpty(match.UserDetail.LastName)
+        )
+        {
+            return $"{match.UserDetail.FirstName} {match.UserDetail.LastName}";
+        }
+        else if (!string.IsNullOrEmpty(match.UserDetail.NickName))
+        {
+            return match.UserDetail.NickName;
+        }
+
+        return match.UserDetail.User.UserName;
     }
 }

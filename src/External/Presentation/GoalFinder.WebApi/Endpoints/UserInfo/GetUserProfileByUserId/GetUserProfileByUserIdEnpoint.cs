@@ -5,6 +5,8 @@ using FastEndpoints;
 using GoalFinder.Application.Features.UserInfo.GetUserProfile;
 using GoalFinder.Application.Features.UserInfo.GetUserProfileByUserId;
 using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.Middlewares.Caching;
+using GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId.Middlewares.Validation;
 using Microsoft.AspNetCore.Http;
 
 namespace GoalFinder.WebApi.Endpoints.UserInfo.GetUserProfileByUserId;
@@ -21,7 +23,9 @@ internal sealed class GetUserProfileByUserIdEnpoint
         Get(routePatterns: "user/profile-id/{id}");
         AllowAnonymous();
         DontThrowIfValidationFails();
-
+        PreProcessor<GetUserProfileUserByIdValidationPreProcessor>();
+        PreProcessor<GetUserProfileByUserIdCachingPreProcessor>();
+        PostProcessor<GetUserProfileByUserIdCachingPostProcessor>();
         Description(builder: builder =>
         {
             builder.ClearDefaultProduces(statusCodes: StatusCodes.Status400BadRequest);
@@ -47,6 +51,7 @@ internal sealed class GetUserProfileByUserIdEnpoint
                             FirstName = "string",
                             Description = "string",
                             PrestigeScore = default,
+                            BackgroundUrl = "https://example.com/background.png",
                             Address = "string",
                             AvatarUrl = "https://example.com/avatar.png",
                             Experience = "string",

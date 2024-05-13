@@ -72,7 +72,7 @@ internal sealed class RefreshAccessTokenHttpResponseManager
         );
 
         _dictionary.Add(
-            key: RefreshAccessTokenResponseStatusCode.REFRESH_TOKEN_IS_EXPIRED,
+            key: RefreshAccessTokenResponseStatusCode.REQUIRE_LOGIN_AGAIN,
             value: (_, response) =>
                 new()
                 {

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GoalFinder.Application.Shared.Features;
+using GoalFinder.Data.Entities;
 using GoalFinder.Data.UnitOfWork;
 
 namespace GoalFinder.Application.Features.Match.GetMatchDetail;
@@ -54,11 +55,7 @@ internal sealed class GetMatchDetailHandler
                         Id = footballMatchInfo.UserDetail.UserId,
                         HostAvatar = footballMatchInfo.UserDetail.AvatarUrl,
                         HostPrestigeScore = footballMatchInfo.UserDetail.PrestigeScore,
-                        HostName =
-                            string.IsNullOrEmpty(footballMatchInfo.UserDetail.FirstName)
-                            || string.IsNullOrEmpty(footballMatchInfo.UserDetail.LastName)
-                                ? footballMatchInfo.UserDetail.NickName
-                                : $"{footballMatchInfo.UserDetail.FirstName} {footballMatchInfo.UserDetail.LastName}",
+                        HostName = ToHostName(match: footballMatchInfo),
                     },
                     MatchInfor = new()
                     {
@@ -91,7 +88,7 @@ internal sealed class GetMatchDetailHandler
                 },
                 ParticipatedUser = footballMatchInfo
                     .MatchPlayers.Where(matchPlayer =>
-                        matchPlayer.MatchPlayerJoiningStatus.FullName == "Joined"
+                        matchPlayer.MatchPlayerJoiningStatus.FullName.Equals(value: "Joined")
                     )
                     .Select(matchPlayer => new GetMatchDetailResponse.Body.ParticipatingUser()
                     {
@@ -101,20 +98,18 @@ internal sealed class GetMatchDetailHandler
                         UserAddress = matchPlayer.UserDetail.Address,
                         UserAvatar = matchPlayer.UserDetail.AvatarUrl,
                         UserCompetitionLevel = matchPlayer.UserDetail.CompetitionLevel.FullName,
-                        UserName =
-                            string.IsNullOrEmpty(matchPlayer.UserDetail.FirstName)
-                            || string.IsNullOrEmpty(matchPlayer.UserDetail.LastName)
-                                ? matchPlayer.UserDetail.NickName
-                                : $"{matchPlayer.UserDetail.FirstName} {matchPlayer.UserDetail.LastName}",
+                        UserName = ToUserName(matchPlayer),
                         UserPosition = matchPlayer.UserDetail.UserPositions.Select(
                             selector: userPosition => userPosition?.Position?.FullName
                         ),
                     }),
                 CurrentPendingUser =
-                    (footballMatchInfo.HostId == command.GetUserId())
+                    footballMatchInfo.HostId == command.GetUserId()
                         ? footballMatchInfo
                             .MatchPlayers.Where(matchPlayer =>
-                                matchPlayer.MatchPlayerJoiningStatus.FullName == "Pending"
+                                matchPlayer.MatchPlayerJoiningStatus.FullName.Equals(
+                                    value: "Pending"
+                                )
                             )
                             .Select(
                                 matchPlayer => new GetMatchDetailResponse.Body.ParticipatingUser()
@@ -128,11 +123,7 @@ internal sealed class GetMatchDetailHandler
                                         .UserDetail
                                         .CompetitionLevel
                                         .FullName,
-                                    UserName =
-                                        string.IsNullOrEmpty(matchPlayer.UserDetail.FirstName)
-                                        || string.IsNullOrEmpty(matchPlayer.UserDetail.LastName)
-                                            ? matchPlayer.UserDetail.NickName
-                                            : $"{matchPlayer.UserDetail.FirstName} {matchPlayer.UserDetail.LastName}",
+                                    UserName = ToUserName(matchPlayer),
                                     UserPosition = matchPlayer.UserDetail.UserPositions.Select(
                                         selector: userPosition => userPosition?.Position?.FullName
                                     ),
@@ -140,10 +131,12 @@ internal sealed class GetMatchDetailHandler
                             )
                         : [],
                 RejectedUsers =
-                    (footballMatchInfo.HostId == command.GetUserId())
+                    footballMatchInfo.HostId == command.GetUserId()
                         ? footballMatchInfo
                             .MatchPlayers.Where(matchPlayer =>
-                                matchPlayer.MatchPlayerJoiningStatus.FullName == "Rejected"
+                                matchPlayer.MatchPlayerJoiningStatus.FullName.Equals(
+                                    value: "Rejected"
+                                )
                             )
                             .Select(
                                 matchPlayer => new GetMatchDetailResponse.Body.ParticipatingUser()
@@ -157,11 +150,7 @@ internal sealed class GetMatchDetailHandler
                                         .UserDetail
                                         .CompetitionLevel
                                         .FullName,
-                                    UserName =
-                                        string.IsNullOrEmpty(matchPlayer.UserDetail.FirstName)
-                                        || string.IsNullOrEmpty(matchPlayer.UserDetail.LastName)
-                                            ? matchPlayer.UserDetail.NickName
-                                            : $"{matchPlayer.UserDetail.FirstName} {matchPlayer.UserDetail.LastName}",
+                                    UserName = ToUserName(matchPlayer),
                                     UserPosition = matchPlayer.UserDetail.UserPositions.Select(
                                         selector: userPosition => userPosition?.Position?.FullName
                                     ),
@@ -170,5 +159,45 @@ internal sealed class GetMatchDetailHandler
                         : []
             }
         };
+    }
+
+    /// <summary>
+    ///     To User Name
+    /// </summary>
+    /// <param name="match"></param>
+    /// <returns></returns>
+
+    private static string ToUserName(MatchPlayer match)
+    {
+        if (
+            !string.IsNullOrEmpty(match.UserDetail.FirstName)
+            || !string.IsNullOrEmpty(match.UserDetail.LastName)
+        )
+        {
+            return $"{match.UserDetail.FirstName} {match.UserDetail.LastName}";
+        }
+        else if (!string.IsNullOrEmpty(match.UserDetail.NickName))
+        {
+            return match.UserDetail.NickName;
+        }
+
+        return match.UserDetail.User.UserName;
+    }
+
+    private static string ToHostName(FootballMatch match)
+    {
+        if (
+            !string.IsNullOrEmpty(match.UserDetail.FirstName)
+            || !string.IsNullOrEmpty(match.UserDetail.LastName)
+        )
+        {
+            return $"{match.UserDetail.FirstName} {match.UserDetail.LastName}";
+        }
+        else if (!string.IsNullOrEmpty(match.UserDetail.NickName))
+        {
+            return match.UserDetail.NickName;
+        }
+
+        return match.UserDetail.User.UserName;
     }
 }

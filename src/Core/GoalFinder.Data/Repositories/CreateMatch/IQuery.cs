@@ -22,7 +22,7 @@ public partial interface ICreateMatchRepository
         CancellationToken cancellationToken
     );
 
-    Task<bool> IsUserCreatedMatchThisDayQueryAsync(
+    Task<bool> HasUserCreatedMatchThisDayQueryAsync(
         Guid userId,
         DateTime startTime,
         CancellationToken cancellationToken

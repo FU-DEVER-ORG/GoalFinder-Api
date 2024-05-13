@@ -38,6 +38,7 @@ internal sealed partial class GetUserProfileRepository
                 Description = userDetail.Description,
                 PrestigeScore = userDetail.PrestigeScore,
                 Address = userDetail.Address,
+                BackgroundUrl = userDetail.BackgroundUrl,
                 AvatarUrl = userDetail.AvatarUrl,
                 Experience = new() { FullName = userDetail.Experience.FullName, },
                 CompetitionLevel = new() { FullName = userDetail.CompetitionLevel.FullName, },

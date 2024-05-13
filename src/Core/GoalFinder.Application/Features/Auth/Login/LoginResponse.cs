@@ -29,7 +29,7 @@ public sealed class LoginResponse : IFeatureResponse
 
             public string LastName { get; init; }
 
-            public string UserName { get; init; }
+            public string NickName { get; init; }
         }
     }
 }

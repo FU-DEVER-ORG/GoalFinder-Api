@@ -91,6 +91,7 @@ internal sealed class GetUserProfileHandler
                     Description = userDetail.Description,
                     PrestigeScore = userDetail.PrestigeScore,
                     Address = userDetail.Address,
+                    BackgroundUrl = userDetail.BackgroundUrl,
                     AvatarUrl = userDetail.AvatarUrl,
                     Experience = userDetail.Experience.FullName,
                     CompetitionLevel = userDetail.CompetitionLevel.FullName,
@@ -108,7 +109,7 @@ internal sealed class GetUserProfileHandler
                         Description = match.Description,
                         StartTime = match.StartTime.ToString(),
                         Address = match.Address,
-                        CompetitionLevel = match.CompetitionLevel?.FullName
+                        CompetitionLevel = match.CompetitionLevel.FullName
                     }
                 )
             }
