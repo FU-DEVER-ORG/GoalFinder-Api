@@ -1,30 +1,30 @@
-﻿﻿using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
-using GoalFinder.Application.Features.User.GetUserInfoOnSidebar;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.Common;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.HttpResponseMapper;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.Middlewares.Authorization;
-using GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar.Middlewares.Caching;
+using GoalFinder.Application.Features.Match.GetMatchesUpcoming;
+using GoalFinder.WebApi.Endpoints.Match.GetMatchesUpcoming.Common;
+using GoalFinder.WebApi.Endpoints.Match.GetMatchesUpcoming.HttpResponseMapper;
+using GoalFinder.WebApi.Endpoints.Match.GetMatchesUpcoming.Middlewares.Authorization;
+using GoalFinder.WebApi.Endpoints.Match.GetMatchesUpcoming.Middlewares.Caching;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 
-namespace GoalFinder.WebApi.Endpoints.User.GetUserInfoOnSidebar;
+namespace GoalFinder.WebApi.Endpoints.User.GetMatchesUpcoming;
 
 /// <summary>
-///     Endpoint for updating user information.
+///     Endpoint for get matches upcoming.
 /// </summary>
-internal sealed class GetUserInfoOnSidebarEndpoint
-    : Endpoint<EmptyRequest, GetUserInfoOnSidebarHttpResponse>
+internal sealed class GetMatchesUpcomingEndpoint
+    : Endpoint<EmptyRequest, GetMatchesUpcomingHttpResponse>
 {
     public override void Configure()
     {
-        Get(routePatterns: "user/sidebar");
+        Get(routePatterns: "match/sidebar");
         AuthSchemes(authSchemeNames: JwtBearerDefaults.AuthenticationScheme);
         DontThrowIfValidationFails();
-        PreProcessor<GetUserInfoOnSidebarAuthorizationPreProcessor>();
-        PreProcessor<GetUserInfoOnSidebarCachingPreProcessor>();
-        PostProcessor<GetUserInfoOnSidebarCachingPostProcessor>();
+        PreProcessor<GetMatchesUpcomingAuthorizationPreProcessor>();
+        PreProcessor<GetMatchesUpcomingCachingPreProcessor>();
+        PostProcessor<GetMatchesUpcomingCachingPostProcessor>();
         Description(builder: builder =>
         {
             builder.ClearDefaultProduces(
@@ -38,33 +38,31 @@ internal sealed class GetUserInfoOnSidebarEndpoint
             summary.Summary = "Endpoint for updating user information.";
             summary.Description = "This endpoint is used for updating user information purpose.";
             summary.ExampleRequest = new() { };
-            summary.Response<GetUserInfoOnSidebarHttpResponse>(
+            summary.Response<GetMatchesUpcomingHttpResponse>(
                 description: "Represent successful operation response.",
                 example: new()
                 {
                     HttpCode = StatusCodes.Status200OK,
-                    AppCode = GetUserInfoOnSidebarResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
-                    Body = new GetUserInfoOnSidebarResponse.ResponseBody
+                    AppCode = GetMatchesUpcomingResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
+                    Body = new GetMatchesUpcomingResponse.ResponseBody
                     {
-                        Area = "string",
-                        UserName = "string",
-                        PrestigeScore = default
+                       MatchesUpcoming = []
                     }
                 }
             );
         });
     }
 
-    public override async Task<GetUserInfoOnSidebarHttpResponse> ExecuteAsync(
+    public override async Task<GetMatchesUpcomingHttpResponse> ExecuteAsync(
         EmptyRequest req,
         CancellationToken ct
     )
     {
-        var stateBag = ProcessorState<GetUserInfoOnSidebarStateBag>();
+        var stateBag = ProcessorState<GetMatchesUpcomingStateBag>();
 
         var appResponse = await stateBag.AppRequest.ExecuteAsync(ct: ct);
 
-        var httpResponse = LazyGetUserInfoOnSidebarHttpResponseMapper
+        var httpResponse = LazyGetMatchesUpcomingHttpResponseMapper
             .Get()
             .Resolve(statusCode: appResponse.StatusCode)
             .Invoke(arg1: stateBag.AppRequest, arg2: appResponse);

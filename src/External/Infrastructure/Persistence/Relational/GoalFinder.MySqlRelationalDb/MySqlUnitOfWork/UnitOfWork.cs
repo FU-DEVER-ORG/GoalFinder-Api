@@ -1,8 +1,9 @@
-﻿using GoalFinder.Data.Repositories.CreateMatch;
+using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllCompetitionLevels;
 using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetMatchesUpcoming;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetMatchDetailRepository;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
@@ -21,6 +22,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.ForgotPassword;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllCompetitionLevels;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllExperiences;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
+using GoalFinder.MySqlRelationalDb.Repositories.GetMatchesUpcoming;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllPositions;
 using GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
@@ -52,11 +54,13 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IRefreshAccessTokenRepository _refreshAccessTokenRepository;
     private IGetUserInfoOnSidebarRepository _getUserInfoOnSidebarRepository;
     private ICreateMatchRepository _createMatchRepository;
+    private IGetMatchesUpcomingRepository _getMatchesUpcomingRepository;
     private IGetAllPositionsRepository _getAllPositionsRepository;
     private IGetAllCompetitionLevelsRepository _getAllCompetitionLevelsRepository;
     private IGetAllExperiencesRepository _getAllExperiencesRepository;
     private IGetMatchDetailRepository _getMatchDetailRepository;
     private IGetUserProfileByUserIdRepository _getUserProfileByUserIdRepository;
+
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -171,6 +175,13 @@ internal sealed class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IGetMatchesUpcomingRepository GetMatchesUpcomingRepository
+    {
+        get
+        {
+            _getMatchesUpcomingRepository ??= new GetMatchesUpcomingRepository(context: _context);
+            return _getMatchesUpcomingRepository;
+
     public IGetAllPositionsRepository GetAllPositionsRepository
     {
         get
@@ -217,7 +228,6 @@ internal sealed class UnitOfWork : IUnitOfWork
             _getUserProfileByUserIdRepository ??= new GetUserProfileByUserIdRepository(
                 context: _context
             );
-
             return _getUserProfileByUserIdRepository;
         }
     }

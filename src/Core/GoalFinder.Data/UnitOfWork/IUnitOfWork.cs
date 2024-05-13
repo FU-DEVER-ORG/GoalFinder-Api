@@ -1,8 +1,9 @@
-﻿using GoalFinder.Data.Repositories.CreateMatch;
+using GoalFinder.Data.Repositories.CreateMatch;
 using GoalFinder.Data.Repositories.ForgotPassword;
 using GoalFinder.Data.Repositories.GetAllCompetitionLevels;
 using GoalFinder.Data.Repositories.GetAllExperiences;
 using GoalFinder.Data.Repositories.GetAllMatches;
+using GoalFinder.Data.Repositories.GetMatchesUpcoming;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetMatchDetailRepository;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
@@ -78,6 +79,11 @@ public interface IUnitOfWork
     /// </summary>
     ICreateMatchRepository CreateMatchRepository { get; }
 
+    /// <summary>
+    ///     Gets the matches upcoming repository
+    /// </summary>
+    IGetMatchesUpcomingRepository GetMatchesUpcomingRepository { get; }
+  
     /// <summary>
     ///     Gets all positions repository
     /// </summary>
