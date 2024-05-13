@@ -46,7 +46,7 @@ internal sealed class GetMatchesUpcomingEndpoint
                     AppCode = GetMatchesUpcomingResponseStatusCode.OPERATION_SUCCESS.ToAppCode(),
                     Body = new GetMatchesUpcomingResponse.ResponseBody
                     {
-                       MatchesUpcoming = []
+                        MatchesUpcoming = []
                     }
                 }
             );
