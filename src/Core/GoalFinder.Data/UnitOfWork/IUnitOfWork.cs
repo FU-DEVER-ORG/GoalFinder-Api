@@ -6,6 +6,7 @@ using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetMatchesUpcoming;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetMatchDetailRepository;
+using GoalFinder.Data.Repositories.GetReportNotification;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.GetUserProfileByUserId;
@@ -83,7 +84,7 @@ public interface IUnitOfWork
     ///     Gets the matches upcoming repository
     /// </summary>
     IGetMatchesUpcomingRepository GetMatchesUpcomingRepository { get; }
-  
+
     /// <summary>
     ///     Gets all positions repository
     /// </summary>
@@ -107,4 +108,9 @@ public interface IUnitOfWork
     ///     Gets the get user profile by user id repository
     /// </summary>
     IGetUserProfileByUserIdRepository GetUserProfileByUserIdRepository { get; }
+
+    /// <summary>
+    ///     Gets the report notification repository
+    /// </summary>
+    IGetReportNotificationRepository GetReportNotificationRepository { get; }
 }

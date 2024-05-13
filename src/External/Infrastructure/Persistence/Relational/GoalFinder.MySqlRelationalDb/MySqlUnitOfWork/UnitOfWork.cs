@@ -6,6 +6,7 @@ using GoalFinder.Data.Repositories.GetAllMatches;
 using GoalFinder.Data.Repositories.GetMatchesUpcoming;
 using GoalFinder.Data.Repositories.GetAllPositions;
 using GoalFinder.Data.Repositories.GetMatchDetailRepository;
+using GoalFinder.Data.Repositories.GetReportNotification;
 using GoalFinder.Data.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.Data.Repositories.GetUserProfile;
 using GoalFinder.Data.Repositories.GetUserProfileByUserId;
@@ -25,6 +26,7 @@ using GoalFinder.MySqlRelationalDb.Repositories.GetAllMatches;
 using GoalFinder.MySqlRelationalDb.Repositories.GetMatchesUpcoming;
 using GoalFinder.MySqlRelationalDb.Repositories.GetAllPositions;
 using GoalFinder.MySqlRelationalDb.Repositories.GetMatchDetailRepository;
+using GoalFinder.MySqlRelationalDb.Repositories.GetReportNotification;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserInfoOnSidebar;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfile;
 using GoalFinder.MySqlRelationalDb.Repositories.GetUserProfileByUserId;
@@ -60,7 +62,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IGetAllExperiencesRepository _getAllExperiencesRepository;
     private IGetMatchDetailRepository _getMatchDetailRepository;
     private IGetUserProfileByUserIdRepository _getUserProfileByUserIdRepository;
-
+    private IGetReportNotificationRepository _getReportNotificationRepository;
 
     public UnitOfWork(GoalFinderContext context)
     {
@@ -181,6 +183,8 @@ internal sealed class UnitOfWork : IUnitOfWork
         {
             _getMatchesUpcomingRepository ??= new GetMatchesUpcomingRepository(context: _context);
             return _getMatchesUpcomingRepository;
+        }
+    }
 
     public IGetAllPositionsRepository GetAllPositionsRepository
     {
@@ -229,6 +233,18 @@ internal sealed class UnitOfWork : IUnitOfWork
                 context: _context
             );
             return _getUserProfileByUserIdRepository;
+        }
+    }
+
+    public IGetReportNotificationRepository GetReportNotificationRepository
+    {
+        get
+        {
+            _getReportNotificationRepository ??= new GetReportNotificationRepository(
+                context: _context
+            );
+
+            return _getReportNotificationRepository;
         }
     }
 }
