@@ -55,7 +55,7 @@ internal sealed class GetMatchDetailHandler
                         Id = footballMatchInfo.UserDetail.UserId,
                         HostAvatar = footballMatchInfo.UserDetail.AvatarUrl,
                         HostPrestigeScore = footballMatchInfo.UserDetail.PrestigeScore,
-                        HostName = ToHostName(match: footballMatchInfo),
+                        HostName = ToHostName(footballMatchInfo),
                     },
                     MatchInfor = new()
                     {
@@ -184,7 +184,7 @@ internal sealed class GetMatchDetailHandler
         return match.UserDetail.User.UserName;
     }
 
-    private static string ToHostName(FootballMatch match)
+    private string ToHostName(FootballMatch match)
     {
         if (
             !string.IsNullOrEmpty(match.UserDetail.FirstName)

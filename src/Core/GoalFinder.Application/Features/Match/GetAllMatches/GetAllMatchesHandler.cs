@@ -60,7 +60,12 @@ internal sealed class GetAllMatchesHandler
                         Title = matches.Title,
                         Description = matches.Description,
                         MinPrestigeScore = matches.MinPrestigeScore,
-                        StartTime = matches.StartTime.ToLocalTime(),
+                        StartTime = TimeZoneInfo.ConvertTimeFromUtc(
+                            dateTime: matches.StartTime,
+                            destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(
+                                id: "SE Asia Standard Time"
+                            )
+                        ),
                         Address = matches.Address,
                         CompetitionLevel = matches.CompetitionLevel?.FullName,
                         TimeAgo = (int)

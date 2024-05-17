@@ -62,6 +62,10 @@ internal sealed partial class GetMatchDetailRepository
                     AvatarUrl = footballMatch.UserDetail.AvatarUrl,
                     NickName = footballMatch.UserDetail.NickName,
                     PrestigeScore = footballMatch.UserDetail.PrestigeScore,
+                    User = new User()
+                    {
+                        UserName = footballMatch.UserDetail.User.UserName,
+                    }
                 },
                 PitchAddress = footballMatch.PitchAddress,
                 MinPrestigeScore = footballMatch.MinPrestigeScore,

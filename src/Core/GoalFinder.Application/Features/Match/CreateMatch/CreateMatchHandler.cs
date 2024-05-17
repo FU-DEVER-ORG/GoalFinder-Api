@@ -113,7 +113,7 @@ internal sealed class CreateMatchHandler : IFeatureHandler<CreateMatchRequest, C
                 Title = createMatchRequest.Title,
                 Description = createMatchRequest.Description,
                 MinPrestigeScore = createMatchRequest.MinPrestigeScore,
-                StartTime = createMatchRequest.StartTime,
+                StartTime = createMatchRequest.StartTime.ToUniversalTime(),
                 Address = createMatchRequest.Address,
                 EndTime = createMatchRequest.StartTime.AddHours(1),
                 UpdatedAt = DateTime.MinValue,
